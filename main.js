@@ -7,7 +7,7 @@ const pages=require("./pages");
 const app=express();
 
 app.use(express.static("publics"));
-app.use(bodyParser.raw({limit: "11m",type: "*/*"}));
+app.use(bodyParser.raw({limit: "11m",type: "application/*"}));
 
 console.log("Server is now starting...");
 console.log("Initializing easy chat communicator...");
