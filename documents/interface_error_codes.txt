@@ -5,3 +5,7 @@
 2: database error
 
 3: missing required request parameter
+
+4: limiter error
+
+5: Illegal value.
