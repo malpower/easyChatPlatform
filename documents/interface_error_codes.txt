@@ -1,0 +1,7 @@
+0: no error
+
+1: invalid request json format
+
+2: database error
+
+3: missing required request parameter
