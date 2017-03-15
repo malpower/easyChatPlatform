@@ -1,0 +1,25 @@
+{
+  "name": "easy-chat-platform",
+  "version": "1.0.0",
+  "description": "for the horde",
+  "main": "main.js",
+  "scripts": {
+    "test": "node main"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/malpower/easyChatPlatform.git"
+  },
+  "author": "malpower",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/malpower/easyChatPlatform/issues"
+  },
+  "homepage": "https://github.com/malpower/easyChatPlatform#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "mongodb": "^2.2.24",
+    "xml-mapping": "^1.7.1"
+  }
+}
