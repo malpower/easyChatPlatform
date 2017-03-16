@@ -1,5 +1,5 @@
 const ObjectId=require("mongodb").ObjectID;
-const config=require("./config");
+const config=require("../config");
 function SID()
 {
     this.generateNewSID=function()
