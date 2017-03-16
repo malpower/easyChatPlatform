@@ -1,6 +1,12 @@
 function QrcodeCom()
 {
     let coms=new Object;
+    let sceneIdCounter=100;
+    this.generateSceneID=function()
+    {
+        sceneIdCounter=(sceneIdCounter+1)%10000000;
+        return sceneIdCounter;
+    };
     this.addCom=function(sceneID,callback)
     {
         sceneID=sceneID.toString();

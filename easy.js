@@ -2,6 +2,10 @@ const xmlParser=require("xml-mapping");
 const https=require("https");
 const urlParser=require("url");
 const config=require("./config");
+const qrCodeCom=require("./utils/qr_code_com");
+const sidTool=require("./utils/sid");
+const messageDispatcher=require("./message_dispatcher");
+const authTool=require("./auth");
 
 let easy;
 
@@ -154,11 +158,12 @@ function Init(app)
     app.post("/easyChatInterface",function(req,res)
     {
         let imsg=easy.parseMessage(req.body.toString());
-        easy.getUserBasicInformation(imsg.FromUserName.$cd,function(err,data)
-        {
-            easy.replyText({ToUserName: imsg.FromUserName,FromUserName: imsg.ToUserName,Content: {$cd: JSON.stringify(data)}},res);
-            //easy.sendMessage({touser: imsg.FromUserName.$cd,msgtype: "text",text: {content: JSON.stringify(data)+"\r\n"+(new Date).toString()}});
-        });
+        messageDispatcher.process(imsg,easy,res);
+        // easy.getUserBasicInformation(imsg.FromUserName.$cd,function(err,data)
+        // {
+        //     easy.replyText({ToUserName: imsg.FromUserName,FromUserName: imsg.ToUserName,Content: {$cd: JSON.stringify(data)}},res);
+        //     easy.sendMessage({touser: imsg.FromUserName.$cd,msgtype: "text",text: {content: JSON.stringify(data)+"\r\n"+(new Date).toString()}});
+        // });
     });
     app.get("/easyChatInterface",function(req,res)
     {
@@ -166,6 +171,19 @@ function Init(app)
         let echostr=url.query.echostr;
         res.end(echostr);
     });
+    app.get("/waitingScanQrCode",function(req,res)
+    {
+        let stamp=req.query.stamp;
+        qrCodeCom.addCom(stamp,function(openid)
+        {
+            qrCodeCom.destroyCom(stamp);
+            let sid=sidTool.generateNewSID();
+            sidTool.setResSID(res,sid);
+            authTool.addSign(sid,{openId: openid});
+            res.end(JSON.stringify({error: false,login: true}));
+        });
+    });
+
     easy.setPublicAccountMenu(config.menu,function(err,json)
     {
         if (err)
@@ -186,6 +204,6 @@ module.exports={init: function(app,fn)
             console.log(err);
         }
         Init(app);
-        fn();
+        fn(undefined,easy);
     });
 }};

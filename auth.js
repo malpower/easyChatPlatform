@@ -39,6 +39,15 @@ function Auth()
                },config.auth.timerDuring)};
                authentication[signature]=a;
    };
+   this.resetSignData=function(signature,data)
+   {
+       if (authentication[signature])
+       {
+           authentication[signature].data=data;
+           return true;
+       }
+       return false;
+   };
 }
 
 module.exports=new Auth;
