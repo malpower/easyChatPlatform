@@ -38,7 +38,7 @@ function MessageDispatcher()
 
 let md=new MessageDispatcher;
 
-md.addEventhandler("scan",function(message,easy,res)
+md.addEventHandler("scan",function(message,easy,res)
 {
     let sceneID=message.EventKey.$cd;
     let fn=qrCodeCom.getCom(sceneID);
