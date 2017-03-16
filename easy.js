@@ -122,15 +122,15 @@ function EasyChatCommunicator(appID,appSec,callback)
     };
     this.addSubscribeUsers=function(users,callback)
     {
-        PostToEasyChatServer(`/cgi-bin/follow/purview/create?access_token=${accessToken}`,JSON.stringify({mobiles: users}),callback);
+        PostToEasyChatServer(`/cgi-bin/follow/purview/create?access_token=${accessToken}`,{mobiles: users},callback);
     };
     this.removeSubscribeUsers=function(users,callback)
     {
-        PostToEasyChatServer(`/cgi-bin/follow/purview/delete?access_token=${accessToken}`,JSON.stringify({mobiles: users}),callback);
+        PostToEasyChatServer(`/cgi-bin/follow/purview/delete?access_token=${accessToken}`,{mobiles: users},callback);
     };
     this.setPublicAccountMenu=function(menu,callback)
     {
-        PostToEasyChatServer(`/cgi-bin/menu/create?access_token=${accessToken}`,JSON.stringify(menu),callback);
+        PostToEasyChatServer(`/cgi-bin/menu/create?access_token=${accessToken}`,menu,callback);
     };
 }
 
@@ -140,9 +140,11 @@ function Init(app)
     app.post("/easyChatInterface",function(req,res)
     {
         let imsg=easy.parseMessage(req.body.toString());
+        res.end();
         easy.getUserBasicInformation(imsg.FromUserName.$cd,function(err,data)
         {
-            easy.replyText({ToUserName: imsg.FromUserName,FromUserName: imsg.ToUserName,Content: {$cd: JSON.stringify(data)}},res);
+            //easy.replyText({ToUserName: imsg.FromUserName,FromUserName: imsg.ToUserName,Content: {$cd: JSON.stringify(data)}},res);
+            easy.sendMessage({touser: imsg.FromUserName.$cd,msgtype: "text",text: {content: JSON.stringify(data)+"\r\n"+(new Date).toString()}});
         });
     });
     app.get("/easyChatInterface",function(req,res)
@@ -157,7 +159,6 @@ function Init(app)
         {
             console.log(err.message);
         }
-        console.log(json);
     });
 }
 
