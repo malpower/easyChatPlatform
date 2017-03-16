@@ -2,7 +2,7 @@ const MongoDB=require("mongodb").MongoClient;
 const ObjectId=require("mongodb").ObjectID;
 
 
-
+let database;
 
 function Pages()
 {
