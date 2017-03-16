@@ -1,7 +1,7 @@
 const qrCodeCom=require("./utils/qr_code_com");
 
 
-function MesageDispatcher()
+function MessageDispatcher()
 {
     let messageHandlers=new Object;
     let eventHandlers=new Object;
