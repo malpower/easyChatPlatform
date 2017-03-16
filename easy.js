@@ -64,6 +64,7 @@ function EasyChatCommunicator(appID,appSec,callback)
                 return callback(new Error(chunk.toString()));
             }
             accessToken=json.access_token;
+            console.log(`Access Token: [${accessToken}]`);
             callback();
         });
     });
@@ -131,6 +132,15 @@ function EasyChatCommunicator(appID,appSec,callback)
     this.setPublicAccountMenu=function(menu,callback)
     {
         PostToEasyChatServer(`/cgi-bin/menu/create?access_token=${accessToken}`,menu,callback);
+    };
+    this.generateQrCodeTicket=function(stamp,callback)
+    {
+        PostToEasyChatServer(`/cgi-bin/qrcode/create?access_token=${accessToken}`,{expire_seconds: 1800,action_name: "QR_SCENE",action_info:{scene: {scene_id: stamp}}},callback);
+    };
+    this.getSubscribedUsers=function(callback)
+    {
+        ///cgi-bin/user/get?access_token=ACCESS_TOKEN
+        GetToEasyChatServer(`/cgi-bin/user/get?access_token=${accessToken}`,callback);
     };
 }
 
