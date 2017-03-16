@@ -15,7 +15,12 @@ function QrcodeCom()
     };
     this.getCom=function(sceneID)
     {
+        console.log(sceneID);
         sceneID=sceneID.toString();
+        if (!coms[sceneID])
+        {
+            return function(){};
+        }
         return coms[sceneID].callback;
     };
     this.destroyCom=function(sceneID)
