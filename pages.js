@@ -34,7 +34,7 @@ function Init(app)
             }
             let openid=r.openid;
             let accessToken=r.access_token;
-            res.render(page,{code: code,openID: openid});
+            res.render(page,{code: code,openId: openid});
         });
     });
     app.get("/initialize",function(req,res)
