@@ -3,6 +3,7 @@ const ObjectId=require("mongodb").ObjectID;
 const format=require("./utils/format");
 const limiters=require("./utils/limiter");
 const categoryChecker=require("./utils/category_checker");
+const auth=require("./auth");
 
 
 let easyCom;

@@ -22,6 +22,8 @@ const app=express();
 
 app.use(express.static("publics"));
 app.use(bodyParser.raw({limit: "11mb",type: "*/*"}));
+app.set("view engine","ejs");
+app.set("views","views");
 //All the AJAX request will be in POST method, using content type application/json.
 
 console.log("Server is now starting...");
@@ -35,7 +37,7 @@ easy.init(app,function(err)
     }
     console.log("Easy chat communicator online...");
     console.log("Initializing web interfaces...");
-    webIfaces.init(app,function(err)
+    webIfaces.init(app,easy,function(err)
     {//After the easy chat communicator, we are going to initialize the web interfaces.
         if (err)
         {
@@ -44,7 +46,7 @@ easy.init(app,function(err)
         }
         console.log("Web interfaces online...");
         console.log("Initializing page handlers...");
-        pages.init(app,function(err)
+        pages.init(app,easy,function(err)
         {//Initialize the page handlers.
             if (err)
             {

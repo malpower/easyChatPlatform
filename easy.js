@@ -142,6 +142,10 @@ function EasyChatCommunicator(appID,appSec,callback)
         ///cgi-bin/user/get?access_token=ACCESS_TOKEN
         GetToEasyChatServer(`/cgi-bin/user/get?access_token=${accessToken}`,callback);
     };
+    this.getOauthAccessToken=function(appID,appSec,code,callback)
+    {
+        GetToEasyChatServer(`/sns/oauth2/access_token?appid=${appID}&secret=${appSec}&code=${code}&grant_type=authorization_code`,callback);
+    };
 }
 
 
