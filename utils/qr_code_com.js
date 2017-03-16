@@ -15,7 +15,6 @@ function QrcodeCom()
     };
     this.getCom=function(sceneID)
     {
-        console.log(sceneID);
         sceneID=sceneID.toString();
         if (!coms[sceneID])
         {
