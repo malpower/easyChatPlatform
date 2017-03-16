@@ -22,36 +22,40 @@ function BasicIF()
 
 function WebIF()
 {
+    function ThrowError(text)
+    {
+        throw new Error(text);
+    }
     let that=this;
     this.count=function(parameters,callback)
     {
-        parameters.category=parameters.category || throw Error("category is required.");
-        parameters.conditions=parameters.conditions || throw Error("conditions is required.");
+        parameters.category=parameters.category || ThrowError("category is required.");
+        parameters.conditions=parameters.conditions || ThrowError("conditions is required.");
         that.go("/wif/data/count",parameters,callback);
     };
     this.query=function(parameters,callback)
     {
-        parameters.category=parameters.category || throw Error("category is required.");
-        parameters.conditions=parameters.conditions || throw Error("conditions is required.");
+        parameters.category=parameters.category || ThrowError("category is required.");
+        parameters.conditions=parameters.conditions || ThrowError("conditions is required.");
         that.go("/wif/data/query",parameters,callback);
     };
     this.create=function(parameters,callback)
     {
-        parameters.category=parameters.category || throw Error("category is required.");
-        parameters.content=parameters.content || throw Error("content is required.");
+        parameters.category=parameters.category || ThrowError("category is required.");
+        parameters.content=parameters.content || ThrowError("content is required.");
         that.go("/wif/data/create",parameters,callback);
     };
     this.delete=function(parameters,callback)
     {
-        parameters.category=parameters.category || throw Error("category is required.");
+        parameters.category=parameters.category || ThrowError("category is required.");
         parameters.id=parameters.id || throw Error("id is required.");
         that.go("/wif/data/delete",parameters,callback);
     };
     this.modify=function(parameters,callback)
     {
-        parameters.category=parameters.category || throw Error("category is required.");
-        parameters.content=parameters.content || throw Error("content is required.");
-        parameters.id=parameters.id || throw Error("id is required.");
+        parameters.category=parameters.category || ThrowError("category is required.");
+        parameters.content=parameters.content || ThrowError("content is required.");
+        parameters.id=parameters.id || ThrowError("id is required.");
         that.go("/wif/data/modify",parameters,callback);
     };
     this.getCurrentUser=function(callback)
