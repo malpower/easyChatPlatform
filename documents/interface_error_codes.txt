@@ -11,3 +11,7 @@
 5: Illegal value.
 
 6: Network error
+
+7: easy chat error
+
+8: user not signed in.

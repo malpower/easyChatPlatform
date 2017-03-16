@@ -6,6 +6,7 @@ const qrCodeCom=require("./utils/qr_code_com");
 const sidTool=require("./utils/sid");
 const messageDispatcher=require("./message_dispatcher");
 const authTool=require("./auth");
+const format=require("./utils/format");
 
 let easy;
 
@@ -183,7 +184,54 @@ function Init(app)
             res.end(JSON.stringify({error: false,login: true}));
         });
     });
-
+    app.post("/easyChat/addSubscribeUsers",function(req,res)
+    {
+        let users=format.getReqJson(req);
+        if (users===undefined)
+        {
+            return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format"}));
+        }
+        easy.addSubscribeUsers(users,function(err,json)
+        {
+            if (err)
+            {
+                return res.end(JSON.stringify({error: true,code: 7,message: err.message,details: json}));
+            }
+            res.end(JSON.stringify({error: false,content: json}));
+        });
+    });
+    app.post("/easyChat/removeSubscribeusers",function(req,res)
+    {
+        let users=format.getReqJson(req);
+        if (users===undefined)
+        {
+            return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format"}));
+        }
+        easy.removeSubscribeUsers(users,function(err,json)
+        {
+            if (err)
+            {
+                return res.end(JSON.stringify({error: true,code: 7,message: err.message,details: json}));
+            }
+            res.end(JSON.stringify({error: false,content: json}));
+        });
+    });
+    app.post("/easyChat/getUserInformation",function(req,res)
+    {
+        let param=format.getReqJson(req);
+        if (param===undefined)
+        {
+            return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format"}));
+        }
+        easy.getUserBasicInformation(param.openId,function(err,json)
+        {
+            if (err)
+            {
+                return res.end(JSON.stringify({error: true,code: 7,message: err.message,details: json}));
+            }
+            res.end(JSON.stringify({error: false,content: json}));
+        });
+    });
     easy.setPublicAccountMenu(config.menu,function(err,json)
     {
         if (err)

@@ -3,7 +3,9 @@ const ObjectId=require("mongodb").ObjectID;
 const format=require("./utils/format");
 const limiters=require("./utils/limiter");
 const categoryChecker=require("./utils/category_checker");
-const auth=require("./auth");
+const authTool=require("./auth");
+const sidTool=require("./utils/sid");
+
 
 
 let easyCom;
@@ -176,7 +178,21 @@ function BindRoutes(app)
             res.end(JSON.stringify({error: false}));
         });
     });
-
+    app.post("/user/getCurrentuser",function(req,res)
+    {
+        let json=format.getReqJson(req);
+        if (!json)
+        {
+            return res.end(JSON.stringify({error: true,code: 1,message: "Invalid request JSON format."}));
+        }
+        let sid=sidTool.getReqSID(req);
+        if (sid===undefined)
+        {
+            return res.end(JSON.stringify({error: true,code: 8,message: "Current user not exists."}));
+        }
+        let user=authTool.getSignData(sid);
+        res.end(JSON.stringify({error: false,content: user}));
+    });
 }
 
 

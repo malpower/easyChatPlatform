@@ -1,4 +1,4 @@
-function WebBasicIF()
+function BasicIF()
 {
     this.go=function(url,data,callback)
     {
@@ -54,14 +54,19 @@ function WebIF()
         parameters.id=parameters.id || throw Error("id is required.");
         that.go("/wif/data/modify",parameters,callback);
     };
+    this.getCurrentUser=function(callback)
+    {
+        that.go("/users/getCurrentUser",{},callback);
+    };
 }
 
-WebIF.prototype=new WebBasicIF;
+WebIF.prototype=new BasicIF;
 
 
 
 function EasyChatIF()
 {
+    let that=this;
     let openid=undefined;
     let o=$(".data-openid");
     if (o.length!==0)
@@ -69,8 +74,69 @@ function EasyChatIF()
         openid=o.text();
         o.remove();
     }
-    this.getOpenID=function()
+    this.getRenderedOpenId=function()
     {
         return openid;
+    };
+    this.waitingScanQrCode=function(callback)
+    {
+        if (typeof(callback)!=="function")
+        {
+            throw new TypeError("callback must be a function!");
+        }
+        let stamp=$(".data-stamp");
+        if (stamp.length===0)
+        {
+            throw new Error("Method invoked in a wrong page.");
+        }
+        stamp=stamp.text();
+        $(".data-stamp").remove();
+        $.ajax({url: "/waitingScanQrCode",
+                type: "GET",
+                dataType: "JSON",
+                data: "stamp="+stamp,
+                success: function(res)
+                {
+                    callback(undefined,res);
+                },error: function(jqXhr,code,text)
+                {
+                    callback(new Error(text));
+                }});
+    };
+    this.addSubscribeUsers=function(users,callback)
+    {
+        if (typeof(callback)!=="function")
+        {
+            throw new TypeError("callback must be a function!");
+        }
+        if (!(users instanceof Array))
+        {
+            throw new TypeError("users must be an array!");
+        }
+        that.go("/easyChat/addSubscribeUsers",users,callback);
+    };
+    this.removeSubscribeUsers=function(users,callback)
+    {
+        if (typeof(callback)!=="function")
+        {
+            throw new TypeError("callback must be a function!");
+        }
+        if (!(users instanceof Array))
+        {
+            throw new TypeError("users must be an array!");
+        }
+        that.go("/easyChat/removeSubscribeUsers",users,callback);
+    };
+    this.getUserInformation=function(openId,callback)
+    {
+        if (typeof(openId)!=="string")
+        {
+            throw new TypeError("openId must be a string.");
+        }
+        if (typeof(callback)!=="function")
+        {
+            throw new TypeError("callback must be a function!");
+        }
+        that.go("/easyChat/getUserInformation",{openId: openId},callback);
     };
 }
