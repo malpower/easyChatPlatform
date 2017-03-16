@@ -48,7 +48,7 @@ function WebIF()
     this.delete=function(parameters,callback)
     {
         parameters.category=parameters.category || ThrowError("category is required.");
-        parameters.id=parameters.id || throw Error("id is required.");
+        parameters.id=parameters.id || ThrowError("id is required.");
         that.go("/wif/data/delete",parameters,callback);
     };
     this.modify=function(parameters,callback)
