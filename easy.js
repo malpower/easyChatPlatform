@@ -1,5 +1,7 @@
 const xmlParser=require("xml-mapping");
 const https=require("https");
+const urlParser=require("url");
+const config=require("./config");
 
 let easy;
 
@@ -16,9 +18,9 @@ function EasyChatCommunicator(appID,appSec,callback)
             }).on("end",function()
             {
                 let json=JSON.parse(buffer.toString());
-                if (json.errcode!==0)
+                if (json.errcode && json.errcode!==0)
                 {
-                    return callback(new Error(json.errmsg));
+                    return callback(new Error(json.errmsg),json);
                 }
                 callback(undefined,json);
             });
@@ -39,9 +41,9 @@ function EasyChatCommunicator(appID,appSec,callback)
             }).on("end",function()
             {
                 let json=JSON.parse(buffer.toString());
-                if (json.errcode!==0)
+                if (json.errcode && json.errcode!==0)
                 {
-                    return callback(new Error(json.errmsg));
+                    return callback(new Error(json.errmsg),json);
                 }
                 callback(undefined,json);
             });
@@ -80,7 +82,7 @@ function EasyChatCommunicator(appID,appSec,callback)
     };
     this.getUserBasicInformation=function(openid,callback=function(){})
     {
-        GetToEasyChatServer(`https://api.yixin.im/cgi-bin/user/info?access_token=${accessToken}&openid=${openid}`,callback);
+        GetToEasyChatServer(`/cgi-bin/user/info?access_token=${accessToken}&openid=${openid}`,callback);
     };
     this.replyText=function(msg,res)
     {
@@ -118,22 +120,44 @@ function EasyChatCommunicator(appID,appSec,callback)
     {
         return xmlParser.load(message).xml;
     };
-
-
+    this.addSubscribeUsers=function(users,callback)
+    {
+        PostToEasyChatServer(`/cgi-bin/follow/purview/create?access_token=${accessToken}`,JSON.stringify({mobiles: users}),callback);
+    };
+    this.removeSubscribeUsers=function(users,callback)
+    {
+        PostToEasyChatServer(`/cgi-bin/follow/purview/delete?access_token=${accessToken}`,JSON.stringify({mobiles: users}),callback);
+    };
+    this.setPublicAccountMenu=function(menu,callback)
+    {
+        PostToEasyChatServer(`/cgi-bin/menu/create?access_token=${accessToken}`,JSON.stringify(menu),callback);
+    };
 }
 
 
 function Init(app)
 {
-    app.all("/easyChatInterface",function(req,res)
+    app.post("/easyChatInterface",function(req,res)
     {
         let imsg=easy.parseMessage(req.body.toString());
-        easy.getUserBasicInformation("544a29bb58f9baf6",function(err,data)
+        easy.getUserBasicInformation(imsg.FromUserName.$cd,function(err,data)
         {
-            easy.replyText({ToUserName: imsg.FromUserName,FromUserName: imsg.ToUserName,Content: {$cd: err.message || JSON.stringify(data)}},res);
+            easy.replyText({ToUserName: imsg.FromUserName,FromUserName: imsg.ToUserName,Content: {$cd: JSON.stringify(data)}},res);
         });
-        //easy.replyImages({ToUserName: imsg.FromUserName,FromUserName: imsg.ToUserName},[{Title: {$cd: "BACK TO HELL"},Description: {$cd: "HHHHH"},PicUrl: {$cd: "https://www.baidu.com/img/baidu_jgylogo3.gif"},Url: {$cd: "https://baidu.com/"}}],res);
-
+    });
+    app.get("/easyChatInterface",function(req,res)
+    {
+        let url=urlParser.parse(req.url,true);
+        let echostr=url.query.echostr;
+        res.end(echostr);
+    });
+    easy.setPublicAccountMenu(config.menu,function(err,json)
+    {
+        if (err)
+        {
+            console.log(err.message);
+        }
+        console.log(json);
     });
 }
 
@@ -141,7 +165,7 @@ function Init(app)
 
 module.exports={init: function(app,fn)
 {
-    easy=new EasyChatCommunicator("a97d16bfed8c49a399abbbd3cd93d87e","162e81eb1aff4bfab5d640e6776fadb1",function(err)
+    easy=new EasyChatCommunicator("98bf7dab0b964ccfa6d5f4c102cfdc2b","2229038bcd2142fab9e774838280662b",function(err)
     {
         if (err)
         {

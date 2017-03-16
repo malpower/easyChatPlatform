@@ -21,7 +21,7 @@ const pages=require("./pages");
 const app=express();
 
 app.use(express.static("publics"));
-app.use(bodyParser.raw({limit: "11m",type: "application/*"}));
+app.use(bodyParser.raw({limit: "11mb",type: "*/*"}));
 //All the AJAX request will be in POST method, using content type application/json.
 
 console.log("Server is now starting...");
