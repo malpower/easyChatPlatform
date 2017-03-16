@@ -5,6 +5,8 @@ const limiters=require("./utils/limiter");
 const categoryChecker=require("./utils/category_checker");
 
 
+let easyCom;
+
 
 let database;                   //global variable, the database object, will be used at many place. will be initialized at [$pos.001$].
 function BindRoutes(app)
@@ -180,7 +182,7 @@ function BindRoutes(app)
 
 function WebIFaces()
 {
-    this.init=function(app,callback)
+    this.init=function(app,easy,callback)
     {
         console.log("Connect to database...");
         MongoDB.connect("mongodb://127.0.0.1:27017/easyChatPlatform",function(err,db)
@@ -190,6 +192,7 @@ function WebIFaces()
                 console.log(err.message);
                 process.exit(0);
             }
+            easyCom=easy;
             database=db;                   //[$pos.001$]   if the db object is valid, set the database as this value.
             console.log("Database connected");
             BindRoutes(app);
