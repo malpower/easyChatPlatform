@@ -7,6 +7,7 @@ const sidTool=require("./utils/sid");
 const messageDispatcher=require("./message_dispatcher");
 const authTool=require("./auth");
 const format=require("./utils/format");
+const resHelper=require("./utils/response_helper");
 
 let easy;
 
@@ -186,8 +187,7 @@ function Init(app)
     });
     app.get("/waitingScanQrCode",function(req,res)
     {
-        res.set("Access-Control-Allow-Credentials","true");
-        res.set("Access-Control-Allow-Origin","*");
+        resHelper.cors(res);
         let stamp=req.query.stamp;
         qrCodeCom.addCom(stamp,function(openid)
         {
@@ -200,8 +200,7 @@ function Init(app)
     });
     app.post("/easyChat/addSubscribeUsers",function(req,res)
     {
-        res.set("Access-Control-Allow-Credentials","true");
-        res.set("Access-Control-Allow-Origin","*");
+        resHelper.cors(res);
         let users=format.getReqJson(req);
         if (users===undefined)
         {
@@ -218,8 +217,7 @@ function Init(app)
     });
     app.post("/easyChat/removeSubscribeusers",function(req,res)
     {
-        res.set("Access-Control-Allow-Credentials","true");
-        res.set("Access-Control-Allow-Origin","*");
+        resHelper.cors(res);
         let users=format.getReqJson(req);
         if (users===undefined)
         {
@@ -236,8 +234,7 @@ function Init(app)
     });
     app.post("/easyChat/getUserInformation",function(req,res)
     {
-        res.set("Access-Control-Allow-Credentials","true");
-        res.set("Access-Control-Allow-Origin","*");
+        resHelper.cors(res);
         let param=format.getReqJson(req);
         if (param===undefined)
         {

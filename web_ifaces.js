@@ -6,6 +6,7 @@ const categoryChecker=require("./utils/category_checker");
 const authTool=require("./auth");
 const sidTool=require("./utils/sid");
 const config=require("./config");
+const resHelper=require("./utils/response_helper");
 
 
 
@@ -17,8 +18,7 @@ function BindRoutes(app)
 {
     app.post("/wif/data/count",function(req,res)
     {
-        res.set("Access-Control-Allow-Credentials","true");
-        res.set("Access-Control-Allow-Origin","*");
+        resHelper.cors(res);
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -43,8 +43,7 @@ function BindRoutes(app)
     });
     app.post("/wif/data/query",function(req,res)
     {
-        res.set("Access-Control-Allow-Credentials","true");
-        res.set("Access-Control-Allow-Origin","*");
+        resHelper.cors(res);
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -78,8 +77,7 @@ function BindRoutes(app)
     });
     app.post("/wif/data/create",function(req,res)
     {
-        res.set("Access-Control-Allow-Credentials","true");
-        res.set("Access-Control-Allow-Origin","*");
+        resHelper.cors(res);
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -114,8 +112,7 @@ function BindRoutes(app)
     });
     app.post("/wif/data/delete",function(req,res)
     {
-        res.set("Access-Control-Allow-Credentials","true");
-        res.set("Access-Control-Allow-Origin","*");
+        resHelper.cors(res);
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -153,8 +150,7 @@ function BindRoutes(app)
     });
     app.post("/wif/data/modify",function(req,res)
     {
-        res.set("Access-Control-Allow-Credentials","true");
-        res.set("Access-Control-Allow-Origin","*");
+        resHelper.cors(res);
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -192,8 +188,7 @@ function BindRoutes(app)
     });
     app.post("/user/getCurrentUser",function(req,res)
     {
-        res.set("Access-Control-Allow-Credentials","true");
-        res.set("Access-Control-Allow-Origin","*");
+        resHelper.cors(res);
         let json=format.getReqJson(req);
         if (!json)
         {

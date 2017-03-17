@@ -45,6 +45,10 @@ md.addEventHandler("scan",function(message,easy,res)
     process.nextTick(fn,message.FromUserName.$cd);
     easy.replyText({ToUserName: message.FromUserName,FromUserName: message.ToUserName,Content: {$cd: "登录成功!"}},res);
 });
+md.addMessagehandler("text",function(message,easy,res)
+{
+    easy.replyText({ToUserName: message.FromUserName,FromUserName: message.ToUserName,Content: {$cd: "Hello"}},res);
+});
 
 
 module.exports=md;
