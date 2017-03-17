@@ -181,6 +181,8 @@ function Init(app)
     });
     app.get("/waitingScanQrCode",function(req,res)
     {
+        res.cookie("Access-Control-Allow-Credentials","true");
+        res.cookie("Access-Control-Allow-Origin","*");
         let stamp=req.query.stamp;
         qrCodeCom.addCom(stamp,function(openid)
         {
@@ -193,6 +195,8 @@ function Init(app)
     });
     app.post("/easyChat/addSubscribeUsers",function(req,res)
     {
+        res.cookie("Access-Control-Allow-Credentials","true");
+        res.cookie("Access-Control-Allow-Origin","*");
         let users=format.getReqJson(req);
         if (users===undefined)
         {
@@ -209,6 +213,8 @@ function Init(app)
     });
     app.post("/easyChat/removeSubscribeusers",function(req,res)
     {
+        res.cookie("Access-Control-Allow-Credentials","true");
+        res.cookie("Access-Control-Allow-Origin","*");
         let users=format.getReqJson(req);
         if (users===undefined)
         {
@@ -225,6 +231,8 @@ function Init(app)
     });
     app.post("/easyChat/getUserInformation",function(req,res)
     {
+        res.cookie("Access-Control-Allow-Credentials","true");
+        res.cookie("Access-Control-Allow-Origin","*");
         let param=format.getReqJson(req);
         if (param===undefined)
         {

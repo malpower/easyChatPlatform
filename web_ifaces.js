@@ -16,6 +16,8 @@ function BindRoutes(app)
 {
     app.post("/wif/data/count",function(req,res)
     {
+        res.cookie("Access-Control-Allow-Credentials","true");
+        res.cookie("Access-Control-Allow-Origin","*");
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -40,6 +42,8 @@ function BindRoutes(app)
     });
     app.post("/wif/data/query",function(req,res)
     {
+        res.cookie("Access-Control-Allow-Credentials","true");
+        res.cookie("Access-Control-Allow-Origin","*");
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -73,6 +77,8 @@ function BindRoutes(app)
     });
     app.post("/wif/data/create",function(req,res)
     {
+        res.cookie("Access-Control-Allow-Credentials","true");
+        res.cookie("Access-Control-Allow-Origin","*");
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -107,6 +113,8 @@ function BindRoutes(app)
     });
     app.post("/wif/data/delete",function(req,res)
     {
+        res.cookie("Access-Control-Allow-Credentials","true");
+        res.cookie("Access-Control-Allow-Origin","*");
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -144,6 +152,8 @@ function BindRoutes(app)
     });
     app.post("/wif/data/modify",function(req,res)
     {
+        res.cookie("Access-Control-Allow-Credentials","true");
+        res.cookie("Access-Control-Allow-Origin","*");
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -181,6 +191,8 @@ function BindRoutes(app)
     });
     app.post("/user/getCurrentUser",function(req,res)
     {
+        res.cookie("Access-Control-Allow-Credentials","true");
+        res.cookie("Access-Control-Allow-Origin","*");
         let json=format.getReqJson(req);
         if (!json)
         {
