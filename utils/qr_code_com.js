@@ -1,3 +1,5 @@
+const config=require("../config");
+
 function QrcodeCom()
 {
     let coms=new Object;
