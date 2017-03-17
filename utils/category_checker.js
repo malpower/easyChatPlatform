@@ -1,6 +1,6 @@
 function CategoryChecker()
 {
-    let rule=/^(Samples|Images|Users)$/;
+    let rule=/^(Samples|Images|Users|Companies)$/;
     this.checkCategory=function(cate)
     {
         if (rule.test(cate))
