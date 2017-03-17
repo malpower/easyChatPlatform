@@ -6,7 +6,7 @@ function Format()
         {
             try
             {
-                return JSON.stringify(req.body.toString());
+                return JSON.parse(req.body.toString());
             }
             catch (e)
             {

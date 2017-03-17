@@ -37,6 +37,10 @@ function Init(app)
             res.render(page,{code: code,openId: openid});
         });
     });
+    app.get("/debug",function(req,res)
+    {
+        res.render("debug",{});
+    });
     app.get("/initialize",function(req,res)
     {
         let sid=sidTool.getReqSID(req);
