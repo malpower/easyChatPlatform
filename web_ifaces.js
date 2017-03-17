@@ -192,6 +192,10 @@ function BindRoutes(app)
             return res.end(JSON.stringify({error: true,code: 8,message: "Current user not exists."}));
         }
         let user=authTool.getSignData(sid);
+        if (user===undefined)
+        {
+            return res.end(JSON.stringify({error: true,code: 8,message: "User not signed in."}));
+        }
         res.end(JSON.stringify({error: false,content: user}));
     });
 }
