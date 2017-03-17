@@ -179,7 +179,7 @@ function BindRoutes(app)
             res.end(JSON.stringify({error: false}));
         });
     });
-    app.post("/user/getCurrentuser",function(req,res)
+    app.post("/user/getCurrentUser",function(req,res)
     {
         let json=format.getReqJson(req);
         if (!json)

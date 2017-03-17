@@ -60,7 +60,7 @@ function WebIF()
     };
     this.getCurrentUser=function(callback)
     {
-        that.go("/users/getCurrentUser",{},callback);
+        that.go("/user/getCurrentUser",{},callback);
     };
 }
 
