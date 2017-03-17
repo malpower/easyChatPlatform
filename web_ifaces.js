@@ -60,7 +60,7 @@ function BindRoutes(app)
         let category=json.category;
         try
         {
-            json=limiters.getLimiter(`${category}.query`)(json);
+            json=limiters.getLimiter(`${category}.query`)(json,req);
         }
         catch (e)
         {
@@ -94,7 +94,7 @@ function BindRoutes(app)
         let category=json.category;
         try
         {
-            json=limiters.getLimiter(`${category}.create`)(json);
+            json=limiters.getLimiter(`${category}.create`)(json,req);
         }
         catch (e)
         {
@@ -129,7 +129,7 @@ function BindRoutes(app)
         let category=json.category;
         try
         {
-            json=limiters.getLimiter(`${category}.delete`)(json);
+            json=limiters.getLimiter(`${category}.delete`)(json,req);
         }
         catch (e)
         {
@@ -167,7 +167,7 @@ function BindRoutes(app)
         let category=json.category;
         try
         {
-            json=limiters.getLimiter(`${category}.modify`)(json);
+            json=limiters.getLimiter(`${category}.modify`)(json,req);
         }
         catch (e)
         {

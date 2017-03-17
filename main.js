@@ -27,12 +27,13 @@ const app=express();
 
 app.use(express.static("publics"));
 app.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
+//All the AJAX request will be in POST method, using content type which configured in server.js.
 app.use(cookieParser());
 
 
 app.set("view engine","ejs");
 app.set("views","views");
-//All the AJAX request will be in POST method, using content type application/json.
+
 
 console.log("Server is now starting...");
 console.log("Initializing easy chat communicator...");
