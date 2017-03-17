@@ -53,6 +53,7 @@ function BindRoutes(app)
         {
             return res.end(JSON.stringify({error: true,code: 5,message: `The value of "category" is illegal.`}));
         }
+        let category=json.category;
         try
         {
             json=limiters.getLimiter(`${category}.query`)(json);

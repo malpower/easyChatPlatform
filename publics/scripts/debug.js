@@ -1,7 +1,7 @@
 $(document).ready(function()
 {
     let api=new WebIF;
-    api.create({category: "Samples",content: {title: "123"}},function(err,json)
+    api.query({category: "Users",conditions: {}},function(err,json)
     {
         console.log(json);
     });
