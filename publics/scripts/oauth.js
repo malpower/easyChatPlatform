@@ -9,5 +9,6 @@ $(document).ready(function()
             return alert("ERROR");
         }
         alert(JSON.stringify(res));
+        location.href="/initialize";
     });
 });

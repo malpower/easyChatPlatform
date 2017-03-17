@@ -17,11 +17,16 @@ const bodyParser=require("body-parser");
 const easy=require("./easy");
 const webIfaces=require("./web_ifaces");
 const pages=require("./pages");
+const cookieParser=require("cookie-parser");
+
 
 const app=express();
 
 app.use(express.static("publics"));
 app.use(bodyParser.raw({limit: "11mb",type: "*/*"}));
+app.use(cookieParser());
+
+
 app.set("view engine","ejs");
 app.set("views","views");
 //All the AJAX request will be in POST method, using content type application/json.
