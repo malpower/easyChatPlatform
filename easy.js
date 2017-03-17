@@ -166,6 +166,13 @@ function Init(app)
         //     easy.sendMessage({touser: imsg.FromUserName.$cd,msgtype: "text",text: {content: JSON.stringify(data)+"\r\n"+(new Date).toString()}});
         // });
     });
+    app.get("/easyChatUserList",function(req,res)
+    {
+        easy.getSubscribedUsers(function(err,json)
+        {
+            res.end(JSON.stringify(json));
+        });
+    });
     app.get("/easyChatInterface",function(req,res)
     {
         let url=urlParser.parse(req.url,true);

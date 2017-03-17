@@ -62,7 +62,7 @@ function Init(app)
             }
             let user=list[0];
             authTool.resetSignData(sid,user);
-            res.redirect("/main");
+            res.redirect("http://localhost:8080/#/notAuditCase");
         });
     });
 }
