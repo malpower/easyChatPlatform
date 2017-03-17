@@ -59,25 +59,30 @@ function EasyChatCommunicator(appID,appSec,callback)
         }).end();
     }
     let accessToken="";
-    let req=https.request({host: `api.yixin.im`,path: `/cgi-bin/token?grant_type=client_credential&appid=${appID}&secret=${appSec}`,method: "GET"},function(res)
+    function RefreshAccessToken()
     {
-        res.on("data",function(chunk)
+        let req=https.request({host: `api.yixin.im`,path: `/cgi-bin/token?grant_type=client_credential&appid=${appID}&secret=${appSec}`,method: "GET"},function(res)
         {
-            let json=JSON.parse(chunk.toString());
-            if (json.errcode)
+            res.on("data",function(chunk)
             {
-                return callback(new Error(chunk.toString()));
-            }
-            accessToken=json.access_token;
-            console.log(`Access Token: [${accessToken}]`);
-            callback();
+                let json=JSON.parse(chunk.toString());
+                if (json.errcode)
+                {
+                    return callback(new Error(chunk.toString()));
+                }
+                accessToken=json.access_token;
+                console.log(`Access Token: [${accessToken}]`);
+                callback();
+            });
         });
-    });
-    req.on("error",function()
-    {
-        return callback(new Error("Cannot connect to the easy chat server."));
-    });
-    req.end();
+        req.on("error",function()
+        {
+            return callback(new Error("Cannot connect to the easy chat server."));
+        });
+        req.end();
+    }
+    RefreshAccessToken();
+    let accessTokenRefresher=setInterval(RefreshAccessToken,config.easyChat.refreshFreq);
     this.sendCustomMessage=function(msg,callback=function(){})
     {
         PostToEasyChatServer(`/cgi-bin/message/custom/send?access_token=${accessToken}`,msg,callback);
@@ -260,7 +265,7 @@ function Init(app)
 
 module.exports={init: function(app,fn)
 {
-    easy=new EasyChatCommunicator("98bf7dab0b964ccfa6d5f4c102cfdc2b","2229038bcd2142fab9e774838280662b",function(err)
+    easy=new EasyChatCommunicator(config.easyChat.appId,config.easyChat.appSec,function(err)
     {
         if (err)
         {

@@ -5,6 +5,7 @@ const limiters=require("./utils/limiter");
 const categoryChecker=require("./utils/category_checker");
 const authTool=require("./auth");
 const sidTool=require("./utils/sid");
+const config=require("./config");
 
 
 
@@ -219,7 +220,7 @@ function WebIFaces()
     this.init=function(app,easy,callback)
     {
         console.log("Connect to database...");
-        MongoDB.connect("mongodb://127.0.0.1:27017/easyChatPlatform",function(err,db)
+        MongoDB.connect(config.database.address,function(err,db)
         {
             if (err)
             {

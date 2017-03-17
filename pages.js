@@ -2,7 +2,8 @@ const MongoDB=require("mongodb").MongoClient;
 const ObjectId=require("mongodb").ObjectID;
 const authTool=require("./auth");
 const qrCodeCom=require("./utils/qr_code_com");
-const sidTool=require("./utils/sid.js");
+const sidTool=require("./utils/sid");
+const config=require("./config");
 
 
 
@@ -26,7 +27,7 @@ function Init(app)
     {
         let code=req.query.code;
         let page=req.query.state;
-        easyCom.getOauthAccessToken("98bf7dab0b964ccfa6d5f4c102cfdc2b","2229038bcd2142fab9e774838280662b",code,function(err,r)
+        easyCom.getOauthAccessToken(config.easyChat.appId,config.easyChat.appSec,code,function(err,r)
         {
             if (err)
             {
@@ -72,7 +73,7 @@ function Pages()
     this.init=function(app,easy,callback)
     {
         console.log("Connect to database...");
-        MongoDB.connect("mongodb://127.0.0.1:27017/easyChatPlatform",function(err,db)
+        MongoDB.connect(config.database.address,function(err,db)
         {
             if (err)
             {

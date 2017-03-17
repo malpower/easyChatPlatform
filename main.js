@@ -18,12 +18,15 @@ const easy=require("./easy");
 const webIfaces=require("./web_ifaces");
 const pages=require("./pages");
 const cookieParser=require("cookie-parser");
+const config=require("./config");
+
+const fs=require("fs");
 
 
 const app=express();
 
 app.use(express.static("publics"));
-app.use(bodyParser.raw({limit: "11mb",type: "*/*"}));
+app.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
 app.use(cookieParser());
 
 
@@ -59,17 +62,23 @@ easy.init(app,function(err,easyCom)
                 process.exit(0);
             }
             console.log("Page handlers online...");
-            console.log("Start to listen on port 80");
-            app.listen(80,function(err)
+            console.log("Start to listen on port "+config.server.serverPort);
+            app.listen(config.server.serverPort,function(err)
             {//Start to listen on port 80, the port 80 is required by easy chat API requirement.
                 if (err)
                 {
                     console.log(err.message);
                     process.exit(0);
                 }
-                console.log("Server on, running on port 80.");
+                console.log("Server on, running on port "+config.server.serverPort);
                 //Here we are, all the initialization job are done.
             });
         });
     });
+});
+
+
+process.on("uncaughtException",function(err)
+{
+    fs.appendFile("./error_log.txt",`\r\n======================${(new Date).toString()}=============\r\n${err.message}\r\n\r\n\r\n${err.stack}\r\n\r\n=========================`);
 });
