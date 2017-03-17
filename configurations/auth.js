@@ -1,2 +1,2 @@
-module.exports={timerDring: 1000,
-                timeCounter: 60*5};
+module.exports={timerDring: 60*1000,
+                timeCounter: 10};
