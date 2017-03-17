@@ -36,8 +36,8 @@ function Auth()
                        authentication[signature]=undefined;
                        delete authentication[signature];
                    }
-               },config.auth.timerDuring)};
-               authentication[signature]=a;
+               },config.auth.timerDring)};
+        authentication[signature]=a;
    };
    this.resetSignData=function(signature,data)
    {

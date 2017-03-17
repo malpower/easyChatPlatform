@@ -44,9 +44,9 @@ function Init(app)
     app.get("/initialize",function(req,res)
     {
         let sid=sidTool.getReqSID(req);
-        if (sid===undefined || authTool.checkSign(sid))
+        if (sid===undefined || !authTool.checkSign(sid))
         {
-            return res.end(`<meta charset="utf-8" /><h1>Invalid sign</h1>`);
+            return res.end(`<meta charset="utf-8" /><h1>Invalid sign</h1>${sid}`);
         }
         let data=authTool.getSignData(sid);
         let openId=data.openId;
