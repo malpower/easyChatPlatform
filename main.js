@@ -27,6 +27,7 @@ const app=express();
 
 app.use(express.static("publics"));
 app.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
+app.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: "text/xml"}));
 //All the AJAX request will be in POST method, using content type which configured in server.js.
 app.use(cookieParser());
 
