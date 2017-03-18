@@ -207,6 +207,24 @@ function BindRoutes(app)
         }
         res.end(JSON.stringify({error: false,content: user}));
     });
+    app.post("/user/getUserById",function(req,res)
+    {
+        resHelper.cors(res);
+        let json=format.getReqJson(req);
+        if (!json)
+        {
+            return res.end(JSON.stringify({error: true,code: 1,message: "Invalid request JSON format."}));
+        }
+        let id=json.id;
+        database.collection("Users").find({_id: new ObjectId(id)}).toArray(function(err,list)
+        {
+            if (err)
+            {
+                return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+            }
+            res.end(JSON.stringify({error: false,users: list}));
+        });
+    });
 }
 
 
