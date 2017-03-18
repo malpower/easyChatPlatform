@@ -1,4 +1,4 @@
-const config=require("./config");
+const config=require("../config");
 function CategoryChecker()
 {
     let rule=/^(Users)$/;
