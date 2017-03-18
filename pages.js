@@ -35,7 +35,7 @@ function Init(app)
             }
             let openid=r.openid;
             let accessToken=r.access_token;
-            res.render(page,{code: code,openId: openid});           //as for the destination of the redirection, config it in [menu.js] at state field.
+            res.redirect(page+"?code="+code+"&openId="+openid);           //as for the destination of the redirection, config it in [menu.js] at state field.
         });
     });
     app.get("/debug",function(req,res)
