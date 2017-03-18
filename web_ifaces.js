@@ -9,9 +9,6 @@ const config=require("./config");
 const resHelper=require("./utils/response_helper");
 const multer=require("multer");
 const upload=multer({dest: "./publics/uploads/"});
-const express=require("express");
-
-let router=express.Router();
 
 
 
@@ -233,7 +230,7 @@ function BindRoutes(app)
             res.end(JSON.stringify({error: false,users: list}));
         });
     });
-    router.post("/file/upload/getUrl",upload.single("wangEditorH5File"),function(req,res)
+    app.post("/file/upload/getUrl",upload.single("wangEditorH5File"),function(req,res)
     {
         res.set("Content-Type",req.file.mimetype);
         res.end(config.web.domain+"uploads/"+req.file.filename);
@@ -262,7 +259,7 @@ function WebIFaces()
             database=db;                   //[$pos.001$]   if the db object is valid, set the database as this value.
             console.log("Database connected");
             BindRoutes(app);
-            process.nextTick(callback,undefined,router);
+            process.nextTick(callback);
             let cusWifs=config.customizedWifs.wifs;
             for (let i=0;i<cusWifs.length;i++)
             {//initialize all the customized web interfaces.

@@ -23,11 +23,13 @@ const config=require("./config");
 const fs=require("fs");
 
 
-const app=express();;
+const app=express();
 
 app.use(express.static("publics"));
-
-//here
+app.use("/wif/*",bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));|
+app.use("/user/*",bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));|
+app.use("/easyChat/*",bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));|
+app.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: "text/xml"}));
 //All the AJAX request will be in POST method, using content type which configured in server.js.
 app.use(cookieParser());
 
@@ -38,10 +40,7 @@ app.set("views","views");
 
 console.log("Server is now starting...");
 console.log("Initializing easy chat communicator...");
-let mainRouter=express.Router();
-
-mainRouter.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
-easy.init(mainRouter,function(err,easyCom)
+easy.init(app,function(err,easyCom)
 {//First of all, initialize the easy chat library and message recipient.
     if (err)
     {
@@ -50,17 +49,16 @@ easy.init(mainRouter,function(err,easyCom)
     }
     console.log("Easy chat communicator online...");
     console.log("Initializing web interfaces...");
-    webIfaces.init(mainRouter,easyCom,function(err,partRouter)
+    webIfaces.init(app,easyCom,function(err)
     {//After the easy chat communicator, we are going to initialize the web interfaces.
         if (err)
         {
             console.log(err.message);
             process.exit(0);
         }
-        app.use(partRouter);
         console.log("Web interfaces online...");
         console.log("Initializing page handlers...");
-        pages.init(mainRouter,easyCom,function(err)
+        pages.init(app,easyCom,function(err)
         {//Initialize the page handlers.
             if (err)
             {
@@ -69,7 +67,6 @@ easy.init(mainRouter,function(err,easyCom)
             }
             console.log("Page handlers online...");
             console.log("Start to listen on port "+config.server.serverPort);
-            app.use(mainRouter);
             app.listen(config.server.serverPort,function(err)
             {//Start to listen on port 80, the port 80 is required by easy chat API requirement.
                 if (err)
