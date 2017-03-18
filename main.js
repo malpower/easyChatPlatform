@@ -50,13 +50,14 @@ easy.init(mainRouter,function(err,easyCom)
     }
     console.log("Easy chat communicator online...");
     console.log("Initializing web interfaces...");
-    webIfaces.init(mainRouter,easyCom,function(err)
+    webIfaces.init(mainRouter,easyCom,function(err,partRouter)
     {//After the easy chat communicator, we are going to initialize the web interfaces.
         if (err)
         {
             console.log(err.message);
             process.exit(0);
         }
+        app.use(partRouter);
         console.log("Web interfaces online...");
         console.log("Initializing page handlers...");
         pages.init(mainRouter,easyCom,function(err)
@@ -68,6 +69,7 @@ easy.init(mainRouter,function(err,easyCom)
             }
             console.log("Page handlers online...");
             console.log("Start to listen on port "+config.server.serverPort);
+            app.use(mainRouter);
             app.listen(config.server.serverPort,function(err)
             {//Start to listen on port 80, the port 80 is required by easy chat API requirement.
                 if (err)

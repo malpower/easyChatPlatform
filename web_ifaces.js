@@ -262,7 +262,7 @@ function WebIFaces()
             database=db;                   //[$pos.001$]   if the db object is valid, set the database as this value.
             console.log("Database connected");
             BindRoutes(app);
-            process.nextTick(callback);
+            process.nextTick(callback,undefined,router);
             let cusWifs=config.customizedWifs.wifs;
             for (let i=0;i<cusWifs.length;i++)
             {//initialize all the customized web interfaces.
