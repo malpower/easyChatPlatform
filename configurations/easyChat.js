@@ -1,3 +1,3 @@
-module.exports={appId: "98bf7dab0b964ccfa6d5f4c102cfdc2b",
-                appSec: "2229038bcd2142fab9e774838280662b",
+module.exports={appId: "e1c52c6f31364914a520f2b636308e2f",
+                appSec: "eeff237ba65e40baa1cef96c473ffd69",
                 refreshFreq: 1000*60*60};
