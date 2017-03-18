@@ -232,9 +232,7 @@ function BindRoutes(app)
     });
     app.post("/file/upload/getUrl",upload.single("wangEditorH5File"),function(req,res)
     {
-        let stamp=(new Date).getTime();
-        console.log(req.file);
-        res.end("...");
+        res.end(config.web.domain+"publics/uploads/"+req.file.filename);
     });
 }
 
