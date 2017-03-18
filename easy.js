@@ -134,7 +134,7 @@ function EasyChatCommunicator(appID,appSec,callback)
         return xmlParser.load(message).xml;
     };
     this.addSubscribeUsers=function(users,callback)
-    {
+    {//
         PostToEasyChatServer(`/cgi-bin/follow/purview/create?access_token=${accessToken}`,{mobiles: users},callback);
     };
     this.removeSubscribeUsers=function(users,callback)
