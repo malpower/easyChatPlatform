@@ -39,6 +39,7 @@ lim.addLimiter("Samples.create",function(json,req)
     }
     json.content.createTime=(new Date).getTime();
     json.content.createUser=user._id;
+    return json;
 });
 
 module.exports=lim;
