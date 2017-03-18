@@ -6,9 +6,13 @@ const categoryChecker=require("./utils/category_checker");
 const authTool=require("./auth");
 const sidTool=require("./utils/sid");
 const config=require("./config");
-const resHelper=require("./utils/response_helper");
 const multer=require("multer");
 const upload=multer({dest: "./publics/uploads/"});
+const express=require("express");
+const bodyParser=require("body-parser");
+
+
+
 
 
 
@@ -16,12 +20,14 @@ let easyCom;
 
 
 let database;                   //global variable, the database object, will be used at many place. will be initialized at [$pos.001$].
-function BindRoutes(app)
+function BindRoutes(initCallback)
 {//binding the routes to provide the basic interfaces.
 //These interfaces are all general interfaces to provide data operations, the operation permission will be controlled by limiters.
+    let app=express.Router();
+    app.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
     app.post("/wif/data/count",function(req,res)
     {
-        resHelper.cors(res);            //the tool to set CORS(cross domain) according to the configuration file.
+                    //the tool to set CORS(cross domain) according to the configuration file.
         let json=format.getReqJson(req);            //formating request data.
         if (!json)
         {//Invalid data received.
@@ -46,7 +52,7 @@ function BindRoutes(app)
     });
     app.post("/wif/data/query",function(req,res)
     {
-        resHelper.cors(res);
+
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -83,7 +89,7 @@ function BindRoutes(app)
     });
     app.post("/wif/data/create",function(req,res)
     {
-        resHelper.cors(res);
+
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -118,7 +124,7 @@ function BindRoutes(app)
     });
     app.post("/wif/data/delete",function(req,res)
     {
-        resHelper.cors(res);
+
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -156,7 +162,7 @@ function BindRoutes(app)
     });
     app.post("/wif/data/modify",function(req,res)
     {
-        resHelper.cors(res);
+
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -194,7 +200,7 @@ function BindRoutes(app)
     });
     app.post("/user/getCurrentUser",function(req,res)
     {//simply respond the current user which is stored in auth tool(session).
-        resHelper.cors(res);
+
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -214,7 +220,7 @@ function BindRoutes(app)
     });
     app.post("/user/getUserById",function(req,res)
     {
-        resHelper.cors(res);
+
         let json=format.getReqJson(req);
         if (!json)
         {
@@ -230,16 +236,18 @@ function BindRoutes(app)
             res.end(JSON.stringify({error: false,users: list}));
         });
     });
-    app.post("/file/upload/getUrl",upload.single("wangEditorH5File"),function(req,res)
+    let router=express.Router();
+    router.post("/file/upload/getUrl",upload.single("wangEditorH5File"),function(req,res)
     {
         res.set("Content-Type",req.file.mimetype);
         res.end(config.web.domain+"uploads/"+req.file.filename);
     });
     app.options("*",function(req,res)
     {
-        resHelper.cors(res);
+
         res.end("OK");
     });
+    process.nextTick(initCallback,[app,router]);
 }
 
 
@@ -258,12 +266,21 @@ function WebIFaces()
             easyCom=easy;
             database=db;                   //[$pos.001$]   if the db object is valid, set the database as this value.
             console.log("Database connected");
-            BindRoutes(app);
+            BindRoutes(function(routers)
+            {
+                for (let i=0;i<routers.length;i++)
+                {
+                    app.use(routers[i]);
+                }
+            });
             process.nextTick(callback);
             let cusWifs=config.customizedWifs.wifs;
             for (let i=0;i<cusWifs.length;i++)
             {//initialize all the customized web interfaces.
-                require("./cus_wifs/"+cusWifs[i]).init(app,easy,db);
+                let cusRouter=express.Router();
+                cusRouter.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
+                require("./cus_wifs/"+cusWifs[i]).init(cusRouter,easy,db);
+                app.use("/cusWifs/"+cusWifs[i],cusRouter);
             }
         });
     };

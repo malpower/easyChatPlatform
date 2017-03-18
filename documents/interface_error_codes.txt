@@ -15,3 +15,5 @@
 7: easy chat error
 
 8: user not signed in.
+
+9: customized web interface error.

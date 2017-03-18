@@ -7,7 +7,10 @@ const sidTool=require("./utils/sid");
 const messageDispatcher=require("./message_dispatcher");
 const authTool=require("./auth");
 const format=require("./utils/format");
-const resHelper=require("./utils/response_helper");
+const express=require("express");
+const bodyParser=require("body-parser");
+
+
 
 let easy;               //the easy chat communicator instance which is a global variable
 
@@ -161,8 +164,10 @@ function EasyChatCommunicator(appID,appSec,callback)
 }
 
 
-function Init(app)
+function Init(initCallback)
 {//initialization function.
+    let app=express.Router();
+    app.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
     app.post("/easyChatInterface",function(req,res)
     {//this is the interface to receive the message from easy chat server.
         let imsg=easy.parseMessage(req.body.toString());
@@ -188,7 +193,7 @@ function Init(app)
     });
     app.get("/waitingScanQrCode",function(req,res)
     {//this is a long polling interface to watch the QR code scanning operation by users.
-        resHelper.cors(res);
+
         let stamp=req.query.stamp;
         qrCodeCom.addCom(stamp,function(openid)
         {//registery a callback to the scanning communicator.
@@ -201,7 +206,7 @@ function Init(app)
     });
     app.post("/easyChat/addSubscribeUsers",function(req,res)
     {
-        resHelper.cors(res);
+
         let users=format.getReqJson(req);
         if (users===undefined)
         {
@@ -218,7 +223,7 @@ function Init(app)
     });
     app.post("/easyChat/removeSubscribeusers",function(req,res)
     {
-        resHelper.cors(res);
+
         let users=format.getReqJson(req);
         if (users===undefined)
         {
@@ -235,7 +240,7 @@ function Init(app)
     });
     app.post("/easyChat/getUserInformation",function(req,res)
     {
-        resHelper.cors(res);
+
         let param=format.getReqJson(req);
         if (param===undefined)
         {
@@ -257,6 +262,7 @@ function Init(app)
             console.log(err.message);
         }
     });
+    process.nextTick(initCallback,[app]);
 }
 
 
@@ -270,7 +276,13 @@ module.exports={init: function(app,fn)
             console.log(err);
             process.exit(1);
         }
-        Init(app);      //Initialize the interfaces.
+        Init(function(routers)
+        {
+            for (let i=0;i<routers.length;i++)
+            {
+                app.use(routers[i]);
+            }
+        });
         fn(undefined,easy);     //go back to the main.
     });
 }};

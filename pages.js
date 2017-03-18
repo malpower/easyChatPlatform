@@ -5,13 +5,17 @@ const qrCodeCom=require("./utils/qr_code_com");
 const sidTool=require("./utils/sid");
 const config=require("./config");
 const euBinder=require("./utils/easyUserBinder");
+const express=require("express");
+const bodyParser=require("body-parser");
+
 
 
 
 let database;
 let easyCom;
-function Init(app)
+function Init(initCallback)
 {//initialize the web page routes.
+    let app=express.Router();
     app.get("/",function(req,res)
     {//login page, to provide the QR code.
         let stamp=qrCodeCom.generateSceneID();
@@ -93,6 +97,7 @@ function Init(app)
             res.redirect(config.web.entryUrl);          //after initialization, redirect to the destination which configured in [web.js]
         });
     });
+    process.nextTick(initCallback,[app]);
 }
 
 function Pages()
@@ -111,7 +116,13 @@ function Pages()
             easyCom=easy;
             console.log("Database connected");
             process.nextTick(callback);
-            Init(app);
+            Init(function(routers)
+            {
+                for (let i=0;i<routers.length;i++)
+                {
+                    app.use(routers[i]);
+                }
+            });
         });
     };
 }
