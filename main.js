@@ -23,11 +23,10 @@ const config=require("./config");
 const fs=require("fs");
 
 
-const app=express();
+const app=express();;
 
 app.use(express.static("publics"));
-app.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
-app.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: "text/xml"}));
+
 //here
 //All the AJAX request will be in POST method, using content type which configured in server.js.
 app.use(cookieParser());
@@ -39,7 +38,11 @@ app.set("views","views");
 
 console.log("Server is now starting...");
 console.log("Initializing easy chat communicator...");
-easy.init(app,function(err,easyCom)
+let mainRouter=express.Router();
+
+mainRouter.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
+mainRouter.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: "text/xml"}));
+easy.init(mainRouter,function(err,easyCom)
 {//First of all, initialize the easy chat library and message recipient.
     if (err)
     {
@@ -48,7 +51,7 @@ easy.init(app,function(err,easyCom)
     }
     console.log("Easy chat communicator online...");
     console.log("Initializing web interfaces...");
-    webIfaces.init(app,easyCom,function(err)
+    webIfaces.init(mainRouter,easyCom,function(err)
     {//After the easy chat communicator, we are going to initialize the web interfaces.
         if (err)
         {
@@ -57,7 +60,7 @@ easy.init(app,function(err,easyCom)
         }
         console.log("Web interfaces online...");
         console.log("Initializing page handlers...");
-        pages.init(app,easyCom,function(err)
+        pages.init(mainRouter,easyCom,function(err)
         {//Initialize the page handlers.
             if (err)
             {

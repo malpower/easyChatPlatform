@@ -9,6 +9,9 @@ const config=require("./config");
 const resHelper=require("./utils/response_helper");
 const multer=require("multer");
 const upload=multer({dest: "./publics/uploads/"});
+const express=require("express");
+
+let router=express.Router();
 
 
 
@@ -230,7 +233,7 @@ function BindRoutes(app)
             res.end(JSON.stringify({error: false,users: list}));
         });
     });
-    app.post("/file/upload/getUrl",upload.single("wangEditorH5File"),function(req,res)
+    router.post("/file/upload/getUrl",upload.single("wangEditorH5File"),function(req,res)
     {
         res.set("Content-Type",req.file.mimetype);
         res.end(config.web.domain+"uploads/"+req.file.filename);
