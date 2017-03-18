@@ -9,13 +9,13 @@ function QrcodeCom()
         sceneIdCounter=(sceneIdCounter+1)%10000000;
         return sceneIdCounter;
     };
-    this.addCom=function(sceneID,callback)
+    this.addCom=function(sceneID="",callback)
     {
         sceneID=sceneID.toString();
         coms[sceneID]={createAt: (new Date).getTime(),
                        callback: callback};
     };
-    this.getCom=function(sceneID)
+    this.getCom=function(sceneID="")
     {
         sceneID=sceneID.toString();
         if (!coms[sceneID])
@@ -24,7 +24,7 @@ function QrcodeCom()
         }
         return coms[sceneID].callback;
     };
-    this.destroyCom=function(sceneID)
+    this.destroyCom=function(sceneID="")
     {
         sceneID=sceneID.toString();
         coms[sceneID]=undefined;
