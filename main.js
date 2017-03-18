@@ -41,7 +41,6 @@ console.log("Initializing easy chat communicator...");
 let mainRouter=express.Router();
 
 mainRouter.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
-mainRouter.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: "text/xml"}));
 easy.init(mainRouter,function(err,easyCom)
 {//First of all, initialize the easy chat library and message recipient.
     if (err)
