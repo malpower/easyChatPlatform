@@ -17,7 +17,7 @@ let database;                   //global variable, the database object, will be 
 function BindRoutes(app)
 {//binding the routes to provide the basic interfaces.
 //These interfaces are all general interfaces to provide data operations, the operation permission will be controlled by limiters.
-    app.all("/wif/data/count",function(req,res)
+    app.post("/wif/data/count",function(req,res)
     {
         resHelper.cors(res);            //the tool to set CORS(cross domain) according to the configuration file.
         let json=format.getReqJson(req);            //formating request data.
@@ -42,7 +42,7 @@ function BindRoutes(app)
             res.end(JSON.stringify({error: false,count: count}));
         });
     });
-    app.all("/wif/data/query",function(req,res)
+    app.post("/wif/data/query",function(req,res)
     {
         resHelper.cors(res);
         let json=format.getReqJson(req);
@@ -76,7 +76,7 @@ function BindRoutes(app)
             res.end(JSON.stringify({error: false,list: list}));
         });
     });
-    app.all("/wif/data/create",function(req,res)
+    app.post("/wif/data/create",function(req,res)
     {
         resHelper.cors(res);
         let json=format.getReqJson(req);
@@ -111,7 +111,7 @@ function BindRoutes(app)
             res.end(JSON.stringify({error: false,id: r.insertedIds[0]}));
         });
     });
-    app.all("/wif/data/delete",function(req,res)
+    app.post("/wif/data/delete",function(req,res)
     {
         resHelper.cors(res);
         let json=format.getReqJson(req);
@@ -149,7 +149,7 @@ function BindRoutes(app)
             res.end(JSON.stringify({error: false}));
         });
     });
-    app.all("/wif/data/modify",function(req,res)
+    app.post("/wif/data/modify",function(req,res)
     {
         resHelper.cors(res);
         let json=format.getReqJson(req);
@@ -187,7 +187,7 @@ function BindRoutes(app)
             res.end(JSON.stringify({error: false}));
         });
     });
-    app.all("/user/getCurrentUser",function(req,res)
+    app.post("/user/getCurrentUser",function(req,res)
     {//simply respond the current user which is stored in auth tool(session).
         resHelper.cors(res);
         let json=format.getReqJson(req);

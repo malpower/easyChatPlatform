@@ -1,15 +1,54 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <title>Login</title>
-    <script type="text/javascript" src="/libs/jquery-3.1.1.min.js"></script>
-    <script type="text/javascript" src="/scripts/api.js"></script>
-    <script type="text/javascript" src="/scripts/oauth.js"></script>
-</head>
-<body>
-    <h1><%=text%></h1>
-    <img src="https://api.yixin.im/cgi-bin/qrcode/showqrcode?ticket=<%=qrTicket%>" />
-    <span class="data-stamp"><%=qrStamp%></span>
-</body>
+	<head>
+		<meta charset="utf-8">
+		<title>渠道智盈</title>
+		<script type="text/javascript" src="/libs/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript" src="/scripts/api.js"></script>
+		<script type="text/javascript" src="/scripts/oauth.js"></script>
+		<style>
+
+    .login-box{
+      width: 100%;
+      height: 100%;
+      background: #ededed;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right:0;
+    }
+    .l-bg{
+      width: 550px;
+      margin: 0 auto;
+      position: relative;
+      top: 20%;
+      left: 0%;
+      text-align: center;
+    }
+    .l-bg img{
+      width: 250px;
+      height: 250px;
+      margin: 50px auto 30px;
+    }
+    .ft-36{
+    	font-size: 36px;
+    }
+    .ft-24{
+    	font-size: 24px;
+    }
+
+</style>
+
+	</head>
+	<body>
+	<div class="login-box">
+       <div class="l-bg">
+           <h1 class="ft-36">渠道智赢后台管理系统</h1>
+					 <img src="https://api.yixin.im/cgi-bin/qrcode/showqrcode?ticket=<%=qrTicket%>" />
+			     <span class="data-stamp"><%=qrStamp%></span>
+           <p class="ft-24">创新&nbsp;&nbsp;专业&nbsp;&nbsp;开放&nbsp;&nbsp;信任 </p>
+       </div>
+    </div>
+	</body>
 </html>
