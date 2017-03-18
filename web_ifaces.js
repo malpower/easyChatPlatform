@@ -15,21 +15,22 @@ let easyCom;
 
 let database;                   //global variable, the database object, will be used at many place. will be initialized at [$pos.001$].
 function BindRoutes(app)
-{
+{//binding the routes to provide the basic interfaces.
+//These interfaces are all general interfaces to provide data operations, the operation permission will be controlled by limiters.
     app.post("/wif/data/count",function(req,res)
     {
-        resHelper.cors(res);
-        let json=format.getReqJson(req);
+        resHelper.cors(res);            //the tool to set CORS(cross domain) according to the configuration file.
+        let json=format.getReqJson(req);            //formating request data.
         if (!json)
-        {
+        {//Invalid data received.
             return res.end(JSON.stringify({error: true,code: 1,message: "Invalid request JSON format."}));
         }
         if (typeof(json.category)!=="string")
-        {
+        {//if the data does not contain a category field.
             return res.end(JSON.stringify({error: true,code: 3,message: `"category" is required.`}));
         }
         if (!categoryChecker.checkCategory(json.category))
-        {
+        {//check the allowed categories.
             return res.end(JSON.stringify({error: true,code: 5,message: `The value of "category" is illegal.`}));
         }
         database.collection(json.category).find(json.conditions || {}).skip(json.pageNumber || 0).limit(json.pageSize || 1024).sort(json.sort || {}).count(function(err,count)
@@ -187,7 +188,7 @@ function BindRoutes(app)
         });
     });
     app.post("/user/getCurrentUser",function(req,res)
-    {
+    {//simply respond the current user which is stored in auth tool(session).
         resHelper.cors(res);
         let json=format.getReqJson(req);
         if (!json)
@@ -213,12 +214,12 @@ function BindRoutes(app)
 function WebIFaces()
 {
     this.init=function(app,easy,callback)
-    {
+    {//initialize the web interfaces.
         console.log("Connect to database...");
         MongoDB.connect(config.database.address,function(err,db)
-        {
+        {//connect to database first.
             if (err)
-            {
+            {//if error, exit the process.
                 console.log(err.message);
                 process.exit(0);
             }
@@ -227,6 +228,11 @@ function WebIFaces()
             console.log("Database connected");
             BindRoutes(app);
             process.nextTick(callback);
+            let cusWifs=config.customizedWifs.wifs;
+            for (let i=0;i<cusWifs.length;i++)
+            {//initialize all the customized web interfaces.
+                require("./cus_wifs/"+cusWifs[i]).init(app,easy,db);
+            }
         });
     };
 }

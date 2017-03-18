@@ -9,20 +9,20 @@ const authTool=require("./auth");
 const format=require("./utils/format");
 const resHelper=require("./utils/response_helper");
 
-let easy;
+let easy;               //the easy chat communicator instance which is a global variable
 
 function EasyChatCommunicator(appID,appSec,callback)
 {
     function PostToEasyChatServer(url,data,callback)
-    {
+    {//A function to communicate with the easy chat server with POST method.
         let req=https.request({host: "api.yixin.im",path: url,method: "POST"},function(res)
         {
             let buffer=new Buffer(0);
             res.on("data",function(chunk)
-            {
+            {//keep receiving data
                 buffer=Buffer.concat([buffer,chunk]);
             }).on("end",function()
-            {
+            {//the data receiving finished, star to parse json and invoke the callback.
                 let json=JSON.parse(buffer.toString());
                 if (json.errcode && json.errcode!==0)
                 {
@@ -32,20 +32,20 @@ function EasyChatCommunicator(appID,appSec,callback)
             });
         });
         req.on("error",function(e)
-        {
+        {//when the connection gots error, invoke the callback by passing an error instance.
             return callback(new Error(e.message));
-        }).end(JSON.stringify(data));
+        }).end(JSON.stringify(data));           //send the data to the easy chat server.
     }
     function GetToEasyChatServer(url,callback)
-    {
+    {//A function to communicate with the easy chat server with GET method.
         let req=https.request({host: "api.yixin.im",path: url,method: "GET"},function(res)
         {
             let buffer=new Buffer(0);
             res.on("data",function(chunk)
-            {
+            {//keep receiving data
                 buffer=Buffer.concat([buffer,chunk]);
             }).on("end",function()
-            {
+            {//the data receiving finished, star to parse json and invoke the callback.
                 let json=JSON.parse(buffer.toString());
                 if (json.errcode && json.errcode!==0)
                 {
@@ -55,25 +55,26 @@ function EasyChatCommunicator(appID,appSec,callback)
             });
         });
         req.on("error",function(e)
-        {
+        {//when the connection gots error, invoke the callback by passing an error instance.
             return callback(new Error(e.message));
-        }).end();
+        }).end();                   //'Cause the methos is GET, no need to send data to the easy chat server.
     }
-    let accessToken="";
+    let accessToken="";                 //internal variable, this access token is required by the easy chat server on every request.
     function RefreshAccessToken()
-    {
+    {//this function is used to refresh the access token. the access token will be expired, we're gonna refresh it.
         let req=https.request({host: `api.yixin.im`,path: `/cgi-bin/token?grant_type=client_credential&appid=${appID}&secret=${appSec}`,method: "GET"},function(res)
         {
             res.on("data",function(chunk)
-            {
+            {// since the packet will be small enough, no need to receive more than one packet, but this place might be a potential bug.
                 let json=JSON.parse(chunk.toString());
                 if (json.errcode)
                 {
                     return callback(new Error(chunk.toString()));
                 }
-                accessToken=json.access_token;
-                console.log(`Access Token: [${accessToken}]`);
-                callback();
+                accessToken=json.access_token;                  //give the value from the easy chat server to the local variable.
+                console.log(`Access Token: [${accessToken}]`);          //display the new access token on console.
+                callback();                     //invoke the callback at the first time.
+                callback=function(){};              //replace the callback with a empty function to prevent repeat calling the callback;
             });
         });
         req.on("error",function()
@@ -82,8 +83,8 @@ function EasyChatCommunicator(appID,appSec,callback)
         });
         req.end();
     }
-    RefreshAccessToken();
-    let accessTokenRefresher=setInterval(RefreshAccessToken,config.easyChat.refreshFreq);
+    RefreshAccessToken();               //Refresh the access token as soon as the contructor runs.
+    let accessTokenRefresher=setInterval(RefreshAccessToken,config.easyChat.refreshFreq);               //set the access token refreshing frequence.
     this.sendCustomMessage=function(msg,callback=function(){})
     {
         PostToEasyChatServer(`/cgi-bin/message/custom/send?access_token=${accessToken}`,msg,callback);
@@ -129,7 +130,7 @@ function EasyChatCommunicator(appID,appSec,callback)
         res.end(xmlParser.dump(r));
     };
     this.parseMessage=function(message)
-    {
+    {//parse the message from easy chat server to a JSON.
         return xmlParser.load(message).xml;
     };
     this.addSubscribeUsers=function(users,callback)
@@ -161,9 +162,9 @@ function EasyChatCommunicator(appID,appSec,callback)
 
 
 function Init(app)
-{
+{//initialization function.
     app.post("/easyChatInterface",function(req,res)
-    {
+    {//this is the interface to receive the message from easy chat server.
         let imsg=easy.parseMessage(req.body.toString());
         messageDispatcher.process(imsg,easy,res);
         // easy.getUserBasicInformation(imsg.FromUserName.$cd,function(err,data)
@@ -173,29 +174,29 @@ function Init(app)
         // });
     });
     app.get("/easyChatUserList",function(req,res)
-    {
+    {//a status checking interface, to display the current subscribed users' open IDs.
         easy.getSubscribedUsers(function(err,json)
         {
             res.end(JSON.stringify(json));
         });
     });
     app.get("/easyChatInterface",function(req,res)
-    {
+    {//verification interface for easy chat server.
         let url=urlParser.parse(req.url,true);
         let echostr=url.query.echostr;
         res.end(echostr);
     });
     app.get("/waitingScanQrCode",function(req,res)
-    {
+    {//this is a long polling interface to watch the QR code scanning operation by users.
         resHelper.cors(res);
         let stamp=req.query.stamp;
         qrCodeCom.addCom(stamp,function(openid)
-        {
-            qrCodeCom.destroyCom(stamp);
+        {//registery a callback to the scanning communicator.
+            qrCodeCom.destroyCom(stamp);            //if the callback is invoking, remove the callback from the scanning communicator.
             let sid=sidTool.generateNewSID();
             sidTool.setResSID(res,sid);
-            authTool.addSign(sid,{openId: openid});
-            res.end(JSON.stringify({error: false,login: true}));
+            authTool.addSign(sid,{openId: openid});     //store a temporary sign data to session.
+            res.end(JSON.stringify({error: false,login: true}));            //to inform the client that the user has scanned the QR code.
         });
     });
     app.post("/easyChat/addSubscribeUsers",function(req,res)
@@ -250,7 +251,7 @@ function Init(app)
         });
     });
     easy.setPublicAccountMenu(config.menu,function(err,json)
-    {
+    {//Simply set the menu on easy chat client.
         if (err)
         {
             console.log(err.message);
@@ -262,13 +263,14 @@ function Init(app)
 
 module.exports={init: function(app,fn)
 {
-    easy=new EasyChatCommunicator(config.easyChat.appId,config.easyChat.appSec,function(err)
+    easy=new EasyChatCommunicator(config.easyChat.appId,config.easyChat.appSec,function(err)                //initialize the easy chat communicator first.
     {
         if (err)
-        {
+        {//if the error captured when creating this easy chat communicator, exit the process directly.
             console.log(err);
+            process.exit(1);
         }
-        Init(app);
-        fn(undefined,easy);
+        Init(app);      //Initialize the interfaces.
+        fn(undefined,easy);     //go back to the main.
     });
 }};

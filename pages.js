@@ -10,9 +10,9 @@ const config=require("./config");
 let database;
 let easyCom;
 function Init(app)
-{
+{//initialize the web page routes.
     app.get("/",function(req,res)
-    {
+    {//login page, to provide the QR code.
         let stamp=qrCodeCom.generateSceneID();
         easyCom.generateQrCodeTicket(stamp,function(err,json)
         {
@@ -24,7 +24,7 @@ function Init(app)
         });
     });
     app.get("/mweb",function(req,res)
-    {
+    {//mobile web callbacks, this page will be request when user press menus in easy chat client app.
         let code=req.query.code;
         let page=req.query.state;
         easyCom.getOauthAccessToken(config.easyChat.appId,config.easyChat.appSec,code,function(err,r)
@@ -35,15 +35,15 @@ function Init(app)
             }
             let openid=r.openid;
             let accessToken=r.access_token;
-            res.render(page,{code: code,openId: openid});
+            res.render(page,{code: code,openId: openid});           //as for the destination of the redirection, config it in [menu.js] at state field.
         });
     });
     app.get("/debug",function(req,res)
-    {
+    {//simple frontend debug page.
         res.render("debug",{});
     });
     app.get("/initialize",function(req,res)
-    {
+    {//this is the initialization page after user scanning the QR code, fontend must redirect to this page after calling /waitingScanQrCode interface.
         let sid=sidTool.getReqSID(req);
         if (sid===undefined || !authTool.checkSign(sid))
         {
@@ -59,11 +59,11 @@ function Init(app)
             }
             if (list.length===0)
             {
-                return res.end(`<meta charset="utf-8" /><h1>未在数据库中找到该用户</h1>`);
+                return res.end(`<meta charset="utf-8" /><h1>Cannot find the user in DB.</h1>`);
             }
             let user=list[0];
             authTool.resetSignData(sid,user);
-            res.redirect(config.web.entryUrl);
+            res.redirect(config.web.entryUrl);          //after initialization, redirect to the destination which configured in [web.js]
         });
     });
 }
