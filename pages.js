@@ -4,6 +4,7 @@ const authTool=require("./auth");
 const qrCodeCom=require("./utils/qr_code_com");
 const sidTool=require("./utils/sid");
 const config=require("./config");
+const euBinder=require("./utils/easyUserBinder");
 
 
 
@@ -35,7 +36,25 @@ function Init(app)
             }
             let openid=r.openid;
             let accessToken=r.access_token;
-            res.redirect(page+"?code="+code+"&openId="+openid);           //as for the destination of the redirection, config it in [menu.js] at state field.
+            database.collection("Users").find({openId: openid}).toArray(function(err,list)
+            {
+                if (err)
+                {
+                    return res.end(err.message);
+                }
+                if (list.length===0)
+                {
+                    euBinder.bindEasyUser(openid,easyCom,database,function(err,user)
+                    {
+                        if (err)
+                        {
+                            return res.end(err.message);
+                        }
+                        res.redirect(page+"?code="+code+"&openId="+openid);
+                    });
+                }
+                res.redirect(page+"?code="+code+"&openId="+openid);           //as for the destination of the redirection, config it in [menu.js] at state field.
+            });
         });
     });
     app.get("/debug",function(req,res)
@@ -59,7 +78,15 @@ function Init(app)
             }
             if (list.length===0)
             {
-                return res.end(`<meta charset="utf-8" /><h1>Cannot find the user in DB.</h1>`);
+                return euBinder.bindEasyUser(openId,easyCom,database,function(err,user)
+                {
+                    if (err)
+                    {
+                        return res.end("<h1>Canot bind user information on easy chat.</h1>");
+                    }
+                    authTool.resetSignData(sid,user);
+                    res.redirect(config.web.entryUrl);          //after initialization, redirect to the destination which configured in [web.js]
+                });
             }
             let user=list[0];
             authTool.resetSignData(sid,user);
