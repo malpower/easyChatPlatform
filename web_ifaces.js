@@ -73,7 +73,10 @@ function BindRoutes(app)
             {
                 return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
             }
-            res.end(JSON.stringify({error: false,list: list}));
+            database.collection(json.category).find(json.conditions || {}).count(function(err,count)
+            {
+                res.end(JSON.stringify({error: false,list: list,count: count}));
+            });
         });
     });
     app.post("/wif/data/create",function(req,res)
