@@ -1,3 +1,3 @@
 module.exports={requestSizeLimit: "11mb",
-                requestType: "*/*",
+                requestType: "application/json",
                 serverPort: 80};
