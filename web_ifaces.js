@@ -233,7 +233,7 @@ function BindRoutes(app)
     app.post("/file/upload/getUrl",upload.single("wangEditorH5File"),function(req,res)
     {
         res.set("Content-Type",req.file.mimetype);
-        res.end(config.web.domain+"publics/uploads/"+req.file.filename);
+        res.end(config.web.domain+"uploads/"+req.file.filename);
     });
 }
 
