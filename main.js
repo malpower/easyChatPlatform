@@ -26,15 +26,13 @@ const fs=require("fs");
 const app=express();
 
 app.use(express.static("publics"));
-
-
-//All the AJAX request will be in POST method, using content type which configured in server.js.
 app.use(cookieParser());
 
 
 app.set("view engine","ejs");
 app.set("views","views");
 
+console.log("Creating CORS midlleware...");
 app.use(function(req,res,next)
 {
     if (config.web.allowCORS)

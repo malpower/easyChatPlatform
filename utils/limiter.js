@@ -39,6 +39,7 @@ lim.addLimiter("Samples.create",function(json,req)
     }
     json.content.createTime=(new Date).getTime();
     json.content.createUser=user._id.toString();
+    json.content.createUsername=user.name;
     return json;
 });
 

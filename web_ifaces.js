@@ -75,7 +75,7 @@ function BindRoutes(initCallback)
         {
             return res.end(JSON.stringify({error: true,code: 4,message: e.message}));
         }
-        database.collection(json.category).find(json.conditions || {}).skip(json.pageNumber || 0).limit(json.pageSize || 1024).sort(json.sort || {}).toArray(function(err,list)
+        database.collection(json.category).find(json.conditions || {},json.filter || undefined).skip(json.pageNumber || 0).limit(json.pageSize || 1024).sort(json.sort || {}).toArray(function(err,list)
         {
             if (err)
             {
@@ -228,6 +228,23 @@ function BindRoutes(initCallback)
         }
         let id=json.id;
         database.collection("Users").find({_id: new ObjectId(id)}).toArray(function(err,list)
+        {
+            if (err)
+            {
+                return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+            }
+            res.end(JSON.stringify({error: false,users: list}));
+        });
+    });
+    app.post("/user/getUserByOpenId",function(req,res)
+    {
+
+        let json=format.getReqJson(req);
+        if (!json)
+        {
+            return res.end(JSON.stringify({error: true,code: 1,message: "Invalid request JSON format."}));
+        }
+        database.collection("Users").find({openId: json.openId}).toArray(function(err,list)
         {
             if (err)
             {

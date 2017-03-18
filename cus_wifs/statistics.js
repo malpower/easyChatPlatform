@@ -23,9 +23,9 @@ function Statistics()
                 {
                     if (calc[list[i].createUser]===undefined)
                     {
-                        calc[list[i].createUser]=0;
+                        calc[list[i].createUser]={count: 0,username: list[i].createUsername;
                     }
-                    calc[list[i].createUser]++;
+                    calc[list[i].createUser].count++;
                 }
                 let o={error: false,statistics: calc,total: list.length};
                 return res.end(JSON.stringify(o));
