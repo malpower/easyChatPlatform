@@ -1,3 +1,3 @@
 module.exports={requestSizeLimit: "11mb",
-                requestType: "*",
+                requestType: "*/*",
                 serverPort: 80};
