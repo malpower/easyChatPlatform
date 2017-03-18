@@ -7,6 +7,8 @@ const authTool=require("./auth");
 const sidTool=require("./utils/sid");
 const config=require("./config");
 const resHelper=require("./utils/response_helper");
+const multer=require("multer");
+const upload=multer({dest: "./publics/uploads/"});
 
 
 
@@ -227,6 +229,12 @@ function BindRoutes(app)
             }
             res.end(JSON.stringify({error: false,users: list}));
         });
+    });
+    app.post("/file/upload/getUrl",upload.single("photo"),function(req,res)
+    {
+        let stamp=(new Date).getTime();
+        console.log(req.file);
+        res.end("...");
     });
 }
 
