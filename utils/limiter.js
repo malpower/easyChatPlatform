@@ -38,7 +38,7 @@ lim.addLimiter("Samples.create",function(json,req)
         throw new Error("User not signed in.");
     }
     json.content.createTime=(new Date).getTime();
-    json.content.createUser=user._id;
+    json.content.createUser=user._id.toString();
     return json;
 });
 
