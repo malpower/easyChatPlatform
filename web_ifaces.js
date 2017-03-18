@@ -235,7 +235,7 @@ function BindRoutes(app)
         res.set("Content-Type",req.file.mimetype);
         res.end(config.web.domain+"uploads/"+req.file.filename);
     });
-    app.options("*",function(req,ers)
+    app.options("*",function(req,res)
     {
         resHelper.cors(res);
         res.end("OK");
