@@ -164,7 +164,7 @@ function BindRoutes(initCallback)
             }
             cond["_id"]={$in: json.ids};
         }
-        database.collection(json.category).remove(cond,function(err,r)
+        database.collection(json.category).removeMany(cond,function(err,r)
         {
             if (err)
             {
@@ -215,7 +215,7 @@ function BindRoutes(initCallback)
             }
             cond["_id"]={$in: json.ids};
         }
-        database.collection(json.category).update(cond,{$set: json.content || {}},function(err,r)
+        database.collection(json.category).updateMany(cond,{$set: json.content || {}},function(err,r)
         {
             if (err)
             {
