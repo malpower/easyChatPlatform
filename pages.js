@@ -93,6 +93,10 @@ function Init(initCallback)
                 });
             }
             let user=list[0];
+            if (user.isFreeze===true)
+            {
+                return res.end("This user is frozen.");
+            }
             authTool.resetSignData(sid,user);
             res.redirect(config.web.entryUrl);          //after initialization, redirect to the destination which configured in [web.js]
         });
