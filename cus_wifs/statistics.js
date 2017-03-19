@@ -5,7 +5,7 @@ function Statistics()
 {
     this.init=function(app,easy,db)
     {
-        app.bind("/getSubmitReportByUserId",function(req,res)
+        app.bind("/getSubmitReportByUser",function(req,res)
         {
             let json=format.getReqJson(req);
             if (!json)
@@ -23,7 +23,7 @@ function Statistics()
                 {
                     if (calc[list[i].createUser]===undefined)
                     {
-                        calc[list[i].createUser]={count: 0,username: list[i].createUsername;
+                        calc[list[i].createUser]={count: 0,username: list[i].createUsername};
                     }
                     calc[list[i].createUser].count++;
                 }

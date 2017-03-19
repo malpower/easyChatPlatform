@@ -41,7 +41,7 @@ function BindRoutes(initCallback)
         {//check the allowed categories.
             return res.end(JSON.stringify({error: true,code: 5,message: `The value of "category" is illegal.`}));
         }
-        database.collection(json.category).find(json.conditions || {}).skip(json.pageNumber || 0).limit(json.pageSize || 1024).sort(json.sort || {}).count(function(err,count)
+        database.collection(json.category).find(json.conditions || {}).skip(json.pageNumber*(json.pageSize || 1) || 0).limit(json.pageSize || 1024).sort(json.sort || {}).count(function(err,count)
         {
             if (err)
             {
@@ -75,7 +75,7 @@ function BindRoutes(initCallback)
         {
             return res.end(JSON.stringify({error: true,code: 4,message: e.message}));
         }
-        database.collection(json.category).find(json.conditions || {},json.filter || undefined).skip(json.pageNumber || 0).limit(json.pageSize || 1024).sort(json.sort || {}).toArray(function(err,list)
+        database.collection(json.category).find(json.conditions || {},json.filter || undefined).skip(json.pageNumber*(json.pageSize || 1) || 0).limit(json.pageSize || 1024).sort(json.sort || {}).toArray(function(err,list)
         {
             if (err)
             {
@@ -147,11 +147,24 @@ function BindRoutes(initCallback)
         {
             return res.end(JSON.stringify({error: true,code: 4,message: e.message}));
         }
-        if (typeof(json.id)!=="string")
+        if (typeof(json.id)!=="string" && typeof(json.ids)!=="object")
         {
-            return res.end(JSON.stringify({error: true,code: 3,message: `"id" is required.`}));
+            return res.end(JSON.stringify({error: true,code: 3,message: `"id" or "ids" are required.`}));
         }
-        database.collection(json.category).remove({_id: new ObjectId(json.id)},function(err,r)
+        let cond=new Object;
+        if (json.id)
+        {
+            cond["_id"]=new ObjectId(json.id);
+        }
+        else if (json.ids instanceof Array)
+        {
+            for (let i=0;i<json.ids.length;i++)
+            {
+                json.ids[i]=new ObjectId(json.ids[i]);
+            }
+            cond["_id"]={$in: json.ids};
+        }
+        database.collection(json.category).removeMany(cond,function(err,r)
         {
             if (err)
             {
@@ -185,11 +198,24 @@ function BindRoutes(initCallback)
         {
             return res.end(JSON.stringify({error: true,code: 4,message: e.message}));
         }
-        if (typeof(json.id)!=="string")
+        if (typeof(json.id)!=="string" && typeof(json.ids)!=="object")
         {
-            return res.end(JSON.stringify({error: true,code: 3,message: `"id" is required.`}));
+            return res.end(JSON.stringify({error: true,code: 3,message: `"id" or "ids" are required.`}));
         }
-        database.collection(json.category).update({_id: new ObjectId(json.id)},{$set: json.content || {}},function(err,r)
+        let cond=new Object;
+        if (json.id)
+        {
+            cond["_id"]=new ObjectId(json.id);
+        }
+        else if (json.ids instanceof Array)
+        {
+            for (let i=0;i<json.ids.length;i++)
+            {
+                json.ids[i]=new ObjectId(json.ids[i]);
+            }
+            cond["_id"]={$in: json.ids};
+        }
+        database.collection(json.category).updateMany(cond,{$set: json.content || {}},function(err,r)
         {
             if (err)
             {
