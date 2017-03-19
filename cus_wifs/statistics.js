@@ -5,7 +5,7 @@ function Statistics()
 {
     this.init=function(app,easy,db)
     {
-        app.bind("/getSubmitReportByUser",function(req,res)
+        app.post("/getSubmitReportByUser",function(req,res)
         {
             let json=format.getReqJson(req);
             if (!json)
@@ -32,7 +32,7 @@ function Statistics()
             });
         });
 
-        app.bind("/getProvincePassReportByProvince",function(req,res){
+        app.post("/getProvincePassReportByProvince",function(req,res){
             let json=format.getReqJson(req);
             if(!json){
                 return res.end(JSON.stringify({error:true,code:1,message:"Invalid JSON structure."}));
