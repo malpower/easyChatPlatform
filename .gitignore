@@ -1,3 +1,4 @@
 /node_modules/*
 /publics/uploads/*
 /publics/scripts/debug.js
+/error_log.txt

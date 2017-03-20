@@ -16,6 +16,8 @@ const bodyParser=require("body-parser");
 
 
 
+
+
 let easyCom;
 
 
@@ -346,6 +348,7 @@ function WebIFaces()
             }
             easyCom=easy;
             database=db;                   //[$pos.001$]   if the db object is valid, set the database as this value.
+            limiters.init(database);
             console.log("Database connected");
             BindRoutes(function(routers)
             {
