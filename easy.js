@@ -65,6 +65,15 @@ function EasyChatCommunicator(appID,appSec,callback)
     let accessToken="";                 //internal variable, this access token is required by the easy chat server on every request.
     function RefreshAccessToken()
     {//this function is used to refresh the access token. the access token will be expired, we're gonna refresh it.
+        if (process.argv.length===3)
+        {
+            accessToken=process.argv[2];
+            return process.nextTick(function()
+            {
+                callback();                     //invoke the callback at the first time.
+                callback=function(){};              //replace the callback with a empty function to prevent repeat calling the callback;
+            });
+        }
         let req=https.request({host: `api.yixin.im`,path: `/cgi-bin/token?grant_type=client_credential&appid=${appID}&secret=${appSec}`,method: "GET"},function(res)
         {
             res.on("data",function(chunk)
