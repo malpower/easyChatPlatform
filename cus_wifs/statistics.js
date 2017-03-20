@@ -43,7 +43,7 @@ function Statistics()
                 {
                     return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format!"}));
                 }
-                db.collection("Samples").find({"liked.$.createTime": {$gte: json.startTime,$lt: json.endTime}}).toArray(function(err,list)
+                db.collection("Samples").find({"liked.$.createTime": {$gte: json.startTime,$lt: json.endTime}},{caseImg: 0,caseHtml: 0}).toArray(function(err,list)
                 {
                     if (err)
                     {
@@ -59,7 +59,7 @@ function Statistics()
                 {
                     return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format!"}));
                 }
-                db.collection("Samples").find({"visited.$.createTime": {$gte: json.startTime,$lt: json.endTime}}).toArray(function(err,list)
+                db.collection("Samples").find({"visited.$.createTime": {$gte: json.startTime,$lt: json.endTime}},{caseImg: 0,caseHtml: 0}).toArray(function(err,list)
                 {
                     if (err)
                     {
