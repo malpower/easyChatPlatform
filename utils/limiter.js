@@ -58,7 +58,7 @@ lim.addLimiter("Statistics.create",function(json,req,callback)
         {
             return callback(err);
         }
-        json.case=list[0];
+        json.content.case=list[0];
         callback(undefined,json);
     });
 });
