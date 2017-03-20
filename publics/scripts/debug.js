@@ -1,8 +1,8 @@
 $(document).ready(function()
 {
-    let data={startTime: 0,endTime: 0};
+    let data={id: "6d6d7d6d7d67"};
     let api=new WebIF;
-    $.ajax({url: "http://development.malpower.net/cusWifs/statistics/getPiChart",
+    $.ajax({url: "http://development.malpower.net/user/getUserById",
             type: "POST",
             dataType: "JSON",
             data: JSON.stringify(data),
