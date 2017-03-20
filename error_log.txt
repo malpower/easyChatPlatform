@@ -1,0 +1,81 @@
+
+======================Sun Mar 19 2017 22:50:45 GMT+0800 (中国标准时间)=============
+listen EACCES 0.0.0.0:80
+
+
+Error: listen EACCES 0.0.0.0:80
+    at Object.exports._errnoException (util.js:1007:11)
+    at exports._exceptionWithHostPort (util.js:1030:20)
+    at Server._listen2 (net.js:1240:19)
+    at listen (net.js:1289:10)
+    at Server.listen (net.js:1385:5)
+    at EventEmitter.listen (C:\SevenFile\WORK\project\00000A\001_easychat\easyChatPlatform\node_modules\express\lib\application.js:618:24)
+    at C:\SevenFile\WORK\project\00000A\001_easychat\easyChatPlatform\main.js:76:17
+    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+=========================
+======================Sun Mar 19 2017 22:52:33 GMT+0800 (中国标准时间)=============
+listen EACCES 0.0.0.0:80
+
+
+Error: listen EACCES 0.0.0.0:80
+    at Object.exports._errnoException (util.js:1007:11)
+    at exports._exceptionWithHostPort (util.js:1030:20)
+    at Server._listen2 (net.js:1240:19)
+    at listen (net.js:1289:10)
+    at Server.listen (net.js:1385:5)
+    at EventEmitter.listen (C:\SevenFile\WORK\project\00000A\001_easychat\easyChatPlatform\node_modules\express\lib\application.js:618:24)
+    at C:\SevenFile\WORK\project\00000A\001_easychat\easyChatPlatform\main.js:76:17
+    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+=========================
+======================Sun Mar 19 2017 23:04:15 GMT+0800 (中国标准时间)=============
+listen EACCES 0.0.0.0:80
+
+
+Error: listen EACCES 0.0.0.0:80
+    at Object.exports._errnoException (util.js:1007:11)
+    at exports._exceptionWithHostPort (util.js:1030:20)
+    at Server._listen2 (net.js:1240:19)
+    at listen (net.js:1289:10)
+    at Server.listen (net.js:1385:5)
+    at EventEmitter.listen (C:\SevenFile\WORK\project\00000A\001_easychat\easyChatPlatform\node_modules\express\lib\application.js:618:24)
+    at C:\SevenFile\WORK\project\00000A\001_easychat\easyChatPlatform\main.js:76:17
+    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+=========================
+======================Sun Mar 19 2017 23:21:05 GMT+0800 (中国标准时间)=============
+listen EACCES 0.0.0.0:80
+
+
+Error: listen EACCES 0.0.0.0:80
+    at Object.exports._errnoException (util.js:1007:11)
+    at exports._exceptionWithHostPort (util.js:1030:20)
+    at Server._listen2 (net.js:1240:19)
+    at listen (net.js:1289:10)
+    at Server.listen (net.js:1385:5)
+    at EventEmitter.listen (C:\SevenFile\WORK\project\00000A\001_easychat\easyChatPlatform\node_modules\express\lib\application.js:618:24)
+    at C:\SevenFile\WORK\project\00000A\001_easychat\easyChatPlatform\main.js:76:17
+    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+=========================
+======================Sun Mar 19 2017 23:21:45 GMT+0800 (中国标准时间)=============
+listen EACCES 0.0.0.0:80
+
+
+Error: listen EACCES 0.0.0.0:80
+    at Object.exports._errnoException (util.js:1007:11)
+    at exports._exceptionWithHostPort (util.js:1030:20)
+    at Server._listen2 (net.js:1240:19)
+    at listen (net.js:1289:10)
+    at Server.listen (net.js:1385:5)
+    at EventEmitter.listen (C:\SevenFile\WORK\project\00000A\001_easychat\easyChatPlatform\node_modules\express\lib\application.js:618:24)
+    at C:\SevenFile\WORK\project\00000A\001_easychat\easyChatPlatform\main.js:76:17
+    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+=========================
