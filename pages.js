@@ -78,7 +78,7 @@ function Init(initCallback)
             let mimetype=data.split(",")[0];
             mimetype=mimetype.split(";")[0].split(":")[1];
             res.set("Content-Type",mimetype);
-            let buffer=Buffer.from(data.split(",")[1],"utf8");
+            let buffer=Buffer.from(data.split(",")[1],"base64");
             res.end(buffer);
         });
     });

@@ -11,6 +11,9 @@ $(document).ready(function()
             {
                 console.log(res);
             }});
+    let img=$("<img>");
+    img.attr("src","http://development.malpower.net/getImage?id=58cfb76b12cbcf02c3911525");
+    img.appendTo("body");
     // $.ajax({url: "http://development.malpower.net/user/sign",
     //         type: "GET",
     //         dataType: "JSON",
