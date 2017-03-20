@@ -364,13 +364,13 @@ function WebIFaces()
             });
             process.nextTick(callback);
             let cusWifs=config.customizedWifs.wifs;
-            // for (let i=0;i<cusWifs.length;i++)
-            // {//initialize all the customized web interfaces.
-            //     let cusRouter=express.Router();
-            //     cusRouter.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
-            //     require("./cus_wifs/"+cusWifs[i]).init(cusRouter,easy);
-            //     app.use("/cusWifs/"+cusWifs[i],cusRouter);
-            // }
+            for (let i=0;i<cusWifs.length;i++)
+            {//initialize all the customized web interfaces.
+                let cusRouter=express.Router();
+                cusRouter.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
+                require("./cus_wifs/"+cusWifs[i]).init(cusRouter,easy);
+                app.use("/cusWifs/"+cusWifs[i],cusRouter);
+            }
         });
     };
 }

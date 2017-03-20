@@ -179,7 +179,7 @@ function Statistics()
                 if(!json){
                     return res.end(JSON.stringify({error:true,code:1,message:"Invalid JSON structure."}));
                 }
-                db.collection("Statistics").find({createTime: {$gte: json.startTime,$lt: json.endTime}).toArray(function(err,list){
+                db.collection("Statistics").find({createTime: {$gte: json.startTime,$lt: json.endTime}}).toArray(function(err,list){
                     if(err){
                         return res.end(JSON.stringify({error:true,code:2,message:err.message}));
                     }
