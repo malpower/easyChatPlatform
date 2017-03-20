@@ -64,7 +64,12 @@ lim.addLimiter("Statistics.create",function(json,req,callback)
             {
                 return callback(new Error("Can't set the perfect field when a sample is perfect."));
             }
+            json.content.score=20;
             database.collection("Samples").update({_id: list[0]._id},{$set: {isPerfect: true}});
+        }
+        if (json.content.type==="pass")
+        {
+            json.content.score=10;
         }
         json.content.case=list[0];
         json.content.createTime=(new Date).getTime();

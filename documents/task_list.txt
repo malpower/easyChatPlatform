@@ -3,3 +3,22 @@
 2, Website manger authentication.
 
 3, employee information imports.
+
+
+
+
+
+/cusWifs/statistics/getSubmitReportByUser
+个人提交报告
+
+/cusWifs/statistics/getProvincePassReportByProvince
+省用户通过报告
+
+/cusWifs/statistics/getProvinceSubmitReportByProvince
+省提交报告
+
+/cusWifs/statistics/getProvinceScoreReportByProvince
+省积分报告
+
+/cusWifs/statistics/getUserScoreReportbyCreateTime
+个人积分报告
