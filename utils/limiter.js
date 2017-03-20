@@ -52,7 +52,7 @@ lim.addLimiter("Samples.create",function(json,req)
 });
 lim.addLimiter("Statistics.create",function(json,req,callback)
 {
-    database.collection("Samples").find({_id: new ObjectId(json.content.caseId)},{caseImg: 0}).toArray(function(err,list)
+    database.collection("Samples").find({_id: new ObjectId(json.content.caseId)},{caseImg: 0,caseHtml: 0}).toArray(function(err,list)
     {
         if (err)
         {
@@ -67,7 +67,7 @@ lim.addLimiter("Statistics.create",function(json,req,callback)
             database.collection("Samples").update({_id: list[0]._id},{$set: {isPerfect: true}});
         }
         json.content.case=list[0];
-        json.createTime=(new Date).getTime();
+        json.content.createTime=(new Date).getTime();
         callback(undefined,json);
     });
 });
