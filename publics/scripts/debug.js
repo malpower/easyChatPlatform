@@ -1,11 +1,10 @@
 $(document).ready(function()
 {
-    console.log("SDLKFJSLDKFJLSDKFJ");
     let api=new WebIF;
-    $.ajax({url: "/cusWifs/statistics/getProvincePassReportByProvince",
+    $.ajax({url: "/user/getCurrentUser",
             type: "POST",
             dataType: "JSON",
-            data: JSON.stringify({category: "Users",conditions: {}}),
+            data: JSON.stringify({}),
             success: function(res)
             {
                 console.log(res);

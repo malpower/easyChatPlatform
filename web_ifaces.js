@@ -24,7 +24,8 @@ function BindRoutes(initCallback)
 {//binding the routes to provide the basic interfaces.
 //These interfaces are all general interfaces to provide data operations, the operation permission will be controlled by limiters.
     let app=express.Router();
-    app.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
+    app.use("/wif",bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
+    app.use("/user",bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
     app.post("/wif/data/count",function(req,res)
     {
                     //the tool to set CORS(cross domain) according to the configuration file.
@@ -75,6 +76,10 @@ function BindRoutes(initCallback)
         {
             return res.end(JSON.stringify({error: true,code: 4,message: e.message}));
         }
+        if (typeof(json.conditions._id)==="string")
+        {
+            json.conditions._id=new ObjectId(json.conditions._id);
+        }
         database.collection(json.category).find(json.conditions || {},json.filter || undefined).skip(json.pageNumber*(json.pageSize || 1) || 0).limit(json.pageSize || 1024).sort(json.sort || {}).toArray(function(err,list)
         {
             if (err)
@@ -106,7 +111,26 @@ function BindRoutes(initCallback)
         let category=json.category;
         try
         {
-            json=limiters.getLimiter(`${category}.create`)(json,req);
+            let limiter=limiters.getLimiter(`${category}.create`);
+            if (limiter.length===2)
+            {
+                json=limiters.getLimiter(`${category}.create`)(json,req);
+            }
+            if (limiter.length===3)
+            {
+                return limiter(json,req,function(json)
+                {
+                    let content=json.content;
+                    database.collection(json.category).insert(content,function(err,r)
+                    {
+                        if (err)
+                        {
+                            return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+                        }
+                        res.end(JSON.stringify({error: false,id: r.insertedIds[0]}));
+                    });
+                });
+            }
         }
         catch (e)
         {
@@ -244,6 +268,16 @@ function BindRoutes(initCallback)
         }
         res.end(JSON.stringify({error: false,content: user}));
     });
+    app.get("/user/sign",function(req,res)
+    {
+        let sid=sidTool.generateNewSID();
+        res.cookie(config.web.sid,sid);
+        database.collection("Users").find({}).toArray(function(err,list)
+        {
+            authTool.addSign(sid,list[0]);
+            res.end(JSON.stringify({error: false}));
+        });
+    });
     app.post("/user/getUserById",function(req,res)
     {
 
@@ -282,7 +316,7 @@ function BindRoutes(initCallback)
     let router=express.Router();
     router.post("/file/upload/getUrl",upload.single("wangEditorH5File"),function(req,res)
     {
-        res.set("Content-Type",req.file.mimetype);
+        res.set("Content-Type","text/url");
         res.end(config.web.domain+"uploads/"+req.file.filename);
     });
     app.options("*",function(req,res)
