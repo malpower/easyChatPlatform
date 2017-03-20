@@ -43,7 +43,7 @@ function Statistics()
                 {
                     return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format!"}));
                 }
-                db.collection("Samples").find({createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count
+                db.collection("Samples").find({createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count)
                 {
                     if (err)
                     {

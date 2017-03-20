@@ -88,7 +88,10 @@ easy.init(app,function(err,easyCom)
 });
 
 
-process.on("uncaughtException",function(err)
+if (process.argv.length!==3)
 {
-    fs.appendFile("./error_log.txt",`\r\n======================${(new Date).toString()}=============\r\n${err.message}\r\n\r\n\r\n${err.stack}\r\n\r\n=========================`);
-});
+    process.on("uncaughtException",function(err)
+    {
+        fs.appendFile("./error_log.txt",`\r\n======================${(new Date).toString()}=============\r\n${err.message}\r\n\r\n\r\n${err.stack}\r\n\r\n=========================`);
+    });
+}
