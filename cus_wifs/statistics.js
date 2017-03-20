@@ -93,7 +93,7 @@ function Statistics()
             });
         });
 
-        app.post("/getProvinceIntegralReportByProvince",function(req,res){
+        app.post("/getProvinceScoreReportByProvince",function(req,res){
             let json=format.getReqJson(req);
             if(!json){
                 return res.end(JSON.stringify({error:true,code:1,message:"Invalid JSON structure."}));
@@ -105,18 +105,19 @@ function Statistics()
                 let calc=new Object;
                 //how to calculate submit count?
                 for(let i=0;i<list.length;i++){
-                    if(list[i].proAddress===undefined)  continue;
-                    if(list[i].integral===undefined)  continue;
-                    if(calc[list[i].proAddress]===undefined){
-                        calc[list[i].proAddress]={sumIntegral:0,province:list[i].proAddress}
+                    if(list[i].district===undefined)  continue;
+                    if(list[i].score===undefined)  continue;
+                    if(calc[list[i].district]===undefined){
+                        calc[list[i].district]={sumScore:0,province:list[i].district}
                     }
-                    if(typeof(list[i].integral)!="number"){
-                        //calc[list[i].proAddress].sumIntegral=calc[list[i].proAddress].sumIntegral+0;
+                    if(typeof(list[i].score)!="number"){
+                        list[i].score = Number(list[i].score);
+                        if(list[i].score!=list[i].score){
+                            //calc[list[i].district].sumScore=calc[list[i].distrct].sumscore+0;
+                            list[i].score=0;
+                        }
                     }
-                    else {
-                        calc[list[i].proAddress].sumIntegral=calc[list[i].proAddress].sumIntegral+list[i].integral;
-                    }
-
+                    calc[list[i].district].sumScore=calc[list[i].distrct].distrct+list[i].score;
                 }
 
                 let o={error: false,statistics: calc,total: list.length};
@@ -124,23 +125,25 @@ function Statistics()
             });
         });
 
-        app.post("/getUserIntegralReport",function(req,res){
+        app.post("/getUserScoreReportbyCreateTime",function(req,res){
             let json=format.getReqJson(req);
             if(!json){
                 return res.end(JSON.stringify({error:true,code:1,message:"Invalid JSON structure."}));
             }
-            db.collection("Users").find().toArray(function(err,list){
+            db.collection("Statistics").find({createTime: {$gte: json.startTime,$lt: json.endTime}).toArray(function(err,list){
                 if(err){
                     return res.end(JSON.stringify({error:true,code:2,message:err.message}));
                 }
                 let calc=new Object;
-                //how to calculate submit count?
+
                 for(let i=0;i<list.length;i++){
-                    if(list[i].openId===undefined)  continue;
-                    if(list[i].integral===undefined)  continue;
-                    if(calc[list[i].openId]===undefined){
-                        calc[list[i].openId]={sumIntegral:list[i].integral,username:list[i].name}
+                    if(list[i].case===undefined)  continue;
+                    if(list[i].case.userInfo===undefined)  continue;
+                    if(list[i].case.userInfo._id===undefined)  continue;
+                    if(calc[list[i].case.userInfo._id]===undefined){
+                        calc[list[i].case.userInfo._id]={sumScore:0,username:list[i].case.userInfo.name};
                     }
+                    calc[list[i].case.userInfo._id].sumScore=calc[list[i].case.userInfo._id].sumScore+list[i].score;
                 }
 
                 let o={error: false,statistics: calc,total: list.length};
