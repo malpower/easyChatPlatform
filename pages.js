@@ -78,7 +78,8 @@ function Init(initCallback)
             let mimetype=data.split(",")[0];
             mimetype=mimetype.split(";")[0].split(":")[1];
             res.set("Content-Type",mimetype);
-            res.end((new Buffer(list[0].caseImg.split(",")[1],"utf8")));
+            let buffer=Buffer.from(data.split(",")[1],"utf8");
+            res.end(buffer);
         });
     });
     app.get("/initialize",function(req,res)
