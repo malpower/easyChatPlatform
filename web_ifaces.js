@@ -24,7 +24,8 @@ function BindRoutes(initCallback)
 {//binding the routes to provide the basic interfaces.
 //These interfaces are all general interfaces to provide data operations, the operation permission will be controlled by limiters.
     let app=express.Router();
-    app.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
+    app.use("/wif",bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
+    app.use("/user",bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
     app.post("/wif/data/count",function(req,res)
     {
                     //the tool to set CORS(cross domain) according to the configuration file.
@@ -286,7 +287,7 @@ function BindRoutes(initCallback)
     let router=express.Router();
     router.post("/file/upload/getUrl",upload.single("wangEditorH5File"),function(req,res)
     {
-        res.set("Content-Type",req.file.mimetype);
+        res.set("Content-Type","text/url");
         res.end(config.web.domain+"uploads/"+req.file.filename);
     });
     app.options("*",function(req,res)

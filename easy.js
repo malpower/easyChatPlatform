@@ -176,7 +176,9 @@ function EasyChatCommunicator(appID,appSec,callback)
 function Init(initCallback)
 {//initialization function.
     let app=express.Router();
-    app.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
+    app.use("/easyChat",bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
+    app.use("/easyChatInterface",bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
+    app.use("/waitingScanQrCode",bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
     app.post("/easyChatInterface",function(req,res)
     {//this is the interface to receive the message from easy chat server.
         let imsg=easy.parseMessage(req.body.toString());
@@ -213,7 +215,7 @@ function Init(initCallback)
             res.end(JSON.stringify({error: false,login: true}));            //to inform the client that the user has scanned the QR code.
         });
     });
-    app.post("/easyChat/addSubscribeUsers",function(req,res)
+    app.post("/addSubscribeUsers",function(req,res)
     {
 
         let users=format.getReqJson(req);
@@ -230,7 +232,7 @@ function Init(initCallback)
             res.end(JSON.stringify({error: false,content: json}));
         });
     });
-    app.post("/easyChat/removeSubscribeusers",function(req,res)
+    app.post("/removeSubscribeusers",function(req,res)
     {
 
         let users=format.getReqJson(req);
@@ -247,7 +249,7 @@ function Init(initCallback)
             res.end(JSON.stringify({error: false,content: json}));
         });
     });
-    app.post("/easyChat/getUserInformation",function(req,res)
+    app.post("/getUserInformation",function(req,res)
     {
 
         let param=format.getReqJson(req);
