@@ -73,6 +73,7 @@ lim.addLimiter("Statistics.create",function(json,req,callback)
         }
         json.content.case=list[0];
         json.content.createTime=(new Date).getTime();
+        json.content.visited=new Array;
         callback(undefined,json);
     });
 });

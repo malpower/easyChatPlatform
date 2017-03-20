@@ -36,6 +36,38 @@ function Statistics()
                     return res.end(JSON.stringify(o));
                 });
             });
+            app.post("/likeTop10",function(req,res)
+            {
+                let json=format.getReqJson(req);
+                if (!json)
+                {
+                    return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format!"}));
+                }
+                db.collection("Samples").find({"liked.$.createTime": {$gte: json.startTime,$lt: json.endTime}}).toArray(function(err,list)
+                {
+                    if (err)
+                    {
+                        return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
+                    }
+                    res.end(JSON.stringify({error: false,list: list}));
+                });
+            });
+            app.post("/visitedTop10",function(req,res)
+            {
+                let json=format.getReqJson(req);
+                if (!json)
+                {
+                    return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format!"}));
+                }
+                db.collection("Samples").find({"visited.$.createTime": {$gte: json.startTime,$lt: json.endTime}}).toArray(function(err,list)
+                {
+                    if (err)
+                    {
+                        return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
+                    }
+                    res.end(JSON.stringify({error: false,list: list}));
+                });
+            });
             app.post("/getPiChart",function(req,res)
             {
                 let json=format.getReqJson(req);
