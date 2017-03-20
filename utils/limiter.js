@@ -58,6 +58,14 @@ lim.addLimiter("Statistics.create",function(json,req,callback)
         {
             return callback(err);
         }
+        if (json.content.type==="perfect")
+        {
+            if (list[0].isPerfect===true)
+            {
+                return callback(new Error("Can't set the perfect field when a sample is perfect."));
+            }
+            database.collection("Samples").update({_id: list[0]._id},${set: {isPerfect: true}});
+        }
         json.content.case=list[0];
         callback(undefined,json);
     });
