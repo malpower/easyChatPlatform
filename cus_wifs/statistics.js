@@ -234,7 +234,7 @@ function Statistics()
                                 list[i].score=0;
                             }
                         }
-                        calc[list[i].district].sumScore=calc[list[i].distrct].distrct+list[i].score;
+                        calc[list[i].district].sumScore=calc[list[i].distrct].sumScore+list[i].score;
                     }
 
                     let o={error: false,statistics: calc,total: list.length};
