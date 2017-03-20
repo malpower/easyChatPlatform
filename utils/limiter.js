@@ -67,6 +67,7 @@ lim.addLimiter("Statistics.create",function(json,req,callback)
             database.collection("Samples").update({_id: list[0]._id},{$set: {isPerfect: true}});
         }
         json.content.case=list[0];
+        json.createTime=(new Date).getTime();
         callback(undefined,json);
     });
 });
