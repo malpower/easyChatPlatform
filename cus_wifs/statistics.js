@@ -50,7 +50,7 @@ function Statistics()
                     }
                     calc[list[i].userInfo.proAddress].allcount++;
                     if(list[i].checkState===undefined) continue;
-                    if(list[i].checkState=="4"){
+                    if(list[i].checkState===4){
                         calc[list[i].userInfo.proAddress].publishcount++;
                     }
                 }
@@ -83,7 +83,7 @@ function Statistics()
                     }
                     calc[list[i].userInfo.proAddress].allcount++;
                     if(list[i].checkState===undefined) continue;
-                    if(list[i].checkState=="1"){
+                    if(list[i].checkState===1){
                         calc[list[i].userInfo.proAddress].submitcount++;
                     }
                 }
@@ -98,7 +98,7 @@ function Statistics()
             if(!json){
                 return res.end(JSON.stringify({error:true,code:1,message:"Invalid JSON structure."}));
             }
-            db.collection("Users").find().toArray(function(err,list){
+            db.collection("Statistics").find().toArray(function(err,list){
                 if(err){
                     return res.end(JSON.stringify({error:true,code:2,message:err.message}));
                 }

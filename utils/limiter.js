@@ -43,5 +43,19 @@ lim.addLimiter("Samples.create",function(json,req)
     json.content.userInfo=user;
     return json;
 });
+lim.addLimiter("Samples.modify",function(json,req)
+{
+    if(json.content.checkState===2)
+    {
+        json.content["checkPoints.province"]=(new Date).getTime();
+    }
+    if(json.content.checkState===4)
+    {
+        json.content["checkPoints.publish"]=(new Date).getTime();
+    }
+    return json;
+});
+
+
 
 module.exports=lim;
