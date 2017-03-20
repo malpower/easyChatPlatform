@@ -49,6 +49,24 @@ function Statistics()
                     {
                         return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
                     }
+                    let rlist=new Array;
+                    for (let i=0;list.lenth>0 && rlist.length<=10;i++)
+                    {
+                        let min=0;
+                        let item;
+                        let pos=0;
+                        for (let j=0;j<list.length;j++)
+                        {
+                            if (list[j].liked.length>=min)
+                            {
+                                min=list[j].liked.length;
+                                item=list[j];
+                                post=j;
+                            }
+                        }
+                        rlist.push(item);
+                        list.splice(pos,1);
+                    }
                     res.end(JSON.stringify({error: false,list: list}));
                 });
             });
@@ -64,6 +82,24 @@ function Statistics()
                     if (err)
                     {
                         return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
+                    }
+                    let rlist=new Array;
+                    for (let i=0;list.lenth>0 && rlist.length<=10;i++)
+                    {
+                        let min=0;
+                        let item;
+                        let pos=0;
+                        for (let j=0;j<list.length;j++)
+                        {
+                            if (list[j].visited.length>=min)
+                            {
+                                min=list[j].visited.length;
+                                item=list[j];
+                                post=j;
+                            }
+                        }
+                        rlist.push(item);
+                        list.splice(pos,1);
                     }
                     res.end(JSON.stringify({error: false,list: list}));
                 });
