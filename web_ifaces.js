@@ -368,7 +368,7 @@ function WebIFaces()
             {//initialize all the customized web interfaces.
                 let cusRouter=express.Router();
                 cusRouter.use(bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
-                require("./cus_wifs/"+cusWifs[i]).init(cusRouter,easy,db);
+                require("./cus_wifs/"+cusWifs[i]).init(cusRouter,easy);
                 app.use("/cusWifs/"+cusWifs[i],cusRouter);
             }
         });
