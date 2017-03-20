@@ -1,6 +1,8 @@
 const authTool=require("../auth");
 const sidTool=require("./sid");
 
+let database;
+
 function Limiter()
 {
     let limiters=new Object;
@@ -24,6 +26,10 @@ function Limiter()
             return false;
         }
     };
+    this.init=function(db)
+    {
+        database=db;
+    };
 }
 
 let lim=new Limiter;
@@ -42,6 +48,18 @@ lim.addLimiter("Samples.create",function(json,req)
     json.content.createUsername=user.name;
     json.content.userInfo=user;
     return json;
+});
+lim.addLimiter("Statistics.create",function(json,req,callback)
+{
+    database.collection("Samples").find({_id: new ObjectId(json.content.caseId)},{caseImg: 0}).toArray(function(err,list)
+    {
+        if (err)
+        {
+            return callback(err);
+        }
+        json.case=list[0];
+        callback(undefined,json);
+    });
 });
 lim.addLimiter("Samples.modify",function(json,req)
 {

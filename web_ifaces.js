@@ -118,8 +118,12 @@ function BindRoutes(initCallback)
             }
             if (limiter.length===3)
             {
-                return limiter(json,req,function(json)
+                return limiter(json,req,function(err,json)
                 {
+                    if (err)
+                    {
+                        return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+                    }
                     let content=json.content;
                     database.collection(json.category).insert(content,function(err,r)
                     {
