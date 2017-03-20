@@ -75,6 +75,10 @@ function BindRoutes(initCallback)
         {
             return res.end(JSON.stringify({error: true,code: 4,message: e.message}));
         }
+        if (typeof(json.conditions._id)==="string")
+        {
+            json.conditions._id=new ObjectId(json.conditions._id);
+        }
         database.collection(json.category).find(json.conditions || {},json.filter || undefined).skip(json.pageNumber*(json.pageSize || 1) || 0).limit(json.pageSize || 1024).sort(json.sort || {}).toArray(function(err,list)
         {
             if (err)
