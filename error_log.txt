@@ -136,3 +136,23 @@ SyntaxError: Unexpected token )
     at connectCallback (C:\Projects\easyChatPlatform\node_modules\mongodb\lib\mongo_client.js:426:5)
 
 =========================
+======================Mon Mar 20 2017 20:31:45 GMT+0800 (中国标准时间)=============
+Unexpected token )
+
+
+C:\Projects\easyChatPlatform\cus_wifs\statistics.js:182
+                db.collection("Statistics").find({createTime: {$gte: json.startTime,$lt: json.endTime}).toArray(function(err,list){
+                                                                                                      ^
+SyntaxError: Unexpected token )
+    at Object.exports.runInThisContext (vm.js:53:16)
+    at Module._compile (module.js:513:28)
+    at Object.Module._extensions..js (module.js:550:10)
+    at Module.load (module.js:458:32)
+    at tryModuleLoad (module.js:417:12)
+    at Function.Module._load (module.js:409:3)
+    at Module.require (module.js:468:17)
+    at require (internal/module.js:20:19)
+    at C:\Projects\easyChatPlatform\web_ifaces.js:371:17
+    at connectCallback (C:\Projects\easyChatPlatform\node_modules\mongodb\lib\mongo_client.js:426:5)
+
+=========================
