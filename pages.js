@@ -65,6 +65,22 @@ function Init(initCallback)
     {//simple frontend debug page.
         res.render("debug",{});
     });
+    app.get("/getImage",function(req,res)
+    {
+        let id=req.query.id;
+        database.collection("Samples").find({_id: new ObjectId(id)}).toArray(function(err,list)
+        {
+            if (err)
+            {
+                return res.end("NO PIC FOUND");
+            }
+            let data=list[0].caseImg;
+            let mimetype=data.split(",")[0];
+            mimetype=mimetype.split(";")[0].split(":")[1];
+            res.set("Content-Type",mimetype);
+            res.end((new Buffer(list[0].caseImg.split(",")[1],"utf8")));
+        });
+    });
     app.get("/initialize",function(req,res)
     {//this is the initialization page after user scanning the QR code, fontend must redirect to this page after calling /waitingScanQrCode interface.
         let sid=sidTool.getReqSID(req);
