@@ -111,7 +111,26 @@ function BindRoutes(initCallback)
         let category=json.category;
         try
         {
-            json=limiters.getLimiter(`${category}.create`)(json,req);
+            let limiter=limiters.getLimiter(`${category}.create`);
+            if (limiter.length===2)
+            {
+                json=limiters.getLimiter(`${category}.create`)(json,req);
+            }
+            if (limiter.length===3)
+            {
+                return limiter(json,req,function(json)
+                {
+                    let content=json.content;
+                    database.collection(json.category).insert(content,function(err,r)
+                    {
+                        if (err)
+                        {
+                            return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+                        }
+                        res.end(JSON.stringify({error: false,id: r.insertedIds[0]}));
+                    });
+                });
+            }
         }
         catch (e)
         {
@@ -248,6 +267,16 @@ function BindRoutes(initCallback)
             return res.end(JSON.stringify({error: true,code: 8,message: "User not signed in."}));
         }
         res.end(JSON.stringify({error: false,content: user}));
+    });
+    app.get("/user/sign",function(req,res)
+    {
+        let sid=sidTool.generateNewSID();
+        res.cookie(config.web.sid,sid);
+        database.collection("Users").find({}).toArray(function(err,list)
+        {
+            authTool.addSign(sid,list[0]);
+            res.end(JSON.stringify({error: false}));
+        });
     });
     app.post("/user/getUserById",function(req,res)
     {

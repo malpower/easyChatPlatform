@@ -1,1 +1,10 @@
 pos.001  database object initialization in web interfaces.
+
+
+
+
+{caseId: "sdlfjsldkf",      //案例ID
+score: 10,
+type: "pass",
+reason: "通过审核",
+district: "成都"}
