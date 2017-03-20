@@ -12,3 +12,12 @@ let menu={button: [{name: "渠道要闻",sub_button: [{name: "大事件",type: "
 
 
  module.exports=menu;
+
+
+/***********************************EASY CHAT MENU CONFIG*******************
+Set this menu as the structure where provided by easy chat document.
+
+the state parameter will be use to redirect the URL of the frontend page.
+
+
+***************************************************************************/
