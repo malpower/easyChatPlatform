@@ -31,51 +31,51 @@ function Statistics()
                 return res.end(JSON.stringify(o));
             });
         });
-        app.post("/getPiChart",function(req,res)
-        {
-            let json=format.getReqJson(req);
-            if (!json)
-            {
-                return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format!"}));
-            }
-            db.collection("Samples").find({createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count
-            {
-                if (err)
-                {
-                    return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
-                }
-                let result={};
-                result.total=count;
-                db.collection("Samples").find({"checkState": 1,createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count)
-                {
-                    if (err)
-                    {
-                        return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
-                    }
-                    result.notApproved=count;
-                    db.collection("Samples").find({"checkState": {$in: [4]},createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count)
-                    {
-                        if (err)
-                        {
-                            return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
-                        }
-                        result.approved=count;
-                        db.collection("Samples").find({"checkState": 3,createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count)
-                        {
-                            if (err)
-                            {
-                                return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
-                            }
-                            result.rejected=count;
-                            let ratio={reject: (result.rejected/result.total).toFixed(2),
-                                       approved: (result.approved/result.total).toFixed(2),
-                                       notApproved: (result.notApproved/result.total).toFixed(2)};
-                            res.end(JSON.stringify({count: result,ratio: ratio}));
-                        });
-                    });
-                });
-            });
-        });
+        // app.post("/getPiChart",function(req,res)
+        // {
+        //     let json=format.getReqJson(req);
+        //     if (!json)
+        //     {
+        //         return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format!"}));
+        //     }
+        //     db.collection("Samples").find({createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count
+        //     {
+        //         if (err)
+        //         {
+        //             return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
+        //         }
+        //         let result={};
+        //         result.total=count;
+        //         db.collection("Samples").find({"checkState": 1,createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count)
+        //         {
+        //             if (err)
+        //             {
+        //                 return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
+        //             }
+        //             result.notApproved=count;
+        //             db.collection("Samples").find({"checkState": {$in: [4]},createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count)
+        //             {
+        //                 if (err)
+        //                 {
+        //                     return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
+        //                 }
+        //                 result.approved=count;
+        //                 db.collection("Samples").find({"checkState": 3,createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count)
+        //                 {
+        //                     if (err)
+        //                     {
+        //                         return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
+        //                     }
+        //                     result.rejected=count;
+        //                     let ratio={reject: (result.rejected/result.total).toFixed(2),
+        //                                approved: (result.approved/result.total).toFixed(2),
+        //                                notApproved: (result.notApproved/result.total).toFixed(2)};
+        //                     res.end(JSON.stringify({count: result,ratio: ratio}));
+        //                 });
+        //             });
+        //         });
+        //     });
+        // });
         app.post("/getProvincePassReportByProvince",function(req,res){
             let json=format.getReqJson(req);
             if(!json){
