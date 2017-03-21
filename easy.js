@@ -215,7 +215,7 @@ function Init(initCallback)
             res.end(JSON.stringify({error: false,login: true}));            //to inform the client that the user has scanned the QR code.
         });
     });
-    app.post("/addSubscribeUsers",function(req,res)
+    app.post("/easyChat/addSubscribeUsers",function(req,res)
     {
 
         let users=format.getReqJson(req);
@@ -232,7 +232,7 @@ function Init(initCallback)
             res.end(JSON.stringify({error: false,content: json}));
         });
     });
-    app.post("/removeSubscribeusers",function(req,res)
+    app.post("/easyChat/removeSubscribeusers",function(req,res)
     {
 
         let users=format.getReqJson(req);
@@ -249,7 +249,7 @@ function Init(initCallback)
             res.end(JSON.stringify({error: false,content: json}));
         });
     });
-    app.post("/getUserInformation",function(req,res)
+    app.post("/easyChat/getUserInformation",function(req,res)
     {
 
         let param=format.getReqJson(req);
