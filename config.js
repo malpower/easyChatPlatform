@@ -5,4 +5,5 @@ module.exports={menu: require("./configurations/menu.js"),
                 easyChat: require("./configurations/easyChat.js"),
                 database: require("./configurations/database.js"),
                 customizedWifs: require("./configurations/customizedWifs.js"),
+                mobAddr: require("./configurations/mob_addresses.js"),
                 auth: require("./configurations/auth.js")};

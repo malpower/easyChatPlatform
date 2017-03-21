@@ -57,7 +57,7 @@ function Init(initCallback)
                         res.redirect(page+"?code="+code+"&openId="+openid);
                     });
                 }
-                res.redirect(page+"?code="+code+"&openId="+openid);           //as for the destination of the redirection, config it in [menu.js] at state field.
+                res.redirect(config.mobAddr[page]+"code="+code+"&openId="+openid);           //as for the destination of the redirection, config it in [menu.js] at state field.
             });
         });
     });
