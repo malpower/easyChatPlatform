@@ -70,7 +70,7 @@ function Init(initCallback)
         let id=req.query.id;
         database.collection("Samples").find({_id: new ObjectId(id)}).toArray(function(err,list)
         {
-            if (err || list.length===0 || typeof(list[0].caseImage)!=="string")
+            if (err || list.length===0 || typeof(list[0].caseImg)!=="string")
             {
                 return res.end("NO PIC FOUND");
             }
