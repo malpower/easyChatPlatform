@@ -45,6 +45,13 @@ md.addEventHandler("scan",function(message,easy,res)
     process.nextTick(fn,message.FromUserName.$cd);
     easy.replyText({ToUserName: message.FromUserName,FromUserName: message.ToUserName,Content: {$cd: "登录成功!"}},res);
 });
+md.addEventHandler("CLICK",function(message,easy,res)
+{
+    if (message.EventKey.$cd==="myComp")
+    {
+        easy.replyText({ToUserName: message.FromUserName,FromUserName: message.ToUserName,Content: {$cd: "我的评比测试"}},res);
+    }
+});
 md.addMessageHandler("text",function(message,easy,res)
 {
     easy.replyText({ToUserName: message.FromUserName,FromUserName: message.ToUserName,Content: {$cd: "Hello"}},res);
