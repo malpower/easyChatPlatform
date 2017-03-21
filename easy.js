@@ -272,6 +272,7 @@ function Init(initCallback)
         {
             console.log(err.message);
         }
+        console.log("Menu setting finished.");
     });
     process.nextTick(initCallback,[app]);
 }

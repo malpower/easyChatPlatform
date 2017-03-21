@@ -46,8 +46,6 @@ function Init(initCallback)
                 {
                     return res.end(err.message);
                 }
-                console.error(config.mobAddr);
-                console.error(config.mobAddr[page]);
                 if (list.length===0)
                 {
                     euBinder.bindEasyUser(openid,easyCom,database,function(err,user)
