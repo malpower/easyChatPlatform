@@ -46,6 +46,8 @@ function Init(initCallback)
                 {
                     return res.end(err.message);
                 }
+                console.error(config.mobAddr);
+                console.error(config.mobAddr[page]);
                 if (list.length===0)
                 {
                     euBinder.bindEasyUser(openid,easyCom,database,function(err,user)
@@ -54,7 +56,7 @@ function Init(initCallback)
                         {
                             return res.end(err.message);
                         }
-                        res.redirect(page+"?code="+code+"&openId="+openid);
+                        res.redirect(config.mobAddr[page]+"code="+code+"&openId="+openid);
                     });
                 }
                 res.redirect(config.mobAddr[page]+"code="+code+"&openId="+openid);           //as for the destination of the redirection, config it in [menu.js] at state field.
