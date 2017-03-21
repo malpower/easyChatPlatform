@@ -132,15 +132,17 @@ function EasyChatCommunicator(appID,appSec,callback)
     };
     this.replyImage=function(msg,image,res)
     {
-        let r={};
-        r.ToUserName=msg.ToUserName;
-        r.FromUserName=msg.FromUserName;
-        r.CreateTime={$t: (new Date).getTime()};
-        r.MsgType={$cd: "image"};
-        r.MsgId={$t: (new Date).getTime()};
-        r.PicUrl={$cd: image};
-        r={xml: r};
-        res.end(xmlParser.dump(r));
+        let rmsg={xml: {ToUserName: msg.ToUserName,FromUserName: msg.FromUserName,CreateTime: {$t: (new Date).getTime()},MsgType: {$cd: "text"},Content: {$cd: image}}};
+        res.end(xmlParser.dump(rmsg));
+        // let r={};
+        // r.ToUserName=msg.ToUserName;
+        // r.FromUserName=msg.FromUserName;
+        // r.CreateTime={$t: (new Date).getTime()};
+        // r.MsgId={$t: (new Date).getTime()};
+        // r.MsgType={$cd: "image"};
+        // r.PicUrl={$cd: image};
+        // r={xml: r};
+        // res.end(xmlParser.dump(r));
     };
     this.replyAudio=function(msg,audio,res)
     {
