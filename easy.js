@@ -114,7 +114,7 @@ function EasyChatCommunicator(appID,appSec,callback)
         let rmsg={xml: {ToUserName: msg.ToUserName,FromUserName: msg.FromUserName,CreateTime: {$t: (new Date).getTime()},MsgType: {$cd: "text"},Content: msg.Content}};
         res.end(xmlParser.dump(rmsg));
     };
-    this.replyImages=function(msg,images,res)
+    this.replyArticals=function(msg,images,res)
     {
         let r={};
         r.ToUserName=msg.ToUserName
@@ -127,6 +127,18 @@ function EasyChatCommunicator(appID,appSec,callback)
             images[i]={item: images[i]};
         }
         r.Articles=images;
+        r={xml: r};
+        res.end(xmlParser.dump(r));
+    };
+    this.replyImage=function(msg,image,res)
+    {
+        let r={};
+        r.ToUserName=msg.ToUserName;
+        r.FromUserName=msg.FromUserName;
+        r.CreateTime={$t: (new Date).getTime()};
+        r.MsgType={$cd: "image"};
+        r.MsgId={$t: (new Date).getTime()};
+        r.PicUrl={$cd: image};
         r={xml: r};
         res.end(xmlParser.dump(r));
     };

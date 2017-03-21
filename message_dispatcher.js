@@ -49,7 +49,8 @@ md.addEventHandler("CLICK",function(message,easy,res)
 {
     if (message.EventKey.$cd==="myComp")
     {
-        easy.replyText({ToUserName: message.FromUserName,FromUserName: message.ToUserName,Content: {$cd: "我的评比测试"}},res);
+        //easy.replyText({ToUserName: message.FromUserName,FromUserName: message.ToUserName,Content: {$cd: "我的评比测试"}},res);
+        easy.replyImage({ToUserName: message.FromUserName,FromUserName: message.ToUserName},"http://development.malpower.net/images/wait.jpg",res);
     }
 });
 md.addMessageHandler("text",function(message,easy,res)
