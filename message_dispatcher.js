@@ -51,7 +51,15 @@ md.addEventHandler("CLICK",function(message,easy,res)
     {
         //easy.replyText({ToUserName: message.FromUserName,FromUserName: message.ToUserName,Content: {$cd: "我的评比测试"}},res);
         // easy.replyImage({ToUserName: message.FromUserName,FromUserName: message.ToUserName},"http://development.malpower.net/images/wait.jpg",res);
-        easy.replyArticals({ToUserName: message.FromUserName,FromUserName: message.ToUserName},[{PicUrl: {$cd: "http://development.malpower.net/images/wait.jpg"}}],res);
+        //easy.replyArticals({ToUserName: message.FromUserName,FromUserName: message.ToUserName},[{PicUrl: {$cd: "http://development.malpower.net/images/wait.jpg"}}],res);
+        easy.sendCustomMessage({touser: message.FromUserName.$cd,msgtype: "image",image: {media_id: "31764814"}},function(err)
+        {
+            if (err)
+            {
+                console.log(err.message);
+            }
+        });
+        res.end("INVALID");
     }
 });
 md.addMessageHandler("text",function(message,easy,res)
