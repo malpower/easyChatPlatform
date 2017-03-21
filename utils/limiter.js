@@ -48,10 +48,26 @@ lim.addLimiter("Samples.create",function(json,req)
     json.content.createUser=user._id.toString();
     json.content.createUsername=user.name;
     json.content.userInfo=user;
+    json.content.isPerfect=false;
+    if (json.content.checkState!==1 && json.content.checkState!==100)
+    {
+        throw new Error("Invalid checkState");
+    }
+    if (json.content.caseTitle.length>30)
+    {
+        throw new Error("The length of caseTitle must less than 30.");
+    }
+    json.content.liked=new Array;
+    json.content.visited=new Array;
     return json;
 });
 lim.addLimiter("Statistics.create",function(json,req,callback)
 {
+    let user=authTool.getSignData(sidTool.getReqSID(req));
+    if (user===undefined || !(/^(groupUser|provinceUser)$/).test(user.userLevel))
+    {
+        return callback(new Error("Invalid user permission."));
+    }
     database.collection("Samples").find({_id: new ObjectId(json.content.caseId)},{caseImg: 0,caseHtml: 0}).toArray(function(err,list)
     {
         if (err)
@@ -64,6 +80,10 @@ lim.addLimiter("Statistics.create",function(json,req,callback)
             {
                 return callback(new Error("Can't set the perfect field when a sample is perfect."));
             }
+            if (user.userLevel!=="groupUser")
+            {
+                return callback(new Error("Only group user can do this."));
+            }
             json.content.score=20;
             database.collection("Samples").update({_id: list[0]._id},{$set: {isPerfect: true}});
         }
@@ -73,12 +93,16 @@ lim.addLimiter("Statistics.create",function(json,req,callback)
         }
         json.content.case=list[0];
         json.content.createTime=(new Date).getTime();
-        json.content.visited=new Array;
         callback(undefined,json);
     });
 });
 lim.addLimiter("Samples.modify",function(json,req)
 {
+    let user=authTool.getSignData(sidTool.getReqSID(req));
+    if (user===undefined || !(/^(groupUser|provinceUser)$/).test(user.userLevel))
+    {
+        throw (new Error("Invalid user permission."));
+    }
     if(json.content.checkState===2)
     {
         json.content["checkPoints.province"]=(new Date).getTime();
@@ -88,6 +112,58 @@ lim.addLimiter("Samples.modify",function(json,req)
         json.content["checkPoints.publish"]=(new Date).getTime();
     }
     return json;
+});
+
+lim.addLimiter("Users.create",function(json,req)
+{
+    let user=authTool.getSignData(sidTool.getReqSID(req));
+    if (user===undefined || !(/^(groupUser|provinceUser)$/).test(user.userLevel))
+    {
+        throw (new Error("Invalid user permission."));
+    }
+    return json;
+});
+
+
+lim.addLimiter("Users.modify",function(json,req)
+{
+    let user=authTool.getSignData(sidTool.getReqSID(req));
+    if (user===undefined || !(/^(groupUser|provinceUser)$/).test(user.userLevel))
+    {
+        throw (new Error("Invalid user permission."));
+    }
+    return json;
+});
+
+lim.addLimiter("Users.delete",function(json,req)
+{
+    let user=authTool.getSignData(sidTool.getReqSID(req));
+    if (user===undefined || !(/^(groupUser|provinceUser)$/).test(user.userLevel))
+    {
+        throw (new Error("Invalid user permission."));
+    }
+    return json;
+});
+
+lim.addLimiter("Samples.delete",function(json,req)
+{
+    let user=authTool.getSignData(sidTool.getReqSID(req));
+    if (user===undefined || !(/^(groupUser|provinceUser)$/).test(user.userLevel))
+    {
+        throw (new Error("Invalid user permission."));
+    }
+    return json;
+});
+
+
+lim.addLimiter("Satistics.delete",function(json,req)
+{
+    throw new Error("Cannot do this");
+});
+
+lim.addLimiter("Satistics.modify",function(json,req)
+{
+    throw new Error("Cannot do this");
 });
 
 
