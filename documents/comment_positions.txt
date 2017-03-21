@@ -14,3 +14,13 @@ district: "成都"}
 let x="哈哈"
 
 let y=new RegExp(x,"ig");
+
+
+
+{"userInfo.proAddress": {$regex: '四川'}}
+
+
+
+
+
+{"liked.$.user": "userid"}
