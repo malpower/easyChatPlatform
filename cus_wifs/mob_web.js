@@ -33,7 +33,7 @@ function MobWeb()
                     {
                         return res.end(JSON.stringify({error: true,code: 2,message: "Invalid openId"}));
                     }
-                    db.collection("Samples").update({_id: new ObjectId(caseId)},{$addToSet: {"liked": {user: list[0]._id.toString(),createTime: (new Date).getTime()}}});
+                    db.collection("Samples").update({_id: new ObjectId(caseId)},{$addToSet: {"liked": {openId: openId,user: list[0]._id.toString(),createTime: (new Date).getTime()}}});
                     res.end(JSON.stringify({error: false}));
                 });
             });
