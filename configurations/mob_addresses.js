@@ -7,6 +7,7 @@ let addr={"a1": "http://192.168.99.216:8020/fe-yixin/views/indestrysel.html?",  
           "a7": "http://192.168.99.216:8020/fe-yixin/views/planningLayout.html?p=shujuxitong&",                //数据系统
           "a8": "http://192.168.99.216:8020/fe-yixin/views/Mypoints.html?",                //我的积分
           "a9": "http://192.168.99.216:8020/fe-yixin/views/myshare.html?",                //我的分享
+          "a11": "http://192.168.99.216:8020/fe-yixin/views/planningLayout.html?p=xiaonengtisheng&",                //我的分享
           "a10": "http://192.168.99.216:8020/fe-yixin/views/mycollect.html?"};              //我的收藏
 
 
