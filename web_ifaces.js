@@ -331,7 +331,21 @@ function BindRoutes(initCallback)
         {
             return res.end(JSON.stringify({error: true,code: 1,message: "Invalid request JSON format."}));
         }
-        database.collection("Statistics").find({"case.userInfo._id": new ObjectId(json.id)}).toArray(function(err,list)
+        let cond={};
+        if (json.id)
+        {
+            cond["case.userInfo._id"]=new ObjectId(json.id);
+        }
+        if (json.openId)
+        {
+            cond["case.userInfo.openId"]=json.openId;
+        }
+        let p=Object.keys(cond);
+        if (p.length===0)
+        {
+            return res.end(JSON.stringify({error: true,code: 3,message: "id or open id is required."}));
+        }
+        database.collection("Statistics").find(cond).toArray(function(err,list)
         {
             if (err)
             {
