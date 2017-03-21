@@ -324,6 +324,27 @@ function BindRoutes(initCallback)
             res.end(JSON.stringify({error: false,users: list}));
         });
     });
+    app.post("/user/getUserScoreSummary",function(req,res)
+    {
+        let json=format.getReqJson(req);
+        if (!json)
+        {
+            return res.end(JSON.stringify({error: true,code: 1,message: "Invalid request JSON format."}));
+        }
+        database.collection("Statistics").find({"case.userInfo._id": new ObjectId(json.id)}).toArray(function(err,list)
+        {
+            if (err)
+            {
+                return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+            }
+            let score=0;
+            for (let i=0;i<list.length;i++)
+            {
+                score+=list[i].score;
+            }
+            return res.end(JSON.stringify({error: false,score: score}));
+        });
+    });
     let router=express.Router();
     router.post("/file/upload/getUrl",upload.single("wangEditorH5File"),function(req,res)
     {

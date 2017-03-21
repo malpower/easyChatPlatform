@@ -1,6 +1,6 @@
 let addr={"a1": "http://192.168.99.216:8020/fe-yixin/views/indestrysel.html?",                //大事件
           "a2": "http://192.168.99.216:8020/fe-yixin/views/indestrysel.html?",                //行业精选
-          "a3": "http://192.168.99.216:8020/fe-yixin/views/planningLayout.html?",                //策划布局
+          "a3": "http://192.168.99.216:8020/fe-yixin/views/planningLayout.html?p=bujuguihua",                //策划布局
           "a4": "http://192.168.99.216:8020/fe-yixin/views/planningLayout.html?p=mendiantuozhan&",                //门店拓展
           "a5": "http://192.168.99.216:8020/fe-yixin/views/planningLayout.html?p=xiaoshoucehua&",                    //销售策划
           "a6": "http://192.168.99.216:8020/fe-yixin/views/planningLayout.html?p=duiwujianshe&",                //队伍建设
