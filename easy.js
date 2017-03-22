@@ -297,7 +297,7 @@ function Init(initCallback)
     {
         let user=authTool.getSignData(sidTool.getReqSID(req));
         let param=format.getReqJson(req);
-        
+
         if (param===undefined)
         {
             return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format"}));
@@ -310,7 +310,7 @@ function Init(initCallback)
         {
             if (err || list.length===0 || list[0].bound!==true)
             {
-                return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+                return res.end(JSON.stringify({error: true,code: 2,message: (err && err.message) || "User invalid"}));
             }
             easy.sendMessage({touser: list[0].openId,msgType: "text",text: {content: config.easyChat.invitationText}},function(err,json)
             {
