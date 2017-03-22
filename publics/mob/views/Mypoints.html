@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">	
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" >
+	    <meta name="apple-mobile-web-app-capable" content="yes">
+	    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	    <meta name="format-detection" content="telephone=no">
+	    <meta name="format-detection" content="email=n">
+		<link rel="stylesheet" href="../components/common/css/common.css" />
+		<title>我的积分</title>
+	</head>
+	<style>
+		.points-top{
+			width: 100%;
+			height: 1.38rem;
+			overflow: hidden;
+		}
+		.points-top img{
+			width:0.72rem ;
+			display:block;
+   			margin: 0.2rem  auto 0  auto;
+		}
+	    .points-top p{
+	    	text-align: center;
+	    	line-height: 0.5rem;
+	    }
+		.points-center{
+			width: 100%;
+			height: 0.35rem;
+			background: #e6e6e6;
+		}
+		.points-center ul li{
+			float: left;
+			width:33%;
+			line-height: 0.37rem;
+			text-align: center;
+			color: #333333;
+		}		
+		.points-bottom ul li{
+			height: 0.35rem;
+			width: 100%;
+			display: block;
+			margin: 0 auto;
+			border-bottom: 1px solid #ededed;
+			line-height: 0.35rem;
+		}
+		.points-bottom ul li span{
+			text-align: center;
+		}
+		.points-bottom ul li span:first-of-type{
+		    width:33%;
+		    height: 0.35rem;
+		    display: inline-block;	
+		    overflow: hidden; 
+		    color: #666666;	
+		}
+		.points-bottom ul li span:nth-of-type(2){	
+		     width:33%;
+		     height: 0.35rem;
+		     display: inline-block;	  
+		     overflow: hidden;  
+		     color: #666666;	
+		}
+		.points-bottom ul li span:nth-of-type(3){	
+		        width:33%;
+		        height: 0.35rem;
+		   		display: inline-block;
+		   		color: #666666;	 
+		   		overflow: hidden;
+		   		white-space: nowrap;
+		   		text-overflow: ellipsis;  	 
+		}
+	</style>
+	<body>
+		<div class="points-top">
+			<div class="points-top-img">
+				<img src="../components/common/images/积分@2x.png" />
+			<p>
+				<span class="ft-14">可用积分&nbsp;:&nbsp;</span><span class="ft-14 score" style="color: red;"></span>
+			</p>
+			</div>
+		</div>
+		<div class="points-center ft-14">
+			<ul>
+				<li>日期</li>
+				<li>积分变化</li>
+				<li>说明</li>
+			</ul>
+		</div>
+		<div class="points-bottom">
+			    <ul>
+			    	<!--<li class="ft-12">
+			    		<span>2014.10.11 21:54</span>
+			    		<span>+10</span>
+			    		<span>每隔分享一次第一次一次第一次一次第一次</span>
+			    	</li>-->
+			    </ul>
+		</div>
+	</body>
+	<script src="../static/zepto-docs.min.js"></script>
+	<script>
+		 $(function(){
+		 				 //  隐藏webview菜单按钮
+    document.addEventListener('YixinJSBridgeReady', function onBridgeReady(){
+        YixinJSBridge.call('hideOptionMenu');
+   });
+		 	function formatDate(now) { 
+		 		//console.log(now);
+				var year=now.getYear()-100;
+				//console.log(year);
+				var month=now.getMonth()+1; 
+				var date=now.getDate(); 
+				var hour=now.getHours(); 
+				var minute=now.getMinutes(); 
+				var second=now.getSeconds();
+				if(date<10){
+					data = '0'+data
+				};
+				if(hour<10){
+					hour = '0' + hour
+				};
+				if(minute<10){
+					minute = '0' + minute
+				};
+				if(second<10){
+					second = '0' + second
+				}
+				return "20"+year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second; 
+			};
+			var Id = location.search.split('&')[1].split('=')[1];
+		 	  $.ajax({
+		 	  	type:"post",
+		 	  	url:"/wif/data/query",
+		 	  	async:true,
+		 	  	dataType:'json',
+		 	  	data:JSON.stringify({
+		 	  		category: 'Statistics',   //指明需要操作的实体类型
+					conditions: {'case.userInfo.openId':Id},     //查询条件，格式与mongodb查询条件相同
+					pageNumber: 0,   //页码，可选，从0起记
+					pageSize: 1000,    //页大小，可选
+					sort: {"createTime":-1} }),
+				success:function(res){
+					console.log(res);
+					if(!res.error){
+						for(var a = 0;a<res.list.length;a++){
+							$('.points-bottom ul').append('<li class="ft-12"><span>'+formatDate(new Date(res.list[a].createTime))+'</span>'+
+			    		'<span>+'+res.list[a].score+'</span><span>'+res.list[a].reason+'</span></li>')
+						}						
+					}			
+				}
+		 	  });
+		 	  $.ajax({
+		 	  	type:"post",
+		 	  	url:"/user/getUserScoreSummary",
+		 	  	async:true,
+		 	  	dataType:'json',
+		 	  	data:JSON.stringify({openId:Id}),
+				success:function(res){
+					console.log(res);
+					if(!res.error){
+						$('.score').text(res.score)
+					}
+				}
+		 	  });
+		 })
+	</script>
+</html>
