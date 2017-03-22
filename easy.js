@@ -9,6 +9,19 @@ const authTool=require("./auth");
 const format=require("./utils/format");
 const express=require("express");
 const bodyParser=require("body-parser");
+const MongoClient=require("mongodb").MongoClient;
+const ObjectId=require("mongodb").ObjectID;
+
+let database;
+MongoClient.connect(config.database.address,function(err,db)
+{//connect to database first.
+    if (err)
+    {
+        console.log(err.message);
+        process.exit(0);
+    }
+    database=db;
+});
 
 
 
@@ -288,13 +301,20 @@ function Init(initCallback)
         {
             return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format"}));
         }
-        easy.sendMessage({touser: param.openId,msgType: "text",text: {content: config.easyChat.invitationText}},function(err,json)
+        database.collection("Users").find({_id: new ObjectId(param.id)},{openId: 1}).toArray(function(err,list)
         {
-            if (err)
+            if (err || list.length===0 || list[0].bound!==true)
             {
-                return res.end(JSON.stringify({error: true,code: 7,message: err.message,details: json}));
+                return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
             }
-            res.end(JSON.stringify({error: false,content: json}));
+            easy.sendMessage({touser: list[0].openId,msgType: "text",text: {content: config.easyChat.invitationText}},function(err,json)
+            {
+                if (err)
+                {
+                    return res.end(JSON.stringify({error: true,code: 7,message: err.message,details: json}));
+                }
+                res.end(JSON.stringify({error: false,content: json}));
+            });
         });
     });
     easy.setPublicAccountMenu(config.menu,function(err,json)
