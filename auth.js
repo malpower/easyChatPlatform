@@ -48,6 +48,10 @@ function Auth()
        }
        return false;
    };
+   this.removeSign=function(signature)
+   {
+       delete authentication[signature];
+   };
 }
 
 module.exports=new Auth;

@@ -359,6 +359,12 @@ function BindRoutes(initCallback)
             return res.end(JSON.stringify({error: false,score: score}));
         });
     });
+    app.get("/user/signOut",function(req,res)
+    {
+        let sid=sidTool.getReqSID(req);
+        authTool.removeSign(sid);
+        res.redirect("/");
+    });
     let router=express.Router();
     router.post("/file/upload/getUrl",upload.single("wangEditorH5File"),function(req,res)
     {
