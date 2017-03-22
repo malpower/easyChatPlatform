@@ -32,6 +32,8 @@ app.use(cookieParser());
 app.set("view engine","ejs");
 app.set("views","views");
 
+
+
 console.log("Creating CORS midlleware...");
 app.use(function(req,res,next)
 {
@@ -42,7 +44,6 @@ app.use(function(req,res,next)
     }
     next();
 });
-
 
 console.log("Server is now starting...");
 console.log("Initializing easy chat communicator...");
