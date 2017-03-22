@@ -5,7 +5,7 @@ const ObjectId=require("mongodb").ObjectID;
 const config=require("./config");
 
 let database;
-MongoDB.connect(config.database.address,function(err,db)
+MongoClient.connect(config.database.address,function(err,db)
 {//connect to database first.
     if (err)
     {
