@@ -295,11 +295,16 @@ function Init(initCallback)
     });
     app.post("/easyChat/sendP2pMessage",function(req,res)
     {
-
+        let user=authTool.getSignData(sidTool.getReqSID(req));
         let param=format.getReqJson(req);
+        
         if (param===undefined)
         {
             return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format"}));
+        }
+        if (!user || !(/^(provinceUser|groupUser)$/.test(user.userLevel)))
+        {
+            return res.end(JSON.stringify({error: true,code: 8,message: "User permission is does not support to do this."}));
         }
         database.collection("Users").find({_id: new ObjectId(param.id)},{openId: 1}).toArray(function(err,list)
         {

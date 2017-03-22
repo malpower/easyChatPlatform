@@ -73,17 +73,21 @@ easy.init(app,function(err,easyCom)
                 process.exit(0);
             }
             console.log("Page handlers online...");
-            console.log("Start to listen on port "+config.server.serverPort);
-            app.listen(config.server.serverPort,function(err)
-            {//Start to listen on port 80, the port 80 is required by easy chat API requirement.
-                if (err)
-                {
-                    console.log(err.message);
-                    process.exit(0);
-                }
-                console.log("Server on, running on port "+config.server.serverPort);
-                //Here we are, all the initialization job are done.
-            });
+            console.log("Waiting for everything ready.");
+            setTimeout(function()
+            {
+                console.log("Start to listen on port "+config.server.serverPort);
+                app.listen(config.server.serverPort,function(err)
+                {//Start to listen on port 80, the port 80 is required by easy chat API requirement.
+                    if (err)
+                    {
+                        console.log(err.message);
+                        process.exit(0);
+                    }
+                    console.log("Server on, running on port "+config.server.serverPort);
+                    //Here we are, all the initialization job are done.
+                });
+            },1000*5);
         });
     });
 });

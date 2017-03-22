@@ -1,8 +1,8 @@
 $(document).ready(function()
 {
-    let data={startTime: 0,endTime: (new Date).getTime()};
+    let data={"id":"58d28a673669ae593fddcc61"};
     let api=new WebIF;
-    $.ajax({url: "http://development.malpower.net/cusWifs/statistics/getPiChart",
+    $.ajax({url: "http://development.malpower.net/easyChat/sendP2pMessage",
             type: "POST",
             dataType: "JSON",
             data: JSON.stringify(data),
@@ -11,9 +11,6 @@ $(document).ready(function()
             {
                 console.log(res);
             }});
-    let img=$("<img>");
-    img.attr("src","http://development.malpower.net/getImage?id=58cfb76b12cbcf02c3911525");
-    img.appendTo("body");
     // $.ajax({url: "http://development.malpower.net/user/sign",
     //         type: "GET",
     //         dataType: "JSON",
