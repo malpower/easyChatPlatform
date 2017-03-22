@@ -1,4 +1,19 @@
 const qrCodeCom=require("./utils/qr_code_com");
+const euBinder=require("./utils/easyuserBinder");
+const MongoClient=require("mongodb").MongoClient;
+const ObjectId=require("mongodb").ObjectID;
+const config=require("./config");
+
+let database;
+MongoDB.connect(config.database.address,function(err,db)
+{//connect to database first.
+    if (err)
+    {
+        console.log(err.message);
+        process.exit(0);
+    }
+    database=db;
+});
 
 
 function MessageDispatcher()
@@ -62,10 +77,17 @@ md.addEventHandler("CLICK",function(message,easy,res)
         res.end("INVALID");
     }
 });
-md.addMessageHandler("text",function(message,easy,res)
+
+
+md.addEventHandler("subscribe",function(message,easy,res)
 {
-    easy.replyText({ToUserName: message.FromUserName,FromUserName: message.ToUserName,Content: {$cd: "Hello"}},res);
+    let openId=message.FromUserName.$cd;
+    euBinder.bindEasyUser(openId,easy,databse,function(err,user)
+    {
+        res.end("");
+    });
 });
+
 
 
 module.exports=md;

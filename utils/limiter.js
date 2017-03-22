@@ -121,6 +121,7 @@ lim.addLimiter("Users.create",function(json,req)
     {
         throw (new Error("Invalid user permission."));
     }
+    json.content.bound=false;
     return json;
 });
 

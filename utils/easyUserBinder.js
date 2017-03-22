@@ -19,7 +19,7 @@ function BindUserOnEasyChat(openId,easy,database,callback)
             {
                 return callback(new Error("Cannot find user in DB."),json);
             }
-            database.collection("Users").update({_id: new ObjectId(id)},{$set: {openId: openId}});
+            database.collection("Users").update({_id: new ObjectId(id)},{$set: {openId: openId,bound: true}});
             list[0].openId=openId;
             process.nextTick(callback,undefined,list[0]);
         });

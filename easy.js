@@ -280,6 +280,23 @@ function Init(initCallback)
             res.end(JSON.stringify({error: false,content: json}));
         });
     });
+    app.post("/easyChat/sendP2pMessage",function(req,res)
+    {
+
+        let param=format.getReqJson(req);
+        if (param===undefined)
+        {
+            return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format"}));
+        }
+        easy.sendMessage({touser: param.openId,msgType: "text",text: {content: config.easyChat.invitationText}},function(err,json)
+        {
+            if (err)
+            {
+                return res.end(JSON.stringify({error: true,code: 7,message: err.message,details: json}));
+            }
+            res.end(JSON.stringify({error: false,content: json}));
+        });
+    });
     easy.setPublicAccountMenu(config.menu,function(err,json)
     {//Simply set the menu on easy chat client.
         if (err)
