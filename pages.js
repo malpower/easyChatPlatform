@@ -115,7 +115,7 @@ function Init(initCallback)
                 return res.end("This user is frozen.");
             }
             authTool.resetSignData(sid,user);
-            res.redirect(config.web.entryUrl);          //after initialization, redirect to the destination which configured in [web.js]
+            res.redirect(config.web.entryUrl+"?sid="+sid);          //after initialization, redirect to the destination which configured in [web.js]
         });
     });
     process.nextTick(initCallback,[app]);
