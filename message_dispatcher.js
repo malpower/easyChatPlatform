@@ -1,5 +1,5 @@
 const qrCodeCom=require("./utils/qr_code_com");
-const euBinder=require("./utils/easyuserBinder");
+const euBinder=require("./utils/easyUserBinder");
 const MongoClient=require("mongodb").MongoClient;
 const ObjectId=require("mongodb").ObjectID;
 const config=require("./config");
