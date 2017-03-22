@@ -2,3 +2,4 @@
 /publics/uploads/*
 /publics/scripts/debug.js
 /error_log.txt
+/.vscode/*
