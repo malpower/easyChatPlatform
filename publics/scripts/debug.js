@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-    let data={"id":"58d28a673669ae593fddcc61"};
+    let data={"id":"58d0b19376b5d75739826c31"};
     let api=new WebIF;
     $.ajax({url: "http://development.malpower.net/easyChat/sendP2pMessage",
             type: "POST",

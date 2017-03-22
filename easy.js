@@ -306,7 +306,7 @@ function Init(initCallback)
         {
             return res.end(JSON.stringify({error: true,code: 8,message: "User permission is does not support to do this."}));
         }
-        database.collection("Users").find({_id: new ObjectId(param.id)},{openId: 1}).toArray(function(err,list)
+        database.collection("Users").find({_id: new ObjectId(param.id)},{openId: 1,bound: 1}).toArray(function(err,list)
         {
             console.log(list);
             if (err || list.length===0 || list[0].bound!==true)
