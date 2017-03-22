@@ -2,4 +2,4 @@ module.exports={sid: "defaultSID~~~~~~~~~~~~~~~~~~~",                       //th
                 allowCORS: true,                            //does the server allow cross domain accessing.
                 corsDomain: false,                      //the allowed CORS domain.
                 domain: "http://development.malpower.net/",                 //the server's http address, will be use to provide the image url which is uploaded by client.
-                entryUrl: "/dist/index.html"};          //The redirection after QR code scanning.
+                entryUrl: "/back.html"};          //The redirection after QR code scanning.
