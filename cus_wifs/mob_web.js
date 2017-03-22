@@ -19,7 +19,7 @@ function MobWeb()
                 }
                 let openId=json.openId;
                 let caseId=json.caseId;
-                if (!openId && !caseId)
+                if (!openId || !caseId)
                 {
                     return res.end(JSON.stringify({error: true,code: 3,message: "caseId and openId are required"}));
                 }
@@ -46,7 +46,7 @@ function MobWeb()
                 }
                 let openId=json.openId;
                 let caseId=json.caseId;
-                if (!openId && !caseId)
+                if (!openId || !caseId)
                 {
                     return res.end(JSON.stringify({error: true,code: 3,message: "caseId and openId are required"}));
                 }
@@ -73,7 +73,7 @@ function MobWeb()
                 }
                 let openId=json.openId;
                 let caseId=json.caseId;
-                if (!openId && !caseId)
+                if (!openId || !caseId)
                 {
                     return res.end(JSON.stringify({error: true,code: 3,message: "caseId and openId are required"}));
                 }
