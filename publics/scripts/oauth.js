@@ -6,9 +6,8 @@ $(document).ready(function()
         if (err)
         {
             console.log(err.message);
-            return alert("ERROR");
+            return alert("扫码超时");
         }
-        alert(JSON.stringify(res));
         location.href="/initialize";
     });
 });
