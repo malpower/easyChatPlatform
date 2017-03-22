@@ -146,14 +146,25 @@ lim.addLimiter("Users.delete",function(json,req)
     return json;
 });
 
-lim.addLimiter("Samples.delete",function(json,req)
+lim.addLimiter("Samples.delete",function(json,req,callback)
 {
     let user=authTool.getSignData(sidTool.getReqSID(req));
-    if (user===undefined || !(/^(groupUser|provinceUser)$/).test(user.userLevel))
+    if (!user)
     {
-        throw (new Error("Invalid user permission."));
+        return callback(new Error("User not signed in."));
     }
-    return json;
+    database.collection("Samples").find({_id: new ObjectId(json.id)},{checkState: 1}).toArray(function(err,list)
+    {
+        if (err || list.length===0)
+        {
+            return callback(new Error("Invalid case id"));
+        }
+        if (!(/^(groupUser|provinceUser)$/).test(user.userLevel) && list[0].checkState!==100)
+        {
+            return callback(new Error("Invalid user permission."));
+        }
+        callback(undefined,json);
+    });
 });
 
 
