@@ -106,7 +106,14 @@ function Init(initCallback)
                         return res.end("<h1>Canot bind user information on easy chat.</h1>");
                     }
                     authTool.resetSignData(sid,user);
-                    res.redirect(config.web.entryUrl+"?sid="+sid);          //after initialization, redirect to the destination which configured in [web.js]
+                    if (config.web.sendSID)
+                    {
+                        res.redirect(config.web.entryUrl+"?sid="+sid);          //after initialization, redirect to the destination which configured in [web.js]
+                    }
+                    else
+                    {
+                        res.redirect(config.web.entryUrl);
+                    }
                 });
             }
             let user=list[0];
