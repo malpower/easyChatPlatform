@@ -313,7 +313,7 @@ function Init(initCallback)
             {
                 return res.end(JSON.stringify({error: true,code: 2,message: (err && err.message) || "User invalid"}));
             }
-            easy.sendMessage({touser: list[0].openId,msgType: "text",text: {content: config.easyChat.invitationText}},function(err,json)
+            easy.sendMessage({touser: list[0].openId,msgtype: "text",text: {content: config.easyChat.invitationText}},function(err,json)
             {
                 if (err)
                 {
