@@ -30,7 +30,7 @@ function QrcodeCom()
         coms[sceneID]=undefined;
         delete coms[sceneID];
     };
-    let cleaner=setInterval(function()
+    setInterval(function()
     {
         let cur=(new Date).getTime();
         let names=Object.keys(coms);

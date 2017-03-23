@@ -61,7 +61,7 @@ function Statistics()
                             {
                                 min=list[j].liked.length;
                                 item=list[j];
-                                post=j;
+                                pos=j;
                             }
                         }
                         rlist.push(item);
@@ -95,7 +95,7 @@ function Statistics()
                             {
                                 min=list[j].visited.length;
                                 item=list[j];
-                                post=j;
+                                pos=j;
                             }
                         }
                         rlist.push(item);
@@ -163,7 +163,7 @@ function Statistics()
                         if(list[i].userInfo===undefined)  continue;
                         if(list[i].userInfo.proAddress===undefined)  continue;
                         if(calc[list[i].userInfo.proAddress]===undefined){
-                            calc[list[i].userInfo.proAddress]={allcount:0,publishcount:0,passrate:"0%",province:list[i].userInfo.proAddress}
+                            calc[list[i].userInfo.proAddress]={allcount:0,publishcount:0,passrate:"0%",province:list[i].userInfo.proAddress};
                         }
                         calc[list[i].userInfo.proAddress].allcount++;
                         if(list[i].checkState===undefined) continue;
@@ -196,7 +196,7 @@ function Statistics()
                         if(list[i].userInfo===undefined)  continue;
                         if(list[i].userInfo.proAddress===undefined)  continue;
                         if(calc[list[i].userInfo.proAddress]===undefined){
-                            calc[list[i].userInfo.proAddress]={allcount:0,submitcount:0,province:list[i].userInfo.proAddress}
+                            calc[list[i].userInfo.proAddress]={allcount:0,submitcount:0,province:list[i].userInfo.proAddress};
                         }
                         calc[list[i].userInfo.proAddress].allcount++;
                         if(list[i].checkState===undefined) continue;
@@ -225,7 +225,7 @@ function Statistics()
                         if(list[i].district===undefined)  continue;
                         if(list[i].score===undefined)  continue;
                         if(calc[list[i].district]===undefined){
-                            calc[list[i].district]={sumScore:0,province:list[i].district}
+                            calc[list[i].district]={sumScore:0,province:list[i].district};
                         }
                         if(typeof(list[i].score)!="number"){
                             list[i].score = Number(list[i].score);
