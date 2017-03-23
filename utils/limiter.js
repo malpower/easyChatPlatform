@@ -80,7 +80,7 @@ lim.addLimiter("Statistics.create",function(json,req,callback)
             {
                 return callback(new Error("Can't set the perfect field when a sample is perfect."));
             }
-            if (user.userLevel!=="groupUser")
+            if (!(/^(groupUser|superAdmin)$/).test(user.userLevel))
             {
                 return callback(new Error("Only group user can do this."));
             }
