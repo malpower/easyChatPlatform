@@ -64,7 +64,7 @@ lim.addLimiter("Samples.create",function(json,req)
 lim.addLimiter("Statistics.create",function(json,req,callback)
 {
     let user=authTool.getSignData(sidTool.getReqSID(req));
-    if (user===undefined || !(/^(groupUser|provinceUser)$/).test(user.userLevel))
+    if (user===undefined || !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
     {
         return callback(new Error("Invalid user permission."));
     }
@@ -99,7 +99,7 @@ lim.addLimiter("Statistics.create",function(json,req,callback)
 lim.addLimiter("Samples.modify",function(json,req)
 {
     let user=authTool.getSignData(sidTool.getReqSID(req));
-    if (user===undefined || !(/^(groupUser|provinceUser)$/).test(user.userLevel))
+    if (user===undefined || !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
     {
         throw (new Error("Invalid user permission."));
     }
@@ -117,7 +117,7 @@ lim.addLimiter("Samples.modify",function(json,req)
 lim.addLimiter("Users.create",function(json,req,callback)
 {
     let user=authTool.getSignData(sidTool.getReqSID(req));
-    if (user===undefined || !(/^(groupUser|provinceUser)$/).test(user.userLevel))
+    if (user===undefined || !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
     {
         throw (new Error("Invalid user permission."));
     }
@@ -140,7 +140,7 @@ lim.addLimiter("Users.create",function(json,req,callback)
 lim.addLimiter("Users.modify",function(json,req)
 {
     let user=authTool.getSignData(sidTool.getReqSID(req));
-    if (user===undefined || !(/^(groupUser|provinceUser)$/).test(user.userLevel))
+    if (user===undefined || !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
     {
         throw (new Error("Invalid user permission."));
     }
@@ -150,7 +150,7 @@ lim.addLimiter("Users.modify",function(json,req)
 lim.addLimiter("Users.delete",function(json,req)
 {
     let user=authTool.getSignData(sidTool.getReqSID(req));
-    if (user===undefined || !(/^(groupUser|provinceUser)$/).test(user.userLevel))
+    if (user===undefined || !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
     {
         throw (new Error("Invalid user permission."));
     }
@@ -170,7 +170,7 @@ lim.addLimiter("Samples.delete",function(json,req,callback)
         {
             return callback(new Error("Invalid case id"));
         }
-        if (!(/^(groupUser|provinceUser)$/).test(user.userLevel) && list[0].checkState!==100)
+        if (!(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel) && list[0].checkState!==100)
         {
             return callback(new Error("Invalid user permission."));
         }

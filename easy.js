@@ -302,7 +302,7 @@ function Init(initCallback)
         {
             return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format"}));
         }
-        if (!user || !(/^(provinceUser|groupUser)$/.test(user.userLevel)))
+        if (!user || !(/^(provinceUser|groupUser|superAdmin)$/.test(user.userLevel)))
         {
             return res.end(JSON.stringify({error: true,code: 8,message: "User permission is does not support to do this."}));
         }
