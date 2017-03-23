@@ -114,7 +114,7 @@ lim.addLimiter("Samples.modify",function(json,req)
     return json;
 });
 
-lim.addLimiter("Users.create",function(json,req)
+lim.addLimiter("Users.create",function(json,req,callback)
 {
     let user=authTool.getSignData(sidTool.getReqSID(req));
     if (user===undefined || !(/^(groupUser|provinceUser)$/).test(user.userLevel))
@@ -122,7 +122,18 @@ lim.addLimiter("Users.create",function(json,req)
         throw (new Error("Invalid user permission."));
     }
     json.content.bound=false;
-    return json;
+    database.collection("Users").find({phone: json.content.phone}).toArray(function(err,list)
+    {
+        if (err)
+        {
+            return callback(err);
+        }
+        if (list.length!==0)
+        {
+            return callback(new Error("The phone number existed."));
+        }
+        callback(undefined,json);
+    });
 });
 
 
