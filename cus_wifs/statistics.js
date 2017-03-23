@@ -61,7 +61,7 @@ function Statistics()
                     {
                         return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
                     }
-                    list.sort((a,b)=>
+                    list=list.sort((a,b)=>
                     {
                         if (a.liked.length>b.liked.length)
                         {
@@ -95,7 +95,7 @@ function Statistics()
                     {
                         return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
                     }
-                    list.sort((a,b)=>
+                    list=list.sort((a,b)=>
                     {
                         if (a.visited.length>b.visited.length)
                         {
