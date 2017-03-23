@@ -103,7 +103,7 @@ lim.addLimiter("Samples.modify",function(json,req)
     {
         throw (new Error("User not signed in."));
     }
-    Reflect.deleteProperty(json.content.isPerfect);
+    Reflect.deleteProperty(json.content,json.content.isPerfect);
     if (json.content.checkState!==1 && !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
     {
         throw (new Error("Invalid user permission."));
