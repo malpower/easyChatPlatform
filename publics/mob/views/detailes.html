@@ -49,7 +49,7 @@
     var listurl =  location.search.split('=')[1];
   $.ajax({
 		 	  	type:"post",
-		 	  	url:"/wif/data/query",
+		 	  	url:"http://development.malpower.net/wif/data/query",
 		 	  	async:true,
 		 	  	filter: {caseImg: 0},
 		 	  	dataType:'json',

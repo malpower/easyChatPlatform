@@ -99,7 +99,11 @@ lim.addLimiter("Statistics.create",function(json,req,callback)
 lim.addLimiter("Samples.modify",function(json,req)
 {
     let user=authTool.getSignData(sidTool.getReqSID(req));
-    if (user===undefined || !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
+    if (user===undefined)
+    {
+        throw (new Error("User not signed in."));
+    }
+    if (json.content.checkState!==1 && !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
     {
         throw (new Error("Invalid user permission."));
     }

@@ -142,12 +142,12 @@
 	function ajaxPerfect(mold){
     $.ajax({
 		 	  	type:"post",
-		 	  	url:"/wif/data/query",
+		 	  	url:"http://development.malpower.net/wif/data/query",
 		 	  	async:true,
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({
 		 	  		category: 'Samples',   //积分
-					conditions: {caseType:mold,isPerfect:true,checkState:4},
+					conditions: {caseType:mold,isPerfect:true,checkState:7},
 					filter: {caseImg: 0},//查询条件，格式与mongodb查询条件相同
 					pageNumber: 0,   //页码，可选，从0起记
 					pageSize: 10,    //页大小，可选
@@ -158,7 +158,7 @@
 				for(var a = 0;a<3;a++){
 							$('.swiper-wrapper').append(
 								'<div class="swiper-slide"><a href="details.html?caseid='+resss.list[a]._id+'&userid='+urls+'">'+
-						    	'<img src="/getImage?id='
+						    	'<img src="http://development.malpower.net/getImage?id='
 									+ resss.list[a]._id+'">'+
 						   		'<div class="bottom-word">'+
     							'<span class="ft-14">'
@@ -215,7 +215,7 @@ function formatDate(now) {
 			    		break;
 			    	case 'duiwujianshe':Ajax('队伍建设')
 			    		break;
-			    	case 'shujuxitong':Ajax('效能提升')
+			    	case 'shujuxitong':Ajax('数据系统')
 			    		break;
 			    	default:
 			    		break;
@@ -225,14 +225,14 @@ function formatDate(now) {
 				$('title').text(mold);
 				$.ajax({
 		 	  	type:"post",
-		 	  	url:"/wif/data/query",
+		 	  	url:"http://development.malpower.net/wif/data/query",
 		 	  	async:true,
 		 	  	filter: {caseImg: 0},
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({
 		 	  		category: 'Samples',
 		 	  		filter: {caseImg: 0},//查询条件，格式与mongodb查询条件相同//积分
-					conditions: {caseType:mold,checkState:4},     //查询条件，格式与mongodb查询条件相同
+					conditions: {caseType:mold,checkState:7},     //查询条件，格式与mongodb查询条件相同
 					pageNumber: 0,   //页码，可选，从0起记
 					pageSize: 1000,    //页大小，可选
 					sort: {"createTime":-1} }),
@@ -242,7 +242,7 @@ function formatDate(now) {
 							ajaxPerfect(mold);
 		 				for(var a = 0;a<res.list.length;a++){
 							$('.list ul').append(
-								'<li><a href="details.html?caseid='+res.list[a]._id+'&userid='+urls+'"><img src="/getImage?id='
+								'<li><a href="details.html?caseid='+res.list[a]._id+'&userid='+urls+'"><img src="http://development.malpower.net/getImage?id='
 									+ res.list[a]._id+
 									'"/><div class="ul-list-content"><h2 class="ul-list-content-T ft-14">'
 								   +res.list[a].caseTitle+
@@ -252,7 +252,7 @@ function formatDate(now) {
 						 }	
 			/*$.ajax({
 		 	  	type:"post",
-		 	  	url:"/wif/data/query",
+		 	  	url:"http://development.malpower.net/wif/data/query",
 		 	  	async:true,
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({

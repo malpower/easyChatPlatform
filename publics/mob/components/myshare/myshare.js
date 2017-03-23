@@ -49,7 +49,7 @@ $(function(){
         function Ajax(Id){
         		$.ajax({
 		 	  	type:"post",
-		 	  	url:"/wif/data/query",
+		 	  	url:"http://development.malpower.net/wif/data/query",
 		 	  	async:true,
 		 	  	filter: {caseImg: 0},
 		 	  	dataType:'json',
@@ -65,7 +65,7 @@ $(function(){
 						for(var a = 0;a<res.list.length;a++){
 							$('#myshareList').append(							
 							' <li><a href="detailes.html?caseid='+res.list[a]._id+'">'+
-				            '<div class="fl ui-img" style="background: url(/getImage?id='+res.list[a]._id+')no-repeat center;background-size: 100% 100%;"></div>'+
+				            '<div class="fl ui-img" style="background: url(http://development.malpower.net/getImage?id='+res.list[a]._id+')no-repeat center;background-size: 100% 100%;"></div>'+
 				            '<div class="fl ui-info">'+
 				            '<h2 class="ft-14" >'+res.list[a].caseTitle+'</h2>'+
 				        	'<p class="ft-12 ui-btm-hink">'+res.list[a].caseAbstract+'</p>'+
@@ -79,7 +79,7 @@ $(function(){
         };
 		$.ajax({
 		 	  	type:"post",
-		 	  	url:"/wif/data/query",
+		 	  	url:"http://development.malpower.net/wif/data/query",
 		 	  	async:true,
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({
