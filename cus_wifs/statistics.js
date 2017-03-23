@@ -3,7 +3,7 @@ const Mongo=require("mongodb").MongoClient;
 const ObjectId=require("mongodb").ObjectID;
 const config=require("../config");
 const authTool=require("../auth");
-const sidTool=require("./sid");
+const sidTool=require("../utils/sid");
 
 
 function Statistics()
