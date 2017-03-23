@@ -82,7 +82,7 @@ md.addEventHandler("CLICK",function(message,easy,res)
 md.addEventHandler("subscribe",function(message,easy,res)
 {
     let openId=message.FromUserName.$cd;
-    euBinder.bindEasyUser(openId,easy,databse,function(err,user)
+    euBinder.bindEasyUser(openId,easy,database,function(err,user)
     {
         res.end("");
     });
