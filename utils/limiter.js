@@ -103,15 +103,20 @@ lim.addLimiter("Samples.modify",function(json,req)
     {
         throw (new Error("User not signed in."));
     }
+    Reflect.deleteProperty(json.content.isPerfect);
     if (json.content.checkState!==1 && !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
     {
         throw (new Error("Invalid user permission."));
     }
-    if(json.content.checkState===2)
+    if(json.content.checkState===4)
     {
         json.content["checkPoints.province"]=(new Date).getTime();
     }
-    if(json.content.checkState===4)
+    if(json.content.checkState===6)
+    {
+        json.content["checkPoints.group"]=(new Date).getTime();
+    }
+    if(json.content.checkState===7)
     {
         json.content["checkPoints.publish"]=(new Date).getTime();
     }
