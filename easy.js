@@ -109,7 +109,7 @@ function EasyChatCommunicator(appID,appSec,callback)
         req.end();
     }
     RefreshAccessToken();               //Refresh the access token as soon as the contructor runs.
-    let accessTokenRefresher=setInterval(RefreshAccessToken,config.easyChat.refreshFreq);               //set the access token refreshing frequence.
+    setInterval(RefreshAccessToken,config.easyChat.refreshFreq);               //set the access token refreshing frequence.
     this.sendCustomMessage=function(msg,callback=function(){})
     {
         PostToEasyChatServer(`/cgi-bin/message/custom/send?access_token=${accessToken}`,msg,callback);
@@ -130,7 +130,7 @@ function EasyChatCommunicator(appID,appSec,callback)
     this.replyArticals=function(msg,images,res)
     {
         let r={};
-        r.ToUserName=msg.ToUserName
+        r.ToUserName=msg.ToUserName;
         r.FromUserName=msg.FromUserName;
         r.CreateTime={$t: (new Date).getTime()};
         r.MsgType={$cd: "news"};
@@ -160,7 +160,7 @@ function EasyChatCommunicator(appID,appSec,callback)
     this.replyAudio=function(msg,audio,res)
     {
         let r={};
-        r.ToUserName=msg.ToUserName
+        r.ToUserName=msg.ToUserName;
         r.FromUserName=msg.FromUserName;
         r.CreateTime={$t: (new Date).getTime()};
         r.MsgType={$cd: "music"};

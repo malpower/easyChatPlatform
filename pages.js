@@ -6,7 +6,6 @@ const sidTool=require("./utils/sid");
 const config=require("./config");
 const euBinder=require("./utils/easyUserBinder");
 const express=require("express");
-const bodyParser=require("body-parser");
 
 
 
@@ -39,7 +38,6 @@ function Init(initCallback)
                 return res.end(err.message);
             }
             let openid=r.openid;
-            let accessToken=r.access_token;
             database.collection("Users").find({openId: openid}).toArray(function(err,list)
             {
                 if (err)

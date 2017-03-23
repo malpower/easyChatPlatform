@@ -13,7 +13,6 @@ To run the program, please run "npm run start" in the directory.
 
 
 const express=require("express");
-const bodyParser=require("body-parser");
 const easy=require("./easy");
 const webIfaces=require("./web_ifaces");
 const pages=require("./pages");
