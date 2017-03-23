@@ -141,7 +141,7 @@ function Statistics()
                 }
                 if (/^(groupUser|superAdmin)$/.test(user.userLevel))
                 {
-                    steps=[[4,5,6,7,3],[4,5],[6,7],[3]];
+                    steps=[[4,5,6,7,8],[4,5],[6,7],[8]];
                 }
                 else if (/^(provinceUser)$/.test(user.userLevel))
                 {
