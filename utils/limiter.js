@@ -64,15 +64,19 @@ lim.addLimiter("Samples.create",function(json,req)
 lim.addLimiter("Statistics.create",function(json,req,callback)
 {
     let user=authTool.getSignData(sidTool.getReqSID(req));
-    if (user===undefined || !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
+    if (user===undefined || !(/^(groupUser|superAdmin)$/).test(user.userLevel))
     {
         return callback(new Error("Invalid user permission."));
     }
-    database.collection("Samples").find({_id: new ObjectId(json.content.caseId)},{caseImg: 0,caseHtml: 0}).toArray(function(err,list)
+    database.collection("Samples").find({_id: new ObjectId(json.content.caseId)},{caseImg: 0,caseHtml: 0,caseAbstract: 0}).toArray(function(err,list)
     {
         if (err)
         {
             return callback(err);
+        }
+        if (list.length===0)
+        {
+            return callback(new Error("No case found."));
         }
         if (json.content.type==="perfect")
         {
@@ -103,7 +107,8 @@ lim.addLimiter("Samples.modify",function(json,req)
     {
         throw (new Error("User not signed in."));
     }
-    Reflect.deleteProperty(json.content,json.content.isPerfect);
+    Reflect.deleteProperty(json.content,"isPerfect");
+    Reflect.deleteProperty(json.content,"userInfo");
     if (json.content.checkState!==1 && !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
     {
         throw (new Error("Invalid user permission."));
