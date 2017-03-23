@@ -2,5 +2,5 @@ module.exports={sid: "defaultSID~~~~~~~~~~~~~~~~~~~",                       //th
                 allowCORS: true,                            //does the server allow cross domain accessing.
                 corsDomain: false,                      //the allowed CORS domain.
                 sendSID: false,
-                domain: "http://dqzy.internal-i-focusing.com/",                 //the server's http address, will be use to provide the image url which is uploaded by client.
+                domain: "http://qdzy.internal-i-focusing.com/",                 //the server's http address, will be use to provide the image url which is uploaded by client.
                 entryUrl: "/back.html"};          //The redirection after QR code scanning.
