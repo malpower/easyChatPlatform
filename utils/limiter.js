@@ -130,6 +130,10 @@ lim.addLimiter("Users.create",function(json,req,callback)
     {
         throw (new Error("Invalid user permission."));
     }
+    if (user.proAddress!==json.content.proAddress && user.userLevel==="provinceUser")
+    {
+        throw new Error("Province administrators can only create users under it's own province.");
+    }
     json.content.bound=false;
     json.content.userLevel="personalUser";
     database.collection("Users").find({phone: json.content.phone}).toArray(function(err,list)
@@ -155,6 +159,7 @@ lim.addLimiter("Users.modify",function(json,req)
     {
         throw (new Error("User not signed."));
     }
+    Reflect.deleteProperty(json.content,"proAddress");
     if (json.content.userLevel==="superAdmin")
     {
         throw new Error("Invalid permission.");
