@@ -131,7 +131,7 @@
 			var Id = location.search.split('&')[1].split('=')[1];
 		 	  $.ajax({
 		 	  	type:"post",
-		 	  	url:"http://development.malpower.net/wif/data/query",
+		 	  	url:"http://qdzy.internal-i-focusing.com/wif/data/query",
 		 	  	async:true,
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({
@@ -152,7 +152,7 @@
 		 	  });
 		 	  $.ajax({
 		 	  	type:"post",
-		 	  	url:"http://development.malpower.net/user/getUserScoreSummary",
+		 	  	url:"http://qdzy.internal-i-focusing.com/user/getUserScoreSummary",
 		 	  	async:true,
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({openId:Id}),

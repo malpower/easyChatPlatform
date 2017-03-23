@@ -8,7 +8,7 @@ $(document).ready(function () {
     console.log(listurl);
        			$.ajax({
 		 	  	type:"post",
-		 	  	url:"http://development.malpower.net/cusWifs/mob_web/visit",
+		 	  	url:"http://qdzy.internal-i-focusing.com/cusWifs/mob_web/visit",
 		 	  	async:true,
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({
@@ -53,7 +53,7 @@ $(document).ready(function () {
             _this.removeClass('icon_selected').addClass('icon_def');
             $.ajax({
 		 	  	type:"post",
-		 	  	url:"http://development.malpower.net/cusWifs/mob_web/unlike",
+		 	  	url:"http://qdzy.internal-i-focusing.com/cusWifs/mob_web/unlike",
 		 	  	async:true,
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({
@@ -67,7 +67,7 @@ $(document).ready(function () {
             _this.removeClass('icon_def').addClass('icon_selected');
             $.ajax({
 		 	  	type:"post",
-		 	  	url:"http://development.malpower.net/cusWifs/mob_web/like",
+		 	  	url:"http://qdzy.internal-i-focusing.com/cusWifs/mob_web/like",
 		 	  	async:true,
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({
@@ -84,7 +84,7 @@ $(document).ready(function () {
 //        
   $.ajax({
 		 	  	type:"post",
-		 	  	url:"http://development.malpower.net/wif/data/query",
+		 	  	url:"http://qdzy.internal-i-focusing.com/wif/data/query",
 		 	  	async:true,
 		 	  	filter: {caseImg: 0},
 		 	  	dataType:'json',

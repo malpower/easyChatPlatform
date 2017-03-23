@@ -142,7 +142,7 @@
 	function ajaxPerfect(mold){
     $.ajax({
 		 	  	type:"post",
-		 	  	url:"http://development.malpower.net/wif/data/query",
+		 	  	url:"http://qdzy.internal-i-focusing.com/wif/data/query",
 		 	  	async:true,
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({
@@ -158,7 +158,7 @@
 				for(var a = 0;a<3;a++){
 							$('.swiper-wrapper').append(
 								'<div class="swiper-slide"><a href="details.html?caseid='+resss.list[a]._id+'&userid='+urls+'">'+
-						    	'<img src="http://development.malpower.net/getImage?id='
+						    	'<img src="http://qdzy.internal-i-focusing.com/getImage?id='
 									+ resss.list[a]._id+'">'+
 						   		'<div class="bottom-word">'+
     							'<span class="ft-14">'
@@ -225,7 +225,7 @@ function formatDate(now) {
 				$('title').text(mold);
 				$.ajax({
 		 	  	type:"post",
-		 	  	url:"http://development.malpower.net/wif/data/query",
+		 	  	url:"http://qdzy.internal-i-focusing.com/wif/data/query",
 		 	  	async:true,
 		 	  	filter: {caseImg: 0},
 		 	  	dataType:'json',
@@ -242,7 +242,7 @@ function formatDate(now) {
 							ajaxPerfect(mold);
 		 				for(var a = 0;a<res.list.length;a++){
 							$('.list ul').append(
-								'<li><a href="details.html?caseid='+res.list[a]._id+'&userid='+urls+'"><img src="http://development.malpower.net/getImage?id='
+								'<li><a href="details.html?caseid='+res.list[a]._id+'&userid='+urls+'"><img src="http://qdzy.internal-i-focusing.com/getImage?id='
 									+ res.list[a]._id+
 									'"/><div class="ul-list-content"><h2 class="ul-list-content-T ft-14">'
 								   +res.list[a].caseTitle+
@@ -252,7 +252,7 @@ function formatDate(now) {
 						 }	
 			/*$.ajax({
 		 	  	type:"post",
-		 	  	url:"http://development.malpower.net/wif/data/query",
+		 	  	url:"http://qdzy.internal-i-focusing.com/wif/data/query",
 		 	  	async:true,
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({

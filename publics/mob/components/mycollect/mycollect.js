@@ -29,7 +29,7 @@ $(document).ready(function () {
 			};
      $.ajax({
 		 	  	type:"post",
-		 	  	url:"http://development.malpower.net/wif/data/query",
+		 	  	url:"http://qdzy.internal-i-focusing.com/wif/data/query",
 		 	  	async:true,
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({
@@ -41,7 +41,7 @@ $(document).ready(function () {
 					if(!res.error){
 			$.ajax({
 		 	  	type:"post",
-		 	  	url:"http://development.malpower.net/wif/data/query",
+		 	  	url:"http://qdzy.internal-i-focusing.com/wif/data/query",
 		 	  	async:true,
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({
@@ -58,7 +58,7 @@ $(document).ready(function () {
 						for(var a = 0;a<resss.list.length;a++){
 							$('#mycollectList').append(
 								 '<li><a href="detailes.html?caseid='+resss.list[a]._id+'">'+
-           						 '<div class="fl ui-img" style="background: url(http://development.malpower.net/getImage?id='+resss.list[a]._id+')no-repeat center;background-size: 100% 100%;"></div>'+
+           						 '<div class="fl ui-img" style="background: url(http://qdzy.internal-i-focusing.com/getImage?id='+resss.list[a]._id+')no-repeat center;background-size: 100% 100%;"></div>'+
            						 '<div class="fl ui-info">'+
            						 '<h2 class="ft-14" >'+resss.list[a].caseTitle+'</h2>'+
             					 '<p class="ft-12 ui-btm-hink"><span class="width-80">'+resss.list[a].caseAbstract+'</span> <span class="fr">'+formatDate(new Date(resss.list[a].createTime))+'</span></p>'+

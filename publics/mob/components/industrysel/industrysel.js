@@ -10,7 +10,7 @@ $(function(){
 	function ajaxGetDatas(){
     $.ajax({
 		 	  	type:"post",
-		 	  	url:"http://development.malpower.net/wif/data/query",
+		 	  	url:"http://qdzy.internal-i-focusing.com/wif/data/query",
 		 	  	async:true,
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({
@@ -26,7 +26,7 @@ $(function(){
 						for(var a = 0;a<res.list.length;a++){
 							$('#industryselList').append(
 								' <li><a href="#">'+
-				            '<div class="fl ui-img" style="background: url(http://development.malpower.net/getImage?id=' + res.list[a]._id + ')no-repeat center;background-size: 100% 100%;"></div>'+
+				            '<div class="fl ui-img" style="background: url(http://qdzy.internal-i-focusing.com/getImage?id=' + res.list[a]._id + ')no-repeat center;background-size: 100% 100%;"></div>'+
 				            '<div class="fl ui-info">'+
 				            '<h2 class="ft-14">'+res.list[a].caseTitle+'</h2>'+
 				            '<p class="ft-12 ui-btm-hink ui-over-h">'+res.list[a].caseAbstract+'</p>'+
