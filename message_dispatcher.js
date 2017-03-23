@@ -65,8 +65,8 @@ md.addEventHandler("CLICK",function(message,easy,res)
     if (message.EventKey.$cd==="myComp")
     {
         //easy.replyText({ToUserName: message.FromUserName,FromUserName: message.ToUserName,Content: {$cd: "我的评比测试"}},res);
-        // easy.replyImage({ToUserName: message.FromUserName,FromUserName: message.ToUserName},"http://development.malpower.net/images/wait.jpg",res);
-        //easy.replyArticals({ToUserName: message.FromUserName,FromUserName: message.ToUserName},[{PicUrl: {$cd: "http://development.malpower.net/images/wait.jpg"}}],res);
+        // easy.replyImage({ToUserName: message.FromUserName,FromUserName: message.ToUserName},"http://dqzy.internal-i-focusing.com/images/wait.jpg",res);
+        //easy.replyArticals({ToUserName: message.FromUserName,FromUserName: message.ToUserName},[{PicUrl: {$cd: "http://dqzy.internal-i-focusing.com/images/wait.jpg"}}],res);
         easy.sendCustomMessage({touser: message.FromUserName.$cd,msgtype: "image",image: {media_id: "31764814"}},function(err)
         {
             if (err)
