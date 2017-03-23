@@ -45,7 +45,17 @@ function Statistics()
                 {
                     return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format!"}));
                 }
-                db.collection("Samples").find({"liked.createTime": {$gte: json.startTime,$lt: json.endTime}},{caseImg: 0,caseHtml: 0}).toArray(function(err,list)
+                let cond={"liked.createTime": {$gte: json.startTime,$lt: json.endTime}};
+                let user=authTool.getSignData(sidTool.getReqSID(req));
+                if (user===undefined)
+                {
+                    return res.end(JSON.stringify({error: true,code: 8,message: "User not signed in."}));
+                }
+                if (user.userLevel==="provinceUser")
+                {
+                    cond["userInfo.proAddress"]=user.proAddress;
+                }
+                db.collection("Samples").find(cond,{caseImg: 0,caseHtml: 0}).toArray(function(err,list)
                 {
                     if (err)
                     {
@@ -79,7 +89,17 @@ function Statistics()
                 {
                     return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format!"}));
                 }
-                db.collection("Samples").find({"visited.createTime": {$gte: json.startTime,$lt: json.endTime}},{caseImg: 0,caseHtml: 0}).toArray(function(err,list)
+                let cond={"visited.createTime": {$gte: json.startTime,$lt: json.endTime}};
+                let user=authTool.getSignData(sidTool.getReqSID(req));
+                if (user===undefined)
+                {
+                    return res.end(JSON.stringify({error: true,code: 8,message: "User not signed in."}));
+                }
+                if (user.userLevel==="provinceUser")
+                {
+                    cond["userInfo.proAddress"]=user.proAddress;
+                }
+                db.collection("Samples").find(cond,{caseImg: 0,caseHtml: 0}).toArray(function(err,list)
                 {
                     if (err)
                     {
@@ -113,7 +133,25 @@ function Statistics()
                 {
                     return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON format!"}));
                 }
-                db.collection("Samples").find({checkState: {$in: [1,4,3]},createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count)
+                let steps;
+                let user=authTool.getSignData(sidTool.getReqSID(req));
+                if (user===undefined)
+                {
+                    return res.end(JSON.stringify({error: true,code: 8,message: "User not signed in."}));
+                }
+                if (/^(groupUser|superAdmin)$/.test(user.userLevel))
+                {
+                    steps=[[4,5,6,7],[4,5],[6,7],[3]];
+                }
+                else if (/^(provinceUser)$/.test(user.userLevel))
+                {
+                    steps=[[1,2,4],[1,2],[4],[3]];
+                }
+                else
+                {
+                    return res.end(JSON.stringify({error: true,code: 8,message: "Invalid user permision."}));
+                }
+                db.collection("Samples").find({checkState: {$in: steps[0]},createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count)
                 {
                     if (err)
                     {
@@ -121,21 +159,21 @@ function Statistics()
                     }
                     let result={};
                     result.total=count;
-                    db.collection("Samples").find({"checkState": 1,createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count)
+                    db.collection("Samples").find({"checkState": {$in: steps[1]},createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count)
                     {
                         if (err)
                         {
                             return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
                         }
                         result.notApproved=count;
-                        db.collection("Samples").find({"checkState": {$in: [4]},createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count)
+                        db.collection("Samples").find({"checkState": {$in: steps[2]},createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count)
                         {
                             if (err)
                             {
                                 return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
                             }
                             result.approved=count;
-                            db.collection("Samples").find({"checkState": 3,createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count)
+                            db.collection("Samples").find({"checkState": {$in: steps[3]},createTime: {$gte: json.startTime,$lt: json.endTime}}).count(function(err,count)
                             {
                                 if (err)
                                 {
