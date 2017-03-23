@@ -131,6 +131,7 @@ lim.addLimiter("Users.create",function(json,req,callback)
         throw (new Error("Invalid user permission."));
     }
     json.content.bound=false;
+    json.content.userLevel="personalUser";
     database.collection("Users").find({phone: json.content.phone}).toArray(function(err,list)
     {
         if (err)
