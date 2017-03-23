@@ -28,3 +28,14 @@ let y=new RegExp(x,"ig");
 
 
 {caseId: "lkslkj",openId: "lskdfjsdlkf"}
+
+
+
+{"name" : "李科", "phone" : "13739475815", "userLevel" : "groupUser", "proAddress" : "四川", "townAddress" : "成都", "isInvited" : true, "isFreeze" : false, "openId" : "54c2b0904266d1bd090e02a33ec101cf", "bound" : true }
+{"name" : "戴美琳", "phone" : "18380423384", "userLevel" : "groupUser", "proAddress" : "四川","townAddress" : "成都", "isInvited" : true, "isFreeze" : false, "openId" : "195e8ebb2ba00fc0bf122d59fa1ed6a2", "bound" : true }
+{"name" : "王佩", "phone" : "13935887002", "userLevel" : "personalUser", "proAddress" : "四川", "townAddress" : "成都", "isInvited" : true, "isFreeze" : false, "openId" : "55945b72743464742b6752feacc1c5b7", "bound" : true }
+{"name" : "赵润东", "phone" : "15756213091", "userLevel" : "provinceUser", "proAddress" : "四川", "townAddress" : "成都", "isInvited" : true, "isFreeze" : false, "openId" : "985d3088a1f5f89a0c885a525c0802ac", "bound" : true }
+{"name" : "李华", "phone" : "13739475813", "userLevel" : "provinceUser", "proAddress" : "北京", "townAddress" : "成都", "isInvited" : true, "isFreeze" : false, "bound" : true }
+{"name" : "李阳", "phone" : "13739475812", "userLevel" : "provinceUser", "proAddress" : "北京", "townAddress" : "南充", "isInvited" : true, "isFreeze" : false, "bound" : true }
+{"name" : "李科哈哈", "phone" : "17608030267", "userLevel" : "personalUser", "proAddress" : "四川", "townAddress" : "成都", "isInvited" : true, "isFreeze" : false, "bound" : true, "openId" : "5f229a4dc904a5e5090e02a33ec101cf" }
+{"name" : "李科", "phone" : "13739475812", "userLevel" : "personalUser", "proAddress" : "四川", "townAddress" : "遂宁", "isInvited" : true, "isFreeze" : false, "bound" : true }
