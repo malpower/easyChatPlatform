@@ -65,9 +65,9 @@ function Statistics()
                     {
                         if (a.liked.length>b.liked.length)
                         {
-                            return 1;
+                            return -1;
                         }
-                        return -1;
+                        return 1;
                     });
                     res.end(JSON.stringify({error: false,list: list}));
                 });
@@ -99,9 +99,9 @@ function Statistics()
                     {
                         if (a.visited.length>b.visited.length)
                         {
-                            return 1;
+                            return -1;
                         }
-                        return -1;
+                        return 1;
                     });
                     res.end(JSON.stringify({error: false,list: list}));
                 });
