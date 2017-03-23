@@ -3,4 +3,4 @@ module.exports={sid: "defaultSID~~~~~~~~~~~~~~~~~~~",                       //th
                 corsDomain: false,                      //the allowed CORS domain.
                 sendSID: false,
                 domain: "http://qdzy.internal-i-focusing.com/",                 //the server's http address, will be use to provide the image url which is uploaded by client.
-                entryUrl: "/back.html"};          //The redirection after QR code scanning.
+                entryUrl: "/yixin.html"};          //The redirection after QR code scanning.

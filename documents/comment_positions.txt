@@ -39,3 +39,29 @@ let y=new RegExp(x,"ig");
 {"name" : "李阳", "phone" : "13739475812", "userLevel" : "provinceUser", "proAddress" : "北京", "townAddress" : "南充", "isInvited" : true, "isFreeze" : false, "bound" : true }
 {"name" : "李科哈哈", "phone" : "17608030267", "userLevel" : "personalUser", "proAddress" : "四川", "townAddress" : "成都", "isInvited" : true, "isFreeze" : false, "bound" : true, "openId" : "5f229a4dc904a5e5090e02a33ec101cf" }
 {"name" : "李科", "phone" : "13739475812", "userLevel" : "personalUser", "proAddress" : "四川", "townAddress" : "遂宁", "isInvited" : true, "isFreeze" : false, "bound" : true }
+
+
+
+
+
+
+
+
+查询 {category: "Companies",conditions: {}}
+query
+
+添加省 {category: "Companies",content: {name: "省名",cities: []}}
+create
+
+同时添加省&市  {category: "Companies",content: {name: "省名",cities: ["市名A","b","c"]}}
+create
+
+单独添加市 {category: "Companies",id: "省id",content: {$addToSet: {cities: "市名"}}}
+modify
+
+删除省 {category: "Companies", id: "省id"}
+delete
+
+删除城市 {category: "Companies", id: "省id",{$pull: {cities: "城名"}}}
+modify
+
