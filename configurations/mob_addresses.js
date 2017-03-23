@@ -1,4 +1,4 @@
-let addr={"a1": "/mob/views/indestrysel.html?",                //大事件
+let addr={"a1": "http://cms.myctu.cn/topic/qudaozhiying/team_building.html?",                //大事件
           "a2": "/mob/views/industrysel.html?",                //行业精选
           "a3": "/mob/views/planningLayout.html?p=bujuguihua&",                //策划布局
           "a4": "/mob/views/planningLayout.html?p=mendiantuozhan&",                //门店拓展
