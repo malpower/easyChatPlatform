@@ -159,11 +159,11 @@ lim.addLimiter("Users.modify",function(json,req)
     {
         throw new Error("Invalid permission.");
     }
-    if ((/^(provinceUser)$/).test(json.content.userLevel) || !(/^(groupUser|superAdmin|provinceUser)$/).test(user.userLevel))
+    if ((/^(provinceUser)$/).test(json.content.userLevel) && !(/^(groupUser|superAdmin|provinceUser)$/).test(user.userLevel))
     {
        throw new Error("Invalid permission.");
     }
-    if ((/^(groupUser)$/).test(json.content.userLevel) || !(/^(groupUser|superAdmin)$/).test(user.userLevel))
+    if ((/^(groupUser)$/).test(json.content.userLevel) && !(/^(groupUser|superAdmin)$/).test(user.userLevel))
     {
        throw new Error("Invalid permission.");
     }
