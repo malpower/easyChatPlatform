@@ -149,9 +149,22 @@ lim.addLimiter("Users.create",function(json,req,callback)
 lim.addLimiter("Users.modify",function(json,req)
 {
     let user=authTool.getSignData(sidTool.getReqSID(req));
-    if (user===undefined || !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
+
+    if (user===undefined)
     {
-        throw (new Error("Invalid user permission."));
+        throw (new Error("User not signed."));
+    }
+    if (json.content.userLevel==="superAdmin")
+    {
+        throw new Error("Invalid permission.");
+    }
+    if ((/^(provinceUser)$/).test(json.content.userLevel) || !(/^(groupUser|superAdmin|provinceUser)$/).test(user.userLevel))
+    {
+       throw new Error("Invalid permission.");
+    }
+    if ((/^(groupUser)$/).test(json.content.userLevel) || !(/^(groupUser|superAdmin)$/).test(user.userLevel))
+    {
+       throw new Error("Invalid permission.");
     }
     return json;
 });
