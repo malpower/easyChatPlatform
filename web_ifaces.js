@@ -169,17 +169,46 @@ function BindRoutes(initCallback)
             return res.end(JSON.stringify({error: true,code: 5,message: `The value of "category" is illegal.`}));
         }
         let category=json.category;
+        if (typeof(json.id)!=="string" && typeof(json.ids)!=="object")
+        {
+            return res.end(JSON.stringify({error: true,code: 3,message: `"id" or "ids" are required.`}));
+        }
         try
         {
-            json=limiters.getLimiter(`${category}.delete`)(json,req);
+            let limiter=limiters.getLimiter(`${category}.delete`);
+            if (limiter.length!==3)
+            {
+                json=limiter(json,req);
+            }
+            if (limiter.length===3)
+            return limiters.getLimiter(`${category}.delete`)(json,req,function(err,json)
+            {
+                let cond=new Object;
+                if (json.id)
+                {
+                    cond["_id"]=new ObjectId(json.id);
+                }
+                else if (json.ids instanceof Array)
+                {
+                    for (let i=0;i<json.ids.length;i++)
+                    {
+                        json.ids[i]=new ObjectId(json.ids[i]);
+                    }
+                    cond["_id"]={$in: json.ids};
+                }
+                database.collection(json.category).removeMany(cond,function(err,r)
+                {
+                    if (err)
+                    {
+                        return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+                    }
+                    res.end(JSON.stringify({error: false}));
+                });
+            });
         }
         catch (e)
         {
             return res.end(JSON.stringify({error: true,code: 4,message: e.message}));
-        }
-        if (typeof(json.id)!=="string" && typeof(json.ids)!=="object")
-        {
-            return res.end(JSON.stringify({error: true,code: 3,message: `"id" or "ids" are required.`}));
         }
         let cond=new Object;
         if (json.id)
