@@ -61,25 +61,15 @@ function Statistics()
                     {
                         return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
                     }
-                    let rlist=new Array;
-                    for (let i=0;list.lenth>0 && rlist.length<=10;i++)
+                    list.sort((a,b)=>
                     {
-                        let min=0;
-                        let item;
-                        let pos=0;
-                        for (let j=0;j<list.length;j++)
+                        if (a.liked.length>b.liked.length)
                         {
-                            if (list[j].liked.length>=min)
-                            {
-                                min=list[j].liked.length;
-                                item=list[j];
-                                pos=j;
-                            }
+                            return 1;
                         }
-                        rlist.push(item);
-                        list.splice(pos,1);
-                    }
-                    res.end(JSON.stringify({error: false,list: rlist}));
+                        return -1;
+                    });
+                    res.end(JSON.stringify({error: false,list: list}));
                 });
             });
             app.post("/visitedTop10",function(req,res)
@@ -105,25 +95,15 @@ function Statistics()
                     {
                         return res.end(JSON.stringify({error: true,code: 1,message: err.message}));
                     }
-                    let rlist=new Array;
-                    for (let i=0;list.lenth>0 && rlist.length<=10;i++)
+                    list.sort((a,b)=>
                     {
-                        let min=0;
-                        let item;
-                        let pos=0;
-                        for (let j=0;j<list.length;j++)
+                        if (a.visited.length>b.visited.length)
                         {
-                            if (list[j].visited.length>=min)
-                            {
-                                min=list[j].visited.length;
-                                item=list[j];
-                                pos=j;
-                            }
+                            return 1;
                         }
-                        rlist.push(item);
-                        list.splice(pos,1);
-                    }
-                    res.end(JSON.stringify({error: false,list: rlist}));
+                        return -1;
+                    });
+                    res.end(JSON.stringify({error: false,list: list}));
                 });
             });
             app.post("/getPiChart",function(req,res)
