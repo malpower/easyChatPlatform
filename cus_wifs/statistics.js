@@ -79,7 +79,7 @@ function Statistics()
                         rlist.push(item);
                         list.splice(pos,1);
                     }
-                    res.end(JSON.stringify({error: false,list: list}));
+                    res.end(JSON.stringify({error: false,list: rlist}));
                 });
             });
             app.post("/visitedTop10",function(req,res)
@@ -123,7 +123,7 @@ function Statistics()
                         rlist.push(item);
                         list.splice(pos,1);
                     }
-                    res.end(JSON.stringify({error: false,list: list}));
+                    res.end(JSON.stringify({error: false,list: rlist}));
                 });
             });
             app.post("/getPiChart",function(req,res)
@@ -141,11 +141,11 @@ function Statistics()
                 }
                 if (/^(groupUser|superAdmin)$/.test(user.userLevel))
                 {
-                    steps=[[4,5,6,7],[4,5],[6,7],[3]];
+                    steps=[[4,5,6,7,3],[4,5],[6,7],[3]];
                 }
                 else if (/^(provinceUser)$/.test(user.userLevel))
                 {
-                    steps=[[1,2,4],[1,2],[4],[3]];
+                    steps=[[1,2,4,3],[1,2],[4],[3]];
                 }
                 else
                 {
