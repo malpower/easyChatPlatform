@@ -176,7 +176,7 @@ lim.addLimiter("Users.modify",function(json,req)
 });
 
 lim.addLimiter("Users.delete",function(json,req)
-{
+{//This is a vulnerability, a province user can remove the super admins or group users.
     let user=authTool.getSignData(sidTool.getReqSID(req));
     if (user===undefined || !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
     {
@@ -186,7 +186,7 @@ lim.addLimiter("Users.delete",function(json,req)
 });
 
 lim.addLimiter("Samples.delete",function(json,req,callback)
-{
+{//Here's a vulnerability that anyone can delete somebody's draft. And province users can delete cases across provinces.
     let user=authTool.getSignData(sidTool.getReqSID(req));
     if (!user)
     {
@@ -217,6 +217,34 @@ lim.addLimiter("Satistics.modify",function(json,req)
     throw new Error("Cannot do this");
 });
 
+
+lim.addLimiter("Samples.query",function(json,req)
+{
+    let user=authTool.getSignData(sidTool.getReqSID(req));
+    if (!user)
+    {
+        return callback(new Error("User not signed in."));
+    }
+    if (!(/^(superAdmin|groupUser)&/.test(user.userLevel)) && json.condition.checkState!==7)
+    {
+        json.conditions["userInfo.proAddress"]=user.proAddress;
+    }
+    return json;
+});
+
+lim.addLimiter("Users.query",function(json,req)
+{
+    let user=authTool.getSignData(sidTool.getReqSID(req));
+    if (!user)
+    {
+        return callback(new Error("User not signed in."));
+    }
+    if (!(/^(superAdmin|groupUser)&/.test(user.userLevel)))
+    {
+        json.conditions["proAddress"]=user.proAddress;
+    }
+    return json;
+});
 
 
 module.exports=lim;
