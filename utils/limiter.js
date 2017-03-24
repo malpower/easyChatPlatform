@@ -228,7 +228,7 @@ lim.addLimiter("Samples.query",function(json,req)
     let user=authTool.getSignData(sidTool.getReqSID(req));
     if (!user)
     {
-        return callback(new Error("User not signed in."));
+        throw new Error("User not signed in.");
     }
     if (!(/^(superAdmin|groupUser)$/.test(user.userLevel)) && json.conditions.checkState!==7)
     {
@@ -242,7 +242,7 @@ lim.addLimiter("Users.query",function(json,req)
     let user=authTool.getSignData(sidTool.getReqSID(req));
     if (!user)
     {
-        return callback(new Error("User not signed in."));
+        throw new Error("User not signed in.");
     }
     if (!(/^(superAdmin|groupUser)$/.test(user.userLevel)))
     {
