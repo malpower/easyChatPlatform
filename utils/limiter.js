@@ -228,7 +228,7 @@ lim.addLimiter("Samples.query",function(json,req)
     let user=authTool.getSignData(sidTool.getReqSID(req));
     if (!user)
     {
-        json.conditionscheckState=7;
+        json.conditions.checkState=7;
     }
     if (!(/^(superAdmin|groupUser)$/.test(user.userLevel)) && json.conditions.checkState!==7)
     {
