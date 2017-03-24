@@ -46,7 +46,7 @@ function MobWeb()
                 }
                 let openId=json.openId;
                 let caseId=json.caseId;
-                if (!openId || (!caseId && !json.userId))
+                if (!caseId || (!openId && !json.userId))
                 {
                     return res.end(JSON.stringify({error: true,code: 3,message: "caseId or userId and openId are required"}));
                 }
