@@ -27,25 +27,13 @@ $(document).ready(function () {
 				}
 				return "20"+year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second; 
 			};
-/*     $.ajax({
-		 	  	type:"post",
-		 	  	url:"http://qdzy.internal-i-focusing.com/wif/data/query",
-		 	  	async:true,
-		 	  	dataType:'json',
-		 	  	data:JSON.stringify({
-		 	  		category: 'Users',   //积分
-					conditions: {openId:id},	
-		 	 	 }),
-		 	 	 success:function(res){
-		 	 	 	console.log(res.list[0]._id)
-					if(!res.error){*/
 			$.ajax({
 		 	  	type:"post",
 		 	  	url:"http://qdzy.internal-i-focusing.com/wif/data/query",
 		 	  	async:true,
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({
-		 	  		category: 'Samples',   
+		 	  		category: 'Samples',   //积分
 					conditions: {"like.openId":id},
 					filter: {caseImg: 0},//查询条件，格式与mongodb查询条件相同
 					pageNumber: 0,   //页码，可选，从0起记
@@ -68,10 +56,5 @@ $(document).ready(function () {
 									}
 								  }			
 								}
-		 		  			});
-		        
-		/*				}			
-					}
-		 	 });
-*/
+		 		  		});
 });
