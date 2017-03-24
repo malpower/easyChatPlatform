@@ -229,6 +229,7 @@ lim.addLimiter("Samples.query",function(json,req)
     if (!user)
     {
         json.conditions.checkState=7;
+        user={};
     }
     if (!(/^(superAdmin|groupUser)$/.test(user.userLevel)) && json.conditions.checkState!==7)
     {
