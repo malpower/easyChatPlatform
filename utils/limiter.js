@@ -231,7 +231,7 @@ lim.addLimiter("Samples.query",function(json,req)
         json.conditions.checkState=7;
         user={};
     }
-    if (!(/^(superAdmin|groupUser)$/.test(user.userLevel)) && json.conditions.checkState!==7)
+    if (!(/^(superAdmin|groupUser)$/.test(user.userLevel)) && json.conditions.checkState!==7 && typeof(json.conditions._id)!=="string")
     {
         json.conditions["userInfo.proAddress"]=user.proAddress;
     }
