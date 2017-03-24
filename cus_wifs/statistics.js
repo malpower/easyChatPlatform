@@ -69,6 +69,7 @@ function Statistics()
                         }
                         return 1;
                     });
+                    list.length=(list.length>10?10:list.length);
                     res.end(JSON.stringify({error: false,list: list}));
                 });
             });
@@ -103,6 +104,7 @@ function Statistics()
                         }
                         return 1;
                     });
+                    list.length=(list.length>10?10:list.length);
                     res.end(JSON.stringify({error: false,list: list}));
                 });
             });
