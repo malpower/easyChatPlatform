@@ -230,7 +230,7 @@ lim.addLimiter("Samples.query",function(json,req)
     {
         return callback(new Error("User not signed in."));
     }
-    if (!(/^(superAdmin|groupUser)&/.test(user.userLevel)) && json.condition.checkState!==7)
+    if (!(/^(superAdmin|groupUser)&/.test(user.userLevel)) && json.conditions.checkState!==7)
     {
         json.conditions["userInfo.proAddress"]=user.proAddress;
     }
