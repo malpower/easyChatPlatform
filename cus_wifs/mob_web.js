@@ -108,11 +108,14 @@ function MobWeb()
                     return res.end(JSON.stringify({error: true,code: 1,message: "Invalid request json format."}));
                 }
                 let openId=json.openId;
+                json.pageNumber=json.pageNumber || 0;
+                json.pageSize=json.pageSize || 1024;
+                json.sort=json.sort || {};
                 if (!openId)
                 {
                     return res.end(JSON.stringify({error: true,code: 3,message: "caseId and openId are required"}));
                 }
-                db.collection("Samples").find({"liked.openId": openId.toString()},{caseImg: 0}).toArray(function(err,list)
+                db.collection("Samples").find({"liked.openId": openId.toString()},{caseImg: 0}).skip(json.pageSize*json.pageNumber).limit(json.pageSize).sort(json.sort).toArray(function(err,list)
                 {
                     if (err)
                     {

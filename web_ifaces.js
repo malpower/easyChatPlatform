@@ -183,6 +183,10 @@ function BindRoutes(initCallback)
             if (limiter.length===3)
             return limiters.getLimiter(`${category}.delete`)(json,req,function(err,json)
             {
+                if (err)
+                {
+                    return res.end(JSON.stringify({error: true,code: 4,message: err.message}));
+                }
                 let cond=new Object;
                 if (json.id)
                 {
