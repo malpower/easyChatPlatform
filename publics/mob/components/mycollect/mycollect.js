@@ -34,7 +34,7 @@ $(document).ready(function () {
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({
 		 	  		category: 'Samples',   //积分
-					conditions: {"like.openId":id},
+					conditions: {"liked.openId":id},
 					filter: {caseImg: 0},//查询条件，格式与mongodb查询条件相同
 					pageNumber: 0,   //页码，可选，从0起记
 					pageSize: 10,    //页大小，可选
