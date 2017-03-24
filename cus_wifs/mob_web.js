@@ -46,11 +46,20 @@ function MobWeb()
                 }
                 let openId=json.openId;
                 let caseId=json.caseId;
-                if (!openId || !caseId)
+                if (!openId || (!caseId && !json.userId))
                 {
-                    return res.end(JSON.stringify({error: true,code: 3,message: "caseId and openId are required"}));
+                    return res.end(JSON.stringify({error: true,code: 3,message: "caseId or userId and openId are required"}));
                 }
-                db.collection("Users").find({openId: openId}).toArray(function(err,list)
+                let cond={};
+                if (openId)
+                {
+                    cond.openId=openId;
+                }
+                if (json.userId)
+                {
+                    cond._id=new ObjectId(json.userId);
+                }
+                db.collection("Users").find(cond).toArray(function(err,list)
                 {
                     if (err)
                     {
