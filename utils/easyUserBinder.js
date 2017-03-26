@@ -17,11 +17,7 @@ function BindUserOnEasyChat(openId,easy,database,callback)
             }
             if (list.length===0)
             {
-                return database.collection("Users").insert({phone: json.mobile,openId: openId,visitor: true,isFreeze: true},function(err,r)
-                {
-                    let user={_id: new ObjectId(r.ids[0]),phone: json.mobile,openId: openId,visitor: true,bound: true,isFreeze: true};
-                    process.nextTick(callback,undefined,user);
-                });
+                return process.nextTick(callback,new Error("NO USER FOUND IN DB."));
             }
             database.collection("Users").update({_id: new ObjectId(id)},{$set: {openId: openId,bound: true}});
             list[0].openId=openId;

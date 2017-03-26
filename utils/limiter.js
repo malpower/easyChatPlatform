@@ -149,18 +149,8 @@ lim.addLimiter("Users.create",function(json,req,callback)
         }
         if (list.length!==0)
         {
-            for (let item of list)
-            {
-                if (list[i].visitor!==true)
-                {
-                    return callback(new Error("The phone number existed."));
-                }
-                database.collection("Users").remove({phone: json.content.phone});
-                json.content.bound=true;
-                json.content.openId=item.openId;
-            }
+            return callback(new Error("The phone number existed."));
         }
-        json.content.visitor=false;
         callback(undefined,json);
     });
 });
