@@ -56,13 +56,13 @@ function Statistics()
                     {
                         return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
                     }
-                    let data=new Map;
+                    let data=new Object;
                     for (let item of list)
                     {
                         data[item.case.userInfo.name]=(data[item.case.userInfo.name] || 0)+item.score;
                     }
                     let r=new Array;
-                    for (let item of data.keys())
+                    for (let item in data)
                     {
                         r.push([item,data[item]]);
                     }
@@ -113,7 +113,7 @@ function Statistics()
                     {
                         return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
                     }
-                    let map=new Map;
+                    let map=new Object;
                     for (let item of list)
                     {
                         let queue;
@@ -143,7 +143,7 @@ function Statistics()
                         }
                     }
                     let r=new Array;
-                    for (let item of map.keys())
+                    for (let item in map)
                     {
                         if (map[item].passed.length+map[item].rejected.length===0)
                         {
@@ -173,7 +173,7 @@ function Statistics()
                     {
                         return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
                     }
-                    let map=new Map;
+                    let map=new Object;
                     for (let item of list)
                     {
                         let queue;
@@ -196,7 +196,7 @@ function Statistics()
                         queue.score+=item.score;
                     }
                     let r=new Array;
-                    for (let item of map.keys())
+                    for (let item in map)
                     {
                         r.push([item,map[item].score]);
                     }
@@ -216,7 +216,7 @@ function Statistics()
                     {
                         return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
                     }
-                    let map=new Map;
+                    let map=new Object;
                     for (let item of list)
                     {
                         let queue;
@@ -246,7 +246,7 @@ function Statistics()
                         }
                     }
                     let r=new Array;
-                    for (let item of map.keys())
+                    for (let item in map)
                     {
                         r.push([item,(map[item].passed.length+map[item].rejected.length)]);
                     }
