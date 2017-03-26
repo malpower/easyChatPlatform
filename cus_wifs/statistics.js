@@ -32,7 +32,7 @@ function Statistics()
                     }
                     list.sort((a,b)=>
                     {
-                        return a.visited.length-b.visited.length;
+                        return b.visited.length-a.visited.length;
                     });
                     list.length=(list.length>10?10:list.length);
                     let r=new Array;
@@ -66,6 +66,10 @@ function Statistics()
                     {
                         r.push([item,data[item]]);
                     }
+                    r=r.sort((a,b)
+                    {
+                        return b[1]-a[1];
+                    });
                     r.length=(r.length>10?10:r.length);
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}积分统计Top10`,"姓名,积分",res);
                 },preprocessor: (target,cb)=>
@@ -85,7 +89,7 @@ function Statistics()
                     }
                     list.sort((a,b)=>
                     {
-                        return a.liked.length-b.liked.length;
+                        return b.liked.length-a.liked.length;
                     });
                     list.length=(list.length>10?10:list.length);
                     let r=new Array;
