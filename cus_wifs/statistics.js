@@ -66,7 +66,7 @@ function Statistics()
                     {
                         r.push([item,data[item]]);
                     }
-                    r=r.sort((a,b)
+                    r=r.sort((a,b)=>
                     {
                         return b[1]-a[1];
                     });
