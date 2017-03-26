@@ -31,7 +31,7 @@ function MobWeb()
                     }
                     if (list.length===0)
                     {
-                        return res.end(JSON.stringify({error: true,code: 2,message: "Invalid openId"}));
+                        list.push({_id: ""});
                     }
                     db.collection("Samples").update({_id: new ObjectId(caseId)},{$addToSet: {"liked": {openId: openId,user: list[0]._id.toString(),createTime: (new Date).getTime()}}});
                     res.end(JSON.stringify({error: false}));
@@ -67,7 +67,7 @@ function MobWeb()
                     }
                     if (list.length===0)
                     {
-                        return res.end(JSON.stringify({error: true,code: 2,message: "Invalid openId"}));
+                        list.push({_id: ""});
                     }
                     db.collection("Samples").update({_id: new ObjectId(caseId)},{$pull: {"liked": {user: list[0]._id.toString()}}});
                     res.end(JSON.stringify({error: false}));
