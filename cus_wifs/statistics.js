@@ -454,7 +454,7 @@ function Statistics()
                             r.push([item,"N/A"]);
                             continue;
                         }
-                        r.push([item,((map[item].passed.length/(map[item].passed.length+map[item].rejected.length))*100)+"%"]);
+                        r.push([item,((map[item].passed.length/(map[item].passed.length+map[item].rejected.length))*100)]);
                     }
                     res.end(JSON.stringify({error: false,list: r}));
                 },preprocessor: (target,cb)=>
