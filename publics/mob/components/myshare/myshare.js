@@ -1,50 +1,11 @@
 /**
  * Created by dai on 2017/2/23.
  */
-/*$(document).ready(function () {
-    var datas=[
-        {
-            img:'../components/common/images/5.jpg',
-            title:'怎样做好门店营销？这里是课程名称',
-            time:'2016.11.03'
-        },
-        {
-            img:'../components/common/images/4.jpg',
-            title:'怎样做好门店营销？这里是课程名称',
-            time:'2016.11.03'
-        },
-        {
-            img:'../components/common/images/3.jpg',
-            title:'怎样做好门店营销？这里是课程名称',
-            time:'2016.11.03'
-        },
-        {
-            img:'../components/common/images/2.jpg',
-            title:'怎样做好门店营销？这里是课程名称',
-            time:'2016.11.03'
-        }
-    ]
-    initHtml(datas);
-});
-function initHtml(data){
-    data.forEach(function(el,i){
-        var html=' <li>'+
-            '<div class="fl ui-img" style="background: url('+el.img+')no-repeat center;background-size: 100% 100%;"></div>'+
-            '<div class="fl ui-info">'+
-            '<h2 class="ft-14" >'+el.title+'</h2>'+
-        '<p class="ft-12 ui-btm-hink">'+el.time+'</p>'+
-        '</div>'+
-        '</li>';
-        $('#myshareList').append(html)
-    })
-
-}*/
-
 $(function(){
 				 //  隐藏webview菜单按钮
-    /*document.addEventListener('YixinJSBridgeReady', function onBridgeReady(){
+    document.addEventListener('YixinJSBridgeReady', function onBridgeReady(){
         YixinJSBridge.call('hideOptionMenu');
-   });*/
+   });
         var id = location.search.split('&')[1].split('=')[1];
         function Ajax(Id){
         		$.ajax({
@@ -55,7 +16,7 @@ $(function(){
 		 	  	dataType:'json',
 		 	  	data:JSON.stringify({
 		 	  		category: 'Samples',   //积分
-					conditions: {createUser:Id},     //查询条件，格式与mongodb查询条件相同
+					conditions: {'userInfo.openId':Id},     //查询条件，格式与mongodb查询条件相同
 					pageNumber: 0,   //页码，可选，从0起记
 					pageSize: 1000,    //页大小，可选
 					sort: {} }),
