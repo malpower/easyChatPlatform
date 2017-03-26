@@ -37,29 +37,7 @@
     .l-bg img{
       width: 250px;
       height: 250px;
-      margin: 50px auto 30px;      
-    }
-    .data-stamp{
-    	display: none;
-    }
-    .hink-box{
-    	width: 250px;
-      height: 250px;
-      position: absolute;
-	    top: 92px;
-	    left: 225px;
-	    text-align: center;  
-	    background: rgba(0,0,0,.5);
-	    cursor: pointer;	 
-	    display: none;  
-	    color: #fff;     
-    }
-    .hink-box .icon{
-    	width: 100px;
-    	height: 100px;
-    	background: url(images/timg.jpg) no-repeat center;
-    	background-size: 100% 100%;
-    	margin:50px 0 20px 77px;
+      margin: 50px auto 30px;
     }
 
 </style>
@@ -67,19 +45,10 @@
      <div class="login-box">
        <div class="l-bg">
            <h1 class="ft-36">渠道智赢后台管理系统</h1>
-           
-           <img src="https://api.yixin.im/cgi-bin/qrcode/showqrcode?ticket=<%=qrTicket%>" />
-           <div class="hink-box">
-           		<div class="icon"></div>
-           		<span>点击刷新</span>
-           </div>
-           <p class="ft-26">创新&nbsp;&nbsp;专业&nbsp;&nbsp;开放&nbsp;&nbsp;信任 </p>   
-           <span class="data-stamp"><%=qrStamp%></span>
+           <img src="./images/def_ewm.png">
+           <p class="ft-26">创新&nbsp;&nbsp;专业&nbsp;&nbsp;开放&nbsp;&nbsp;信任 </p>
        </div>
     </div>
-     <script type="text/javascript" src="/libs/jquery-3.1.1.min.js"></script>
-		<script type="text/javascript" src="/scripts/api.js"></script>
-		<script type="text/javascript" src="/scripts/oauth.js"></script>
   </body>
 </html>
 
