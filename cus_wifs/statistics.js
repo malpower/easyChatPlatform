@@ -192,7 +192,7 @@ function Statistics()
                             r.push([item,"N/A"]);
                             continue;
                         }
-                        r.push([item,((map[item].passed.length/(map[item].passed.length+map[item].rejected.length))*100)+"%"]);
+                        r.push([item,((map[item].passed.length/(map[item].passed.length+map[item].rejected.length))*100).toFixed(0)+"%"]);
                     }
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}各地通过率`,"地区,通过率",res);
                 },preprocessor: (target,cb)=>
@@ -454,7 +454,7 @@ function Statistics()
                             r.push([item,"N/A"]);
                             continue;
                         }
-                        r.push([item,((map[item].passed.length/(map[item].passed.length+map[item].rejected.length))*100)]);
+                        r.push([item,((map[item].passed.length/(map[item].passed.length+map[item].rejected.length))*100).toFixed(0)]);
                     }
                     res.end(JSON.stringify({error: false,list: r}));
                 },preprocessor: (target,cb)=>
