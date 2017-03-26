@@ -14,13 +14,9 @@ function Statistics()
     {
         Mongo.connect(config.database.address,function(err,db)
         {
-            app.post("/exportCsv",function(req,res)
+            app.get("/exportCsv",function(req,res)
             {
-                let json=format.getReqJson(req);
-                if (!json)
-                {
-                    return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON structure"}));
-                }
+                let json={startTime: Number(req.query.startTime),endTime: Number(req.query.endTime)};
                 let cUser=authTool.getSignData(sidTool.getReqSID(req));
                 if (cUser===undefined)
                 {
