@@ -47,6 +47,7 @@ function Statistics()
                     {
                         target.conditions.userInfo.proAddress=cUser.proAddress;
                     }
+                    target.conditions["visited.createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
                 }};
                 q["scoreTop10"]={category: "Statistics",conditions: {},processor:(err,list)=>
@@ -73,6 +74,7 @@ function Statistics()
                     {
                         target.conditions.case.userInfo.proAddress=cUser.proAddress;
                     }
+                    target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
                 }};
                 q["likedTop10"]={category: "Samples",conditions: {},processor:(err,list)=>
@@ -98,6 +100,7 @@ function Statistics()
                     {
                         target.conditions.userInfo.proAddress=cUser.proAddress;
                     }
+                    target.conditions["liked.createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
                 }};
                 q["passRatio"]={category: "Samples",conditions: {},processor:(err,list)=>
@@ -157,6 +160,7 @@ function Statistics()
                     {
                         target.conditions.checkState={$in: [6,8]};
                     }
+                    target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
                 }};
                 q["scoreSum"]={category: "Statistics",conditions: {},processor:(err,list)=>
@@ -199,9 +203,7 @@ function Statistics()
                     {
                         target.conditions.case.userInfo.proAddress=cUser.proAddress;
                     }
-                    else
-                    {
-                    }
+                    target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
                 }};
                 q["submitSum"]={category: "Samples",conditions: {},processor:(err,list)=>
@@ -251,10 +253,11 @@ function Statistics()
                     {
                         target.conditions.userInfo.proAddress=cUser.proAddress;
                     }
+                    target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
                 }};
                 let target=q[json.target];
-                target.conditions.createTime={$gte: json.startTime,$lt: json.endTime};
+                
                 target.preprocessor(target,()=>
                 {
                     db.collection(target.category).find(target.conditions,{caseImg: 0,caseHtml: 0,caseAbstract: 0}).toArray(target.processor);
