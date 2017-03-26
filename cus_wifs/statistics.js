@@ -254,7 +254,7 @@ function Statistics()
                     cb();
                 }};
                 let target=q[json.target];
-                q.conditions.createTime={$gte: json.startTIme,$lt: json.endTime};
+                q.conditions.createTime={$gte: json.startTime,$lt: json.endTime};
                 q.preprocessor(target,()=>
                 {
                     db.collection(q.category).find(q.conditions,{caseImg: 0,caseHtml: 0,caseAbstract: 0}).toArray(q.processor);
