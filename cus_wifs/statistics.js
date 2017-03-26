@@ -126,7 +126,7 @@ function Statistics()
                             }
                             queue=map[item.userInfo.proAddress];
                         }
-                        if (item.checkState===4 || item.checkState===6)
+                        if (/^(4|6|7|5)$/.test(item.checkState.toString()))
                         {
                             queue.passed.push(item);
                         }
@@ -250,11 +250,6 @@ function Statistics()
                     if (!(/^(groupUser|superAdmin)$/).test(user.userLevel))
                     {
                         target.conditions.userInfo.proAddress=cUser.proAddress;
-                        target.conditions.checkState={$in: [1]};
-                    }
-                    else
-                    {
-                        target.conditions.checkState={$in: [4]};
                     }
                     cb();
                 }};

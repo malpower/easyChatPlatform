@@ -170,7 +170,47 @@ function BindRoutes(initCallback)
         let category=json.category;
         try
         {
-            json=limiters.getLimiter(`${category}.delete`)(json,req);
+            let limiter=limiters.getLimiter(`${category}.delete`);
+            if (limiter.length===2)
+            {
+                json=limiter(json,req);
+            }
+            else
+            {
+                return limiter(json,req,function(err,json)
+                {
+                    if (err)
+                    {
+                        return res.end(JSON.stringify({error: true,code: 4,message: err.message}));
+                    }
+                    if (typeof(json.id)!=="string" && typeof(json.ids)!=="object")
+                    {
+                        return res.end(JSON.stringify({error: true,code: 3,message: `"id" or "ids" are required.`}));
+                    }
+                    let cond=new Object;
+                    if (json.id)
+                    {
+                        cond["_id"]=new ObjectId(json.id);
+                    }
+                    else if (json.ids instanceof Array)
+                    {
+                        for (let i=0;i<json.ids.length;i++)
+                        {
+                            json.ids[i]=new ObjectId(json.ids[i]);
+                        }
+                        cond["_id"]={$in: json.ids};
+                    }
+                    database.collection(json.category).removeMany(cond,function(err,r)
+                    {
+                        if (err)
+                        {
+                            return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+                        }
+                        res.end(JSON.stringify({error: false}));
+                    });
+                });
+            }
+
         }
         catch (e)
         {
