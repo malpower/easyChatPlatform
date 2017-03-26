@@ -38,7 +38,7 @@ function Statistics()
                     let r=new Array;
                     for (let item of list)
                     {
-                        r=[item.caseTitle,item.visited.length];
+                        r.push([item.caseTitle,item.visited.length]);
                     }
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}案例浏览Top10`,"案例名称,浏览量",res);
                 },preprocessor: (target,cb)=>
@@ -89,7 +89,7 @@ function Statistics()
                     let r=new Array;
                     for (let item of list)
                     {
-                        r=[item.caseTitle,item.liked.length];
+                        r.push([item.caseTitle,item.liked.length]);
                     }
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}案例收藏Top10`,"案例名称,收藏量",res);
                 },preprocessor: (target,cb)=>
