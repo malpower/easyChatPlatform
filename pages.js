@@ -80,6 +80,12 @@ function Init(initCallback)
             res.end(buffer);
         });
     });
+    app.get("/user/signOut",function(req,res)
+    {
+        let sid=sidTool.getReqSID(req);
+        authTool.removeSign(sid);
+        res.redirect("/");
+    });
     app.get("/initialize",function(req,res)
     {//this is the initialization page after user scanning the QR code, fontend must redirect to this page after calling /waitingScanQrCode interface.
         let sid=sidTool.getReqSID(req);
