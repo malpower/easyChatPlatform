@@ -109,7 +109,7 @@ lim.addLimiter("Samples.modify",function(json,req)
     }
     Reflect.deleteProperty(json.content,"isPerfect");
     Reflect.deleteProperty(json.content,"userInfo");
-    if (json.content.checkState!==1 && !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
+    if (json.content.checkState!==100 && !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
     {
         throw (new Error("Invalid user permission."));
     }
@@ -196,6 +196,10 @@ lim.addLimiter("Samples.delete",function(json,req,callback)
     if (!user)
     {
         return callback(new Error("User not signed in."));
+    }
+    if ((/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
+    {
+        return callback(undefined,json);
     }
     database.collection("Samples").find({_id: new ObjectId(json.id)},{checkState: 1}).toArray(function(err,list)
     {

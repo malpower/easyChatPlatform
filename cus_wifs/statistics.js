@@ -4,6 +4,8 @@ const ObjectId=require("mongodb").ObjectID;
 const config=require("../config");
 const authTool=require("../auth");
 const sidTool=require("../utils/sid");
+const csvTool=require("../utils/csv_exporter");
+const dateFormater=require("../utils/date_formater");
 
 
 function Statistics()
@@ -12,6 +14,261 @@ function Statistics()
     {
         Mongo.connect(config.database.address,function(err,db)
         {
+            app.post("/exportCsv",function(req,res)
+            {
+                let json=format.getReqJson(req);
+                if (!json)
+                {
+                    return res.end(JSON.stringify({error: true,code: 1,message: "Invalid JSON structure"}));
+                }
+                let cUser=authTool.getSignData(sidTool.getReqSID(req));
+                if (cUser===undefined)
+                {
+                    return res.end(JSON.stringify({error: true,code: 8,message: "User not signed in."}));
+                }
+                let q=new Map;
+                
+                q["visitTop10"]={category: "Samples",conditions: {},processor:(err,list)=>
+                {
+                    if (err)
+                    {
+                        return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+                    }
+                    list.sort((a,b)=>
+                    {
+                        return a.visited.length-b.visited.length;
+                    });
+                    list.length=(list.length>10?10:list.length);
+                    let r=new Array;
+                    for (let item of list)
+                    {
+                        r=[item.caseTitle,item.visited.length];
+                    }
+                    csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}案例浏览Top10`,"案例名称,浏览量",res);
+                },preprocessor: (target,cb)=>
+                {
+                    if (!(/^(groupUser|superAdmin)$/).test(user.userLevel))
+                    {
+                        target.conditions.userInfo.proAddress=cUser.proAddress;
+                    }
+                    cb();
+                }};
+                q["scoreTop10"]={category: "Statistics",conditions: {},processor:(err,list)=>
+                {
+                    if (err)
+                    {
+                        return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+                    }
+                    let data=new Map;
+                    for (let item of list)
+                    {
+                        data[item.case.userInfo.name]=(data[item.case.userInfo.name] || 0)+list[i].score;
+                    }
+                    let r=new Array;
+                    for (let item of data.keys())
+                    {
+                        r.push([item,data[item]]);
+                    }
+                    r.length=(r.length>10?10:r.length);
+                    csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}积分统计Top10`,"姓名,积分",res);
+                },preprocessor: (target,cb)=>
+                {
+                    if (!(/^(groupUser|superAdmin)$/).test(user.userLevel))
+                    {
+                        target.conditions.case.userInfo.proAddress=cUser.proAddress;
+                    }
+                    cb();
+                }};
+                q["likedTop10"]={category: "Samples",conditions: {},processor:(err,list)=>
+                {
+                    if (err)
+                    {
+                        return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+                    }
+                    list.sort((a,b)=>
+                    {
+                        return a.liked.length-b.liked.length;
+                    });
+                    list.length=(list.length>10?10:list.length);
+                    let r=new Array;
+                    for (let item of list)
+                    {
+                        r=[item.caseTitle,item.liked.length];
+                    }
+                    csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}案例收藏Top10`,"案例名称,收藏量",res);
+                },preprocessor: (target,cb)=>
+                {
+                    if (!(/^(groupUser|superAdmin)$/).test(user.userLevel))
+                    {
+                        target.conditions.userInfo.proAddress=cUser.proAddress;
+                    }
+                    cb();
+                }};
+                q["passRatio"]={category: "Samples",conditions: {},processor:(err,list)=>
+                {
+                    if (err)
+                    {
+                        return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+                    }
+                    let map=new Map;
+                    for (let item of list)
+                    {
+                        let queue;
+                        if (!(/^(groupUser|superAdmin)$/).test(user.userLevel))
+                        {
+                            if (map[item.userInfo.townAddress]===undefined)
+                            {
+                                map[item.userInfo.townAddress]={passed: new Array,rejected: new Array};
+                            }
+                            queue=map[item.userInfo.townAddress];
+                        }
+                        else
+                        {
+                            if (map[item.userInfo.proAddress]===undefined)
+                            {
+                                map[item.userInfo.proAddress]={passed: new Array,rejected: new Array};
+                            }
+                            queue=map[item.userInfo.proAddress];
+                        }
+                        if (item.checkState===4 || item.checkState===6)
+                        {
+                            queue.passed.push(item);
+                        }
+                        else
+                        {
+                            queue.rejected.push(item);
+                        }
+                    }
+                    let r=new Array;
+                    for (let item of map.keys())
+                    {
+                        if (map[item].passed.length+map[item].rejected.length===0)
+                        {
+                            r.push([item,"N/A"]);
+                            continue;
+                        }
+                        r.push([item,map[item].passed.length/(map[item].passed.length+map[item].rejected.length)]);
+                    }
+                    csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}各地通过率`,"地区,通过率",res);
+                },preprocessor: (target,cb)=>
+                {
+                    if (!(/^(groupUser|superAdmin)$/).test(user.userLevel))
+                    {
+                        target.conditions.userInfo.proAddress=cUser.proAddress;
+                        target.conditions.checkState={$in: [4,3]};
+                    }
+                    else
+                    {
+                        target.conditions.checkState={$in: [6,8]};
+                    }
+                    cb();
+                }};
+                q["scoreSum"]={category: "Statistics",conditions: {},processor:(err,list)=>
+                {
+                    if (err)
+                    {
+                        return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+                    }
+                    let map=new Map;
+                    for (let item of list)
+                    {
+                        let queue;
+                        if (!(/^(groupUser|superAdmin)$/).test(user.userLevel))
+                        {
+                            if (map[item.case.userInfo.townAddress]===undefined)
+                            {
+                                map[item.case.userInfo.townAddress]={score: 0};
+                            }
+                            queue=map[item.case.userInfo.townAddress];
+                        }
+                        else
+                        {
+                            if (map[item.case.userInfo.proAddress]===undefined)
+                            {
+                                map[item.case.userInfo.proAddress]={score: 0};
+                            }
+                            queue=map[item.case.userInfo.proAddress];
+                        }
+                        queue.score+=item.score;
+                    }
+                    let r=new Array;
+                    for (let item of map.keys())
+                    {
+                        r.push(item,map[item].score);
+                    }
+                    csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}各地分积总和`,"地区,积分",res);
+                },preprocessor: (target,cb)=>
+                {
+                    if (!(/^(groupUser|superAdmin)$/).test(user.userLevel))
+                    {
+                        target.conditions.case.userInfo.proAddress=cUser.proAddress;
+                    }
+                    else
+                    {
+                    }
+                    cb();
+                }};
+                q["submitSum"]={category: "Samples",conditions: {},processor:(err,list)=>
+                {
+                    if (err)
+                    {
+                        return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+                    }
+                    let map=new Map;
+                    for (let item of list)
+                    {
+                        let queue;
+                        if (!(/^(groupUser|superAdmin)$/).test(user.userLevel))
+                        {
+                            if (map[item.userInfo.townAddress]===undefined)
+                            {
+                                map[item.userInfo.townAddress]={passed: new Array,rejected: new Array};
+                            }
+                            queue=map[item.userInfo.townAddress];
+                        }
+                        else
+                        {
+                            if (map[item.userInfo.proAddress]===undefined)
+                            {
+                                map[item.userInfo.proAddress]={passed: new Array,rejected: new Array};
+                            }
+                            queue=map[item.userInfo.proAddress];
+                        }
+                        if (item.checkState===4 || item.checkState===6)
+                        {
+                            queue.passed.push(item);
+                        }
+                        else
+                        {
+                            queue.rejected.push(item);
+                        }
+                    }
+                    let r=new Array;
+                    for (let item of map.keys())
+                    {
+                        r.push([item,(map[item].passed.length+map[item].rejected.length)]);
+                    }
+                    csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}各地提交量`,"地区,提交量",res);
+                },preprocessor: (target,cb)=>
+                {
+                    if (!(/^(groupUser|superAdmin)$/).test(user.userLevel))
+                    {
+                        target.conditions.userInfo.proAddress=cUser.proAddress;
+                        target.conditions.checkState={$in: [1]};
+                    }
+                    else
+                    {
+                        target.conditions.checkState={$in: [4]};
+                    }
+                    cb();
+                }};
+                let target=q[json.process];
+                q.conditions.createTime={$gte: json.startTIme,$lt: json.endTime};
+                q.preprocessor(target,()=>
+                {
+                    db.collection(q.category).find(q.conditions,{caseImg: 0,caseHtml: 0,caseAbstract: 0}).toArray(q.processor);
+                });
+            });
             app.post("/getSubmitReportByUser",function(req,res)
             {
                 let json=format.getReqJson(req);
