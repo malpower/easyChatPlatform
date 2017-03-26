@@ -149,8 +149,18 @@ lim.addLimiter("Users.create",function(json,req,callback)
         }
         if (list.length!==0)
         {
-            return callback(new Error("The phone number existed."));
+            for (let item of list)
+            {
+                if (list[i].visitor!==true)
+                {
+                    return callback(new Error("The phone number existed."));
+                }
+                database.collection("Users").remove({phone: json.content.phone});
+                json.content.bound=true;
+                json.content.openId=item.openId;
+            }
         }
+        json.content.visitor=false;
         callback(undefined,json);
     });
 });
@@ -253,6 +263,7 @@ lim.addLimiter("Users.query",function(json,req)
     {
         json.conditions["proAddress"]=user.proAddress;
     }
+    json.conditions["visitor"]=false;
     return json;
 });
 
