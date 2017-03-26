@@ -23,7 +23,49 @@ function Statistics()
                     return res.end(JSON.stringify({error: true,code: 8,message: "User not signed in."}));
                 }
                 let q=new Map;
-                
+                q["scoreHistory"]={category: "Statistics",conditions: {},processor:(err,list)=>
+                {
+                    if (err)
+                    {
+                        return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+                    }
+                    let r=new Array;
+                    for (let item of list)
+                    {
+                        r.push([dateFormater.format(item.createTime),item.case.userInfo.proAddress+item.case.userInfo.townAddress,item.case.userInfo.name,item.reason,item.score]);
+                    }
+                    csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}积分详情`,"积分日期,地区,积分人姓名,积分来源,积分值",res);
+                },preprocessor: (target,cb)=>
+                {
+                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    {
+                        target.conditions["case.userInfo.proAddress"]=cUser.proAddress;
+                    }
+                    target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
+                    cb();
+                }};
+                q["cases"]={category: "Samples",conditions: {checkState: {$ne: 100}},processor:(err,list)=>
+                {
+                    if (err)
+                    {
+                        return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+                    }
+                    let r=new Array;
+                    const states=["","未审核","审核中","省驳回","省通过","集团审核中","集团已通过","已发布","集团已驳回"];
+                    for (let item of list)
+                    {
+                        r.push([dateFormater.format(item.createTime),item.userInfo.proAddress+item.userInfo.townAddress,item.caseTitle,states[item.checkState]]);
+                    }
+                    csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}案例详情`,"上传日期,地区,案例名称,审核信息",res);
+                },preprocessor: (target,cb)=>
+                {
+                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    {
+                        target.conditions["case.userInfo.proAddress"]=cUser.proAddress;
+                    }
+                    target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
+                    cb();
+                }};
                 q["visitTop10"]={category: "Samples",conditions: {},processor:(err,list)=>
                 {
                     if (err)
@@ -45,7 +87,7 @@ function Statistics()
                 {
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
-                        target.conditions.userInfo.proAddress=cUser.proAddress;
+                        target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
                     target.conditions["visited.createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
@@ -76,7 +118,7 @@ function Statistics()
                 {
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
-                        target.conditions.case.userInfo.proAddress=cUser.proAddress;
+                        target.conditions["case.userInfo.proAddress"]=cUser.proAddress;
                     }
                     target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
@@ -102,7 +144,7 @@ function Statistics()
                 {
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
-                        target.conditions.userInfo.proAddress=cUser.proAddress;
+                        target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
                     target.conditions["liked.createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
@@ -157,7 +199,7 @@ function Statistics()
                 {
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
-                        target.conditions.userInfo.proAddress=cUser.proAddress;
+                        target.conditions["userInfo.proAddress"]=cUser.proAddress;
                         target.conditions.checkState={$in: [4,3,6,7,8]};
                     }
                     else
@@ -205,7 +247,7 @@ function Statistics()
                 {
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
-                        target.conditions.case.userInfo.proAddress=cUser.proAddress;
+                        target.conditions["case.userInfo.proAddress"]=cUser.proAddress;
                     }
                     target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
@@ -255,7 +297,7 @@ function Statistics()
                 {
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
-                        target.conditions.userInfo.proAddress=cUser.proAddress;
+                        target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
                     else
                     {
@@ -307,7 +349,7 @@ function Statistics()
                 {
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
-                        target.conditions.userInfo.proAddress=cUser.proAddress;
+                        target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
                     target.conditions["visited.createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
@@ -338,7 +380,7 @@ function Statistics()
                 {
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
-                        target.conditions.case.userInfo.proAddress=cUser.proAddress;
+                        target.conditions["case.userInfo.proAddress"]=cUser.proAddress;
                     }
                     target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
@@ -364,7 +406,7 @@ function Statistics()
                 {
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
-                        target.conditions.userInfo.proAddress=cUser.proAddress;
+                        target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
                     target.conditions["liked.createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
@@ -419,7 +461,7 @@ function Statistics()
                 {
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
-                        target.conditions.userInfo.proAddress=cUser.proAddress;
+                        target.conditions["userInfo.proAddress"]=cUser.proAddress;
                         target.conditions.checkState={$in: [4,3,6,7,8]};
                     }
                     else
@@ -467,7 +509,7 @@ function Statistics()
                 {
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
-                        target.conditions.case.userInfo.proAddress=cUser.proAddress;
+                        target.conditions["case.userInfo.proAddress"]=cUser.proAddress;
                     }
                     target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
@@ -517,7 +559,7 @@ function Statistics()
                 {
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
-                        target.conditions.userInfo.proAddress=cUser.proAddress;
+                        target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
                     else
                     {
