@@ -16,7 +16,7 @@ function Statistics()
         {
             app.get("/exportCsv",function(req,res)
             {
-                let json={startTime: Number(req.query.startTime),endTime: Number(req.query.endTime)};
+                let json={target: req.query.target,startTime: Number(req.query.startTime),endTime: Number(req.query.endTime)};
                 let cUser=authTool.getSignData(sidTool.getReqSID(req));
                 if (cUser===undefined)
                 {
@@ -258,7 +258,7 @@ function Statistics()
                     }
                     cb();
                 }};
-                let target=q[json.process];
+                let target=q[json.target];
                 q.conditions.createTime={$gte: json.startTIme,$lt: json.endTime};
                 q.preprocessor(target,()=>
                 {
