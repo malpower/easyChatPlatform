@@ -7,6 +7,7 @@ $(function(){
         YixinJSBridge.call('hideOptionMenu');
    });
         var id = location.search.split('&')[1].split('=')[1];
+        Ajax(id);
         function Ajax(Id){
         		$.ajax({
 		 	  	type:"post",
@@ -38,21 +39,4 @@ $(function(){
 				}
 		 	  })
         };
-		$.ajax({
-		 	  	type:"post",
-		 	  	url:"http://qdzy.internal-i-focusing.com/wif/data/query",
-		 	  	async:true,
-		 	  	dataType:'json',
-		 	  	data:JSON.stringify({
-		 	  		category: 'Users',//积分
-					conditions: {openId:id},
-		 			  }),
-		 		success:function(res){
-		 			if(!res.error){
-		 				console.log(res.list[0]._id)
-		 				Ajax(res.list[0]._id);
-		 			}
-				 }
-	
-		});
 })
