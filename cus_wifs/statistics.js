@@ -254,10 +254,10 @@ function Statistics()
                     cb();
                 }};
                 let target=q[json.target];
-                q.conditions.createTime={$gte: json.startTime,$lt: json.endTime};
-                q.preprocessor(target,()=>
+                target.conditions.createTime={$gte: json.startTime,$lt: json.endTime};
+                target.preprocessor(target,()=>
                 {
-                    db.collection(q.category).find(q.conditions,{caseImg: 0,caseHtml: 0,caseAbstract: 0}).toArray(q.processor);
+                    db.collection(target.category).find(target.conditions,{caseImg: 0,caseHtml: 0,caseAbstract: 0}).toArray(target.processor);
                 });
             });
             app.post("/getSubmitReportByUser",function(req,res)
