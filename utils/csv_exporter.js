@@ -1,6 +1,6 @@
 function respond(list,title,header,res)
 {
-    if (typeof(headers)==="string")
+    if (typeof(header)==="string")
     {
         header=header.split(",");
     }
