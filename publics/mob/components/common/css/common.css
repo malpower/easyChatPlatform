@@ -95,7 +95,9 @@ a,img,button,input,textarea,div{-webkit-tap-highlight-color:rgba(255,255,255,0);
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-
+a{
+	color: #333333;
+}
 /*媒体查询*/
 /*for >641px with screen*/
 @media only screen and (min-width: 640px){

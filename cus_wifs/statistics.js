@@ -61,7 +61,7 @@ function Statistics()
                 {
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
-                        target.conditions["case.userInfo.proAddress"]=cUser.proAddress;
+                        target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
                     target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
@@ -691,7 +691,7 @@ function Statistics()
                 }
                 else if (/^(provinceUser)$/.test(user.userLevel))
                 {
-                    steps=[[1,2,4,3],[1,2],[4],[3]];
+                    steps=[[1,2,4,3,5,6,7,8],[1,2],[4,5,6,7,8],[3]];
                 }
                 else
                 {
