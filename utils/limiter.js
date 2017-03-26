@@ -259,11 +259,7 @@ lim.addLimiter("Users.query",function(json,req)
 lim.addLimiter("Statistics.query",function(json,req)
 {
     let user=authTool.getSignData(sidTool.getReqSID(req));
-    if (!user)
-    {
-        throw new Error("User not signed in.");
-    }
-    if (!(/^(superAdmin|groupUser)$/.test(user.userLevel)))
+    if (user && !(/^(superAdmin|groupUser)$/.test(user.userLevel)))
     {
         json.conditions["case.userInfo.proAddress"]=user.proAddress;
     }
