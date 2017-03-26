@@ -253,7 +253,6 @@ lim.addLimiter("Users.query",function(json,req)
     {
         json.conditions["proAddress"]=user.proAddress;
     }
-    json.conditions["visitor"]=false;
     return json;
 });
 
