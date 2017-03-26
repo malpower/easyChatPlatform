@@ -101,36 +101,36 @@ a{
 /*媒体查询*/
 /*for >641px with screen*/
 @media only screen and (min-width: 640px){
-    html,img{
+    html,img,video{
         font-size:200px;
     }
 }
 /*for 480px with screen*/
 @media only screen and (min-width: 480px) and (max-width: 640px){
-    html,img{
+    html,img,video{
         font-size:132px;
     }
 }
 /*for 400px with screen*/
 @media only screen and (min-width: 400px) and (max-width: 480px){
-    html,img{
+    html,img,video{
         font-size:121px;
     }
 }
 /*for 360px with screen*/
 @media only screen and (min-width: 360px) and (max-width: 400px){
-    html,img{
+    html,img,video{
         font-size: 112.5px;
     }
 }
 /*for 320px with screen*/
 @media only screen and (min-width: 320px) and (max-width: 360px){
-    html,img{
+    html,img,video{
         font-size:100px;
     }
 }
 @media only screen and (max-width: 320px){
-    html,img{
+    html,img,video{
         font-size:100px;
     }
 }

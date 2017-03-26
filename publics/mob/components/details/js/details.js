@@ -111,7 +111,7 @@ $(document).ready(function () {
 				 }
 		 	  })
     //  隐藏webview菜单按钮
-  /*  document.addEventListener('YixinJSBridgeReady', function onBridgeReady() {
+    document.addEventListener('YixinJSBridgeReady', function onBridgeReady() {
         YixinJSBridge.call('hideOptionMenu');
-    });*/
+    });
 })

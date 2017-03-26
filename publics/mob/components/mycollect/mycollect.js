@@ -2,7 +2,10 @@
  * Created by dai on 2017/2/23.
  */
 $(document).ready(function () {
-    //模拟数据
+    				 //  隐藏webview菜单按钮
+    document.addEventListener('YixinJSBridgeReady', function onBridgeReady(){
+        YixinJSBridge.call('hideOptionMenu');
+   });
      var id = location.search.split('&')[1].split('=')[1];
      function formatDate(now) { 
 		 		//console.log(now);
