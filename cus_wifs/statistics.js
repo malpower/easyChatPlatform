@@ -59,7 +59,7 @@ function Statistics()
                     let data=new Map;
                     for (let item of list)
                     {
-                        data[item.case.userInfo.name]=(data[item.case.userInfo.name] || 0)+list[i].score;
+                        data[item.case.userInfo.name]=(data[item.case.userInfo.name] || 0)+item.score;
                     }
                     let r=new Array;
                     for (let item of data.keys())
@@ -198,7 +198,7 @@ function Statistics()
                     let r=new Array;
                     for (let item of map.keys())
                     {
-                        r.push(item,map[item].score);
+                        r.push([item,map[item].score]);
                     }
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}各地分积总和`,"地区,积分",res);
                 },preprocessor: (target,cb)=>
@@ -267,6 +267,264 @@ function Statistics()
                     db.collection(target.category).find(target.conditions,{caseImg: 0,caseHtml: 0,caseAbstract: 0}).toArray(target.processor);
                 });
             });
+
+
+
+            // app.get("/getReports",function(req,res)
+            // {
+            //     let json=format.getReqJson(req);
+            //     let cUser=authTool.getSignData(sidTool.getReqSID(req));
+            //     if (cUser===undefined)
+            //     {
+            //         return res.end(JSON.stringify({error: true,code: 8,message: "User not signed in."}));
+            //     }
+            //     let q=new Map;
+            //     q["visitTop10"]={category: "Samples",conditions: {},processor:(err,list)=>
+            //     {
+            //         if (err)
+            //         {
+            //             return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+            //         }
+            //         list.sort((a,b)=>
+            //         {
+            //             return b.visited.length-a.visited.length;
+            //         });
+            //         list.length=(list.length>10?10:list.length);
+            //         let r=new Array;
+            //         for (let item of list)
+            //         {
+            //             r.push([item.caseTitle,item.visited.length]);
+            //         }
+            //         res.end(JSON.stringify({error: false,list: r}));
+            //     },preprocessor: (target,cb)=>
+            //     {
+            //         if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+            //         {
+            //             target.conditions.userInfo.proAddress=cUser.proAddress;
+            //         }
+            //         target.conditions["visited.createTime"]={$gte: json.startTime,$lt: json.endTime};
+            //         cb();
+            //     }};
+            //     q["scoreTop10"]={category: "Statistics",conditions: {},processor:(err,list)=>
+            //     {
+            //         if (err)
+            //         {
+            //             return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+            //         }
+            //         let data=new Map;
+            //         for (let item of list)
+            //         {
+            //             data[item.case.userInfo.name]=(data[item.case.userInfo.name] || 0)+list[i].score;
+            //         }
+            //         let r=new Array;
+            //         for (let item of data.keys())
+            //         {
+            //             r.push([item,data[item]]);
+            //         }
+            //         r=r.sort((a,b)=>
+            //         {
+            //             return b[1]-a[1];
+            //         });
+            //         r.length=(r.length>10?10:r.length);
+            //         res.end(JSON.stringify({error: false,list: r}));
+            //     },preprocessor: (target,cb)=>
+            //     {
+            //         if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+            //         {
+            //             target.conditions.case.userInfo.proAddress=cUser.proAddress;
+            //         }
+            //         target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
+            //         cb();
+            //     }};
+            //     q["likedTop10"]={category: "Samples",conditions: {},processor:(err,list)=>
+            //     {
+            //         if (err)
+            //         {
+            //             return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+            //         }
+            //         list.sort((a,b)=>
+            //         {
+            //             return b.liked.length-a.liked.length;
+            //         });
+            //         list.length=(list.length>10?10:list.length);
+            //         let r=new Array;
+            //         for (let item of list)
+            //         {
+            //             r.push([item.caseTitle,item.liked.length]);
+            //         }
+            //         res.end(JSON.stringify({error: false,list: r}));
+            //     },preprocessor: (target,cb)=>
+            //     {
+            //         if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+            //         {
+            //             target.conditions.userInfo.proAddress=cUser.proAddress;
+            //         }
+            //         target.conditions["liked.createTime"]={$gte: json.startTime,$lt: json.endTime};
+            //         cb();
+            //     }};
+            //     q["passRatio"]={category: "Samples",conditions: {},processor:(err,list)=>
+            //     {
+            //         if (err)
+            //         {
+            //             return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+            //         }
+            //         let map=new Map;
+            //         for (let item of list)
+            //         {
+            //             let queue;
+            //             if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+            //             {
+            //                 if (map[item.userInfo.townAddress]===undefined)
+            //                 {
+            //                     map[item.userInfo.townAddress]={passed: new Array,rejected: new Array};
+            //                 }
+            //                 queue=map[item.userInfo.townAddress];
+            //             }
+            //             else
+            //             {
+            //                 if (map[item.userInfo.proAddress]===undefined)
+            //                 {
+            //                     map[item.userInfo.proAddress]={passed: new Array,rejected: new Array};
+            //                 }
+            //                 queue=map[item.userInfo.proAddress];
+            //             }
+            //             if (/^(4|6|7|5)$/.test(item.checkState.toString()))
+            //             {
+            //                 queue.passed.push(item);
+            //             }
+            //             else
+            //             {
+            //                 queue.rejected.push(item);
+            //             }
+            //         }
+            //         let r=new Array;
+            //         for (let item of map.keys())
+            //         {
+            //             if (map[item].passed.length+map[item].rejected.length===0)
+            //             {
+            //                 r.push([item,"N/A"]);
+            //                 continue;
+            //             }
+            //             r.push([item,map[item].passed.length/(map[item].passed.length+map[item].rejected.length)]);
+            //         }
+            //         res.end(JSON.stringify({error: false,list: r}));
+            //     },preprocessor: (target,cb)=>
+            //     {
+            //         if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+            //         {
+            //             target.conditions.userInfo.proAddress=cUser.proAddress;
+            //             target.conditions.checkState={$in: [4,3]};
+            //         }
+            //         else
+            //         {
+            //             target.conditions.checkState={$in: [6,8]};
+            //         }
+            //         target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
+            //         cb();
+            //     }};
+            //     q["scoreSum"]={category: "Statistics",conditions: {},processor:(err,list)=>
+            //     {
+            //         if (err)
+            //         {
+            //             return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+            //         }
+            //         let map=new Map;
+            //         for (let item of list)
+            //         {
+            //             let queue;
+            //             if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+            //             {
+            //                 if (map[item.case.userInfo.townAddress]===undefined)
+            //                 {
+            //                     map[item.case.userInfo.townAddress]={score: 0};
+            //                 }
+            //                 queue=map[item.case.userInfo.townAddress];
+            //             }
+            //             else
+            //             {
+            //                 if (map[item.case.userInfo.proAddress]===undefined)
+            //                 {
+            //                     map[item.case.userInfo.proAddress]={score: 0};
+            //                 }
+            //                 queue=map[item.case.userInfo.proAddress];
+            //             }
+            //             queue.score+=item.score;
+            //         }
+            //         let r=new Array;
+            //         for (let item of map.keys())
+            //         {
+            //             r.push(item,map[item].score);
+            //         }
+            //         res.end(JSON.stringify({error: false,list: r}));
+            //     },preprocessor: (target,cb)=>
+            //     {
+            //         if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+            //         {
+            //             target.conditions.case.userInfo.proAddress=cUser.proAddress;
+            //         }
+            //         target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
+            //         cb();
+            //     }};
+            //     q["submitSum"]={category: "Samples",conditions: {},processor:(err,list)=>
+            //     {
+            //         if (err)
+            //         {
+            //             return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+            //         }
+            //         let map=new Map;
+            //         for (let item of list)
+            //         {
+            //             let queue;
+            //             if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+            //             {
+            //                 if (map[item.userInfo.townAddress]===undefined)
+            //                 {
+            //                     map[item.userInfo.townAddress]={passed: new Array,rejected: new Array};
+            //                 }
+            //                 queue=map[item.userInfo.townAddress];
+            //             }
+            //             else
+            //             {
+            //                 if (map[item.userInfo.proAddress]===undefined)
+            //                 {
+            //                     map[item.userInfo.proAddress]={passed: new Array,rejected: new Array};
+            //                 }
+            //                 queue=map[item.userInfo.proAddress];
+            //             }
+            //             if (item.checkState===4 || item.checkState===6)
+            //             {
+            //                 queue.passed.push(item);
+            //             }
+            //             else
+            //             {
+            //                 queue.rejected.push(item);
+            //             }
+            //         }
+            //         let r=new Array;
+            //         for (let item of map.keys())
+            //         {
+            //             r.push([item,(map[item].passed.length+map[item].rejected.length)]);
+            //         }
+            //         res.end(JSON.stringify({error: false,list: r}));
+            //     },preprocessor: (target,cb)=>
+            //     {
+            //         if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+            //         {
+            //             target.conditions.userInfo.proAddress=cUser.proAddress;
+            //         }
+            //         target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
+            //         cb();
+            //     }};
+            //     let target=q[json.target];
+                
+            //     target.preprocessor(target,()=>
+            //     {
+            //         db.collection(target.category).find(target.conditions,{caseImg: 0,caseHtml: 0,caseAbstract: 0}).toArray(target.processor);
+            //     });
+            // });
+
+
+
             app.post("/getSubmitReportByUser",function(req,res)
             {
                 let json=format.getReqJson(req);
