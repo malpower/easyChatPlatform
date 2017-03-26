@@ -158,11 +158,11 @@ function Statistics()
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions.userInfo.proAddress=cUser.proAddress;
-                        target.conditions.checkState={$in: [4,3]};
+                        target.conditions.checkState={$in: [4,3,6,7,8]};
                     }
                     else
                     {
-                        target.conditions.checkState={$in: [6,8]};
+                        target.conditions.checkState={$in: [6,8,7]};
                     }
                     target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
@@ -256,6 +256,10 @@ function Statistics()
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions.userInfo.proAddress=cUser.proAddress;
+                    }
+                    else
+                    {
+                        target.conditions["checkState"]={$in: [4,5,6,7,8]};
                     }
                     target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();

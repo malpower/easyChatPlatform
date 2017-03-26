@@ -109,7 +109,7 @@ lim.addLimiter("Samples.modify",function(json,req)
     }
     Reflect.deleteProperty(json.content,"isPerfect");
     Reflect.deleteProperty(json.content,"userInfo");
-    if (json.content.checkState!==100 && !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
+    if (!(/^(100|8|3)$/.test(json.content.checkState.toString())) && !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
     {
         throw (new Error("Invalid user permission."));
     }
