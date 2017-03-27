@@ -1,5 +1,3 @@
-const xmlParser=require("xml-mapping");
-const https=require("https");
 const urlParser=require("url");
 const config=require("./config");
 const qrCodeCom=require("./utils/qr_code_com");
@@ -14,6 +12,7 @@ const ObjectId=require("mongodb").ObjectID;
 const easy=require("./easy_library");
 
 let database;
+
 MongoClient.connect(config.database.address,function(err,db)
 {//connect to database first.
     if (err)
@@ -151,14 +150,17 @@ function Init(initCallback)
             });
         });
     });
-    easy.setPublicAccountMenu(config.menu,function(err,json)
-    {//Simply set the menu on easy chat client.
-        if (err)
-        {
-            console.log(err.message);
-        }
-        console.log("Menu setting finished.");
-    });
+    setTimeout(function()
+    {
+        easy.setPublicAccountMenu(config.menu,function(err,json)
+        {//Simply set the menu on easy chat client.
+            if (err)
+            {
+                console.log(err.message);
+            }
+            console.log("Menu setting finished.");
+        });
+    },1000*5);
     process.nextTick(initCallback,[app]);
 }
 
