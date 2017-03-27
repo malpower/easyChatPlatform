@@ -38,20 +38,20 @@ function Auth()
                    }
                },config.auth.timerDring)};
         authentication[signature]=a;
-   };
-   this.resetSignData=function(signature,data)
-   {
-       if (authentication[signature])
-       {
-           authentication[signature].data=data;
-           return true;
-       }
-       return false;
-   };
-   this.removeSign=function(signature)
-   {
-       delete authentication[signature];
-   };
+    };
+    this.resetSignData=function(signature,data)
+    {
+        if (authentication[signature])
+        {
+            authentication[signature].data=data;
+            return true;
+        }
+        return false;
+    };
+    this.removeSign=function(signature)
+    {
+        delete authentication[signature];
+    };
 }
 
 module.exports=new Auth;
