@@ -1,9 +1,12 @@
 const authTool=require("../auth");
 const sidTool=require("./sid");
 const ObjectId=require("mongodb").ObjectID;
+const easy=require("../easy_library");
+const config=require("../config");
+
+
 
 let database;
-
 function Limiter()
 {
     let limiters=new Object;
@@ -151,7 +154,16 @@ lim.addLimiter("Users.create",function(json,req,callback)
         {
             return callback(new Error("The phone number existed."));
         }
-        callback(undefined,json);
+        easy.getUserOpenIdByPhoneNumber(json.content.phone,(err,openId)=>
+        {
+            if (err)
+            {
+                return callback(undefined,json);
+            }
+            json.content.openId=openId;
+            json.content.bound=true;
+            process.nextTick(callback,undefined,json);
+        });
     });
 });
 
