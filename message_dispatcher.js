@@ -75,6 +75,28 @@ md.addEventHandler("CLICK",function(message,easy,res)
         });
         res.end("INVALID");
     }
+    if (message.EventKey.$cd==="bigEvent")
+    {
+        easy.sendCustomMessage({touser: message.FromUserName.$cd,msgtype: "image",image: {media_id: "32614411"}},function(err)
+        {
+            if (err)
+            {
+                console.log(err.message);
+            }
+        });
+        res.end("INVALID");
+    }
+    if (message.EventKey.$cd==="featured")
+    {
+        easy.sendCustomMessage({touser: message.FromUserName.$cd,msgtype: "image",image: {media_id: "32714550"}},function(err)
+        {
+            if (err)
+            {
+                console.log(err.message);
+            }
+        });
+        res.end("INVALID");
+    }
 });
 
 
