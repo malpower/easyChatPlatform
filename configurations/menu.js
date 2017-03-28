@@ -16,6 +16,8 @@ let menu={button: [{name: "实渠要闻",sub_button: [{name: "信息参考",type
  module.exports=menu;
 
 
+//V2 code
+
 /***********************************EASY CHAT MENU CONFIG*******************
 Set this menu as the structure where provided by easy chat document.
 
