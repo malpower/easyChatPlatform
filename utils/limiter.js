@@ -160,7 +160,7 @@ lim.addLimiter("Users.create",function(json,req,callback)
             {
                 return callback(undefined,json);
             }
-            json.content.openId=openId;
+            json.content.openId=openId.openid;
             json.content.bound=true;
             process.nextTick(callback,undefined,json);
         });

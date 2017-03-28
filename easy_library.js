@@ -115,7 +115,7 @@ function EasyChatCommunicator(appID,appSec,callback=()=>{})
     this.getUserOpenIdByPhoneNumber=function(phone,cb=()=>{})
     {
         GetToEasyChatServer(`/cgi-bin/user/valid?access_token=${accessToken}&mobile=${phone}`,cb);
-    }
+    };
     this.replyArticals=function(msg,images,res)
     {
         let r={};
