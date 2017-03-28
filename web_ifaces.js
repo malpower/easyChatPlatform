@@ -28,6 +28,22 @@ function BindRoutes(initCallback)
     let app=express.Router();
     app.use("/wif",bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
     app.use("/user",bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
+
+    app.post("/wif/case/create",function(req,res)
+    {
+        let json=format.getReqJson(req);
+        if (!json)
+        {
+            return res.end(JSON.stringify({error: true,code: 1,message: "Inavlid request JSON format."}));
+        }
+        let user=authTool.getSignData(sidTool.getReqSID(req));
+        if (!user)
+        {
+            return res.end(JSON.stringify({error: true,code: 8,message: "User not signed in."}));
+        }
+        json.approvePath=new Array;
+        json.user=user;
+    });
     app.post("/wif/data/count",function(req,res)
     {
                     //the tool to set CORS(cross domain) according to the configuration file.
