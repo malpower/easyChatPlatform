@@ -1,5 +1,5 @@
 let addr={"a1": "http://cms.myctu.cn/topic/news/news.html?",                //大事件
-          "a2": "/mob/views/industrysel.html?",                //行业精选
+          "a2": "http://cms.myctu.cn/topic/news/select.html?",                //行业精选
           "a3": "/mob/views/planningLayout.html?p=bujuguihua&",                //策划布局
           "a4": "/mob/views/planningLayout.html?p=mendiantuozhan&",                //门店拓展
           "a5": "/mob/views/planningLayout.html?p=xiaoshoucehua&",                    //销售策划
