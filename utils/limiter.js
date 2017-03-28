@@ -52,7 +52,7 @@ lim.addLimiter("Samples.create",function(json,req)
     json.content.createUsername=user.name;
     json.content.userInfo=user;
     json.content.isPerfect=false;
-    if (json.content.checkState!==1 && json.content.checkState!==100)
+    if (!(json.content.checkState===6 && (/^(superAdmin|groupUser)$/).test(user.userLevel)) && !(json.content.checkState===4 && (/^(superAdmin|provinceUser)$/).test(user.userLevel)) && (json.content.checkState!==1 && json.content.checkState!==100))
     {
         throw new Error("Invalid checkState");
     }
