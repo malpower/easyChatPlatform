@@ -5,8 +5,10 @@
     <title>规划布局</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale =1, user-scalable =no"/>
 	<meta name="format-detection" content="telephone=no, address=no" />
-    <script type="text/javascript" src="../static/zepto.min.v1.2.0.js" ></script>
+ <!--   <script type="text/javascript" src="../static/zepto.min.v1.2.0.js" ></script>-->
+ <script src="../static/jQuery3.0.min.js"></script>
     <script type="text/javascript" src="../static/swiper/swiper-3.4.0.jquery.min.js" ></script>
+    <script src="../static/swiper/lazyload.js"></script>
     <link rel="stylesheet" href="../static/swiper/swiper-3.4.0.min.css" />
     <link rel="stylesheet" href="../components/common/css/common.css" />
 </head>
@@ -138,6 +140,7 @@
 	$(function(){
 		var urls = location.search.split('&')[2].split('=')[1];
 		var listurl =  location.search.split('&')[0].split('=')[1];
+
 		console.log(listurl);	
 	function ajaxPerfect(mold){
     $.ajax({
@@ -220,8 +223,48 @@ function formatDate(now) {
 			    	default:
 			    		break;
 			    }
-		}		
-			function Ajax(mold){
+		}	
+		
+		
+function Ajax(mold,numbers){	
+			   var num = 1; 
+		$(window).scroll(function(){			
+			　　var scrollTop = $(this).scrollTop();
+			　　var scrollHeight = $(document).height();
+			　　var windowHeight = $(this).height();
+			　　if(scrollTop + windowHeight == scrollHeight){
+				$.ajax({
+		 	  	type:"post",
+		 	  	url:"http://qdzy.internal-i-focusing.com/wif/data/query",
+		 	  	async:false,
+		 	  	filter: {caseImg: 0},
+		 	  	dataType:'json',
+		 	  	data:JSON.stringify({
+		 	  		category: 'Samples',
+		 	  		filter: {caseImg: 0},//查询条件，格式与mongodb查询条件相同//积分
+					conditions: {caseType:mold,checkState:7},     //查询条件，格式与mongodb查询条件相同
+					pageNumber: num,   //页码，可选，从0起记
+					pageSize:8,    //页大小，可选
+					sort: {"createTime":-1} }),
+				success:function(res){
+					console.log(res);
+					if(!res.error){
+		 				for(var a = 0;a<res.list.length;a++){
+							$('.list ul').append(
+								'<li><a href="details.html?caseid='+res.list[a]._id+'&userid='+urls+'"><img src="http://qdzy.internal-i-focusing.com/getImage?id='
+									+ res.list[a]._id+
+									'"/><div class="ul-list-content"><h2 class="ul-list-content-T ft-14">'
+								   +res.list[a].caseTitle+
+									'</h2><p class="ul-list-content-B ft-12">'
+									+res.list[a].caseAbstract+
+								'</p></div></a></li>')
+						 };					
+						}			
+					 }
+				 })
+							num++;
+			　　};
+		});
 				$('title').text(mold);
 				$.ajax({
 		 	  	type:"post",
@@ -234,7 +277,7 @@ function formatDate(now) {
 		 	  		filter: {caseImg: 0},//查询条件，格式与mongodb查询条件相同//积分
 					conditions: {caseType:mold,checkState:7},     //查询条件，格式与mongodb查询条件相同
 					pageNumber: 0,   //页码，可选，从0起记
-					pageSize: 1000,    //页大小，可选
+					pageSize:8,    //页大小，可选
 					sort: {"createTime":-1} }),
 				success:function(res){
 					console.log(res);
@@ -249,22 +292,7 @@ function formatDate(now) {
 									'</h2><p class="ul-list-content-B ft-12">'
 									+res.list[a].caseAbstract+
 								'</p></div></a></li>')
-						 }	
-			/*$.ajax({
-		 	  	type:"post",
-		 	  	url:"http://qdzy.internal-i-focusing.com/wif/data/query",
-		 	  	async:true,
-		 	  	dataType:'json',
-		 	  	data:JSON.stringify({
-		 	  		category: 'Users',//积分
-					conditions: {openId:urls},
-		 			  }),
-		 		success:function(ress){
-		 			if(!res.error){
-		 			
-		 				}
-				 	 }	
-				  });*/																			
+						 }; 																		
 				}			
 			 }
 		 })

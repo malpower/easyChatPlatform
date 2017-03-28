@@ -48,7 +48,7 @@ $(document).ready(function () {
 					if(!resss.error){	
 						for(var a = 0;a<resss.list.length;a++){
 							$('#mycollectList').append(
-								 '<li><a href="detailes.html?caseid='+resss.list[a]._id+'">'+
+								 '<li><a href="details.html?caseid='+resss.list[a]._id+'&userid='+id+'">'+
            						 '<div class="fl ui-img" style="background: url(http://qdzy.internal-i-focusing.com/getImage?id='+resss.list[a]._id+')no-repeat center;background-size: 100% 100%;"></div>'+
            						 '<div class="fl ui-info">'+
            						 '<h2 class="ft-14" >'+resss.list[a].caseTitle+'</h2>'+
