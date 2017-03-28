@@ -1,16 +1,6 @@
 const xmlParser=require("xml-mapping");
 const https=require("https");
-const urlParser=require("url");
 const config=require("./config");
-const qrCodeCom=require("./utils/qr_code_com");
-const sidTool=require("./utils/sid");
-const messageDispatcher=require("./message_dispatcher");
-const authTool=require("./auth");
-const format=require("./utils/format");
-const express=require("express");
-const bodyParser=require("body-parser");
-const MongoClient=require("mongodb").MongoClient;
-const ObjectId=require("mongodb").ObjectID;
 
 function EasyChatCommunicator(appID,appSec,callback=()=>{})
 {
@@ -18,7 +8,7 @@ function EasyChatCommunicator(appID,appSec,callback=()=>{})
     {//A function to communicate with the easy chat server with POST method.
         let req=https.request({host: "api.yixin.im",path: url,method: "POST"},function(res)
         {
-            let buffer=new Buffer(0);
+            let buffer=Buffer.alloc(0);
             res.on("data",function(chunk)
             {//keep receiving data
                 buffer=Buffer.concat([buffer,chunk]);
@@ -41,7 +31,7 @@ function EasyChatCommunicator(appID,appSec,callback=()=>{})
     {//A function to communicate with the easy chat server with GET method.
         let req=https.request({host: "api.yixin.im",path: url,method: "GET"},function(res)
         {
-            let buffer=new Buffer(0);
+            let buffer=Buffer.alloc(0);
             res.on("data",function(chunk)
             {//keep receiving data
                 buffer=Buffer.concat([buffer,chunk]);
@@ -115,7 +105,7 @@ function EasyChatCommunicator(appID,appSec,callback=()=>{})
     this.getUserOpenIdByPhoneNumber=function(phone,cb=()=>{})
     {
         GetToEasyChatServer(`/cgi-bin/user/valid?access_token=${accessToken}&mobile=${phone}`,cb);
-    }
+    };
     this.replyArticals=function(msg,images,res)
     {
         let r={};
