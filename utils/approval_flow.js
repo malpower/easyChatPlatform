@@ -19,8 +19,9 @@ function ApprovalFlow()
                 return finish(true);
             }
             let fn=flow[pointer++];
-            fn(json,database,next);
+            fn(json,database,next,finish);
         }
+        process.nextTick(next);
     };
     this.addStep=function(fn)
     {
