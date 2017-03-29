@@ -4,7 +4,7 @@
   "description": "for the horde",
   "main": "main.js",
   "scripts": {
-    "test": "node main",
+    "start": "node main &",
     "test-local": "node main 123"
   },
   "repository": {

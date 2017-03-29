@@ -29,7 +29,7 @@ function BindRoutes(initCallback)
     app.use("/wif",bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
     app.use("/user",bodyParser.raw({limit: config.server.requestSizeLimit,type: config.server.requestType}));
 
-    app.post("/wif/case/create",function(req,res)
+    app.post("/wif/cases/create",function(req,res)
     {
         let json=format.getReqJson(req);
         if (!json)
@@ -41,8 +41,20 @@ function BindRoutes(initCallback)
         {
             return res.end(JSON.stringify({error: true,code: 8,message: "User not signed in."}));
         }
+        json.isPerfect=false;
+        json.published=false;
+        json.liked=new Array;
+        json.visited=new Array;
+        json.createTime=(new Date).getTime();
         json.approvePath=new Array;
         json.user=user;
+        database.collection("Cases").insert(json,function(err,rlt)
+        {
+            if (err)
+            {
+                return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
+            }
+            
     });
     app.post("/wif/data/count",function(req,res)
     {
