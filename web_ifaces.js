@@ -54,7 +54,11 @@ function BindRoutes(initCallback)
             {
                 return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
             }
-            
+            approvalTool.startFlow(json,function(err)
+            {
+                return res.end(JSON.stringify({error: false,id: rlt.insertedIds[0]}));
+            });
+        });
     });
     app.post("/wif/data/count",function(req,res)
     {
