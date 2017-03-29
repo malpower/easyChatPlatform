@@ -199,6 +199,8 @@ lim.addLimiter("Users.delete",function(json,req)
     {
         throw (new Error("Invalid user permission."));
     }
+    database.collection("Samples").removeMany({"userInfo._id": new ObjectId(json.id)});
+    database.collection("Statistics").removeMany({"case.userInfo._id": new ObjectId(json.id)});
     return json;
 });
 
