@@ -10,6 +10,7 @@ const multer=require("multer");
 const upload=multer({dest: "./publics/uploads/"});
 const express=require("express");
 const bodyParser=require("body-parser");
+const flowTool=require("./utils/approval_flow");
 
 
 
@@ -46,15 +47,16 @@ function BindRoutes(initCallback)
         json.liked=new Array;
         json.visited=new Array;
         json.createTime=(new Date).getTime();
-        json.approvePath=new Array;
+        json.checkPoints=new Array;
         json.user=user;
-        database.collection("Cases").insert(json,function(err,rlt)
+        database.collection("Samples").insert(json,function(err,rlt)
         {
             if (err)
             {
                 return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
             }
-            approvalTool.startFlow(json,function(err)
+            let approval=flowTool.generateFlow();
+            approval.startFlow(json,database,function(err)
             {
                 return res.end(JSON.stringify({error: false,id: rlt.insertedIds[0]}));
             });
@@ -165,6 +167,7 @@ function BindRoutes(initCallback)
                             return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
                         }
                         res.end(JSON.stringify({error: false,id: r.insertedIds[0]}));
+                        limiters.getLimiter(`${category}.create.after`)(json);
                     });
                 });
             }
@@ -181,6 +184,7 @@ function BindRoutes(initCallback)
                 return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
             }
             res.end(JSON.stringify({error: false,id: r.insertedIds[0]}));
+            limiters.getLimiter(`${category}.create.after`)(json);
         });
     });
     app.post("/wif/data/delete",function(req,res)
@@ -323,6 +327,7 @@ function BindRoutes(initCallback)
                 return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
             }
             res.end(JSON.stringify({error: false}));
+            limiters.getLimiter(`${category}.modify.after`)(json);
         });
     });
     app.post("/user/getCurrentUser",function(req,res)

@@ -3,6 +3,7 @@ const sidTool=require("./sid");
 const ObjectId=require("mongodb").ObjectID;
 const easy=require("../easy_library");
 const config=require("../config");
+const flowTool=require("./approval_flow");
 
 
 
@@ -171,7 +172,6 @@ lim.addLimiter("Users.create",function(json,req,callback)
 lim.addLimiter("Users.modify",function(json,req)
 {
     let user=authTool.getSignData(sidTool.getReqSID(req));
-
     if (user===undefined)
     {
         throw (new Error("User not signed."));
@@ -277,6 +277,22 @@ lim.addLimiter("Statistics.query",function(json,req)
     }
     return json;
 });
+lim.addLimiter("Samples.create.after",function(json)
+{
+    let flow=flowTool.generateFlow();
+    flow.startFlow(json,database,()=>
+    {
+        //
+    });
+});
 
+lim.addLimiter("Samples.modify.after",function(json)
+{
+    let flow=flowTool.generateFlow();
+    flow.startFlow(json,database,()=>
+    {
+        //
+    });
+});
 
 module.exports=lim;
