@@ -3,10 +3,18 @@ const ObjectId=require("mongodb").ObjectID;
 function ApprovalFlow()
 {
     let flow=new Array;
+    let op=false;
     this.startFlow=function(json,database,callback)
     {
         let pointer=0;
-        function finish(op)
+        function setOP(o)
+        {
+            if (!op)
+            {
+                op=o;
+            }
+        }
+        function finish()
         {
             debugger;
             if (op)
@@ -20,7 +28,7 @@ function ApprovalFlow()
         {
             if (pointer>=flow.length)
             {
-                return finish(true);
+                return finish();
             }
             let fn=flow[pointer++];
             fn(json,database,next,finish);
@@ -45,7 +53,7 @@ function CreateStep(checkPoint,nextCheckPoint)
         }
         if (!(json.userInfo.skips instanceof Array))
         {
-            return finish(false);
+            return setOP(false);
         }
         let skip=json.userInfo.skips.find((value)=>
         {
@@ -56,10 +64,11 @@ function CreateStep(checkPoint,nextCheckPoint)
         });
         if (skip===undefined)
         {
-            return finish(false);
+            return setOP(false);
         }
         json.checkState=nextCheckPoint;
         json.checkPoints["P"+nextCheckPoint]=(new Date).getTime();
+        setOP(true);
         return next();
     };
 }
