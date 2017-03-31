@@ -7,7 +7,7 @@ function ApprovalFlow()
     this.startFlow=function(json,database,callback)
     {
         let id=json.content._id || json.id || json.ids[0];
-        database.collection("Samples").find({_id: new ObjectId(id)}).toArray(function(err,list)
+        database.collection("Samples").find({_id: new ObjectId(id)},{caseImg: 0,caseHtml: 0,caseAbstract: 0}).toArray(function(err,list)
         {
             if (err)
             {
@@ -53,7 +53,6 @@ function CreateStep(checkPoint,nextCheckPoint)
 {
     return (json,database,next,finish,setOP)=>
     {
-        debugger;
         json=json.content;
         if (json.checkState!==checkPoint)
         {
