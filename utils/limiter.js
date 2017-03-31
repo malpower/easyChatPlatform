@@ -133,7 +133,7 @@ lim.addLimiter("Samples.modify",function(json,req)
 lim.addLimiter("Users.create",function(json,req,callback)
 {
     let user=authTool.getSignData(sidTool.getReqSID(req));
-    if (user===undefined || !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
+    if (user===undefined || !(/^(groupUser|sgroupUser|provinceUser|superAdmin)$/).test(user.userLevel))
     {
         throw (new Error("Invalid user permission."));
     }
@@ -142,7 +142,6 @@ lim.addLimiter("Users.create",function(json,req,callback)
         throw new Error("Province administrators can only create users under it's own province.");
     }
     json.content.bound=false;
-    json.content.userLevel="personalUser";
     database.collection("Users").find({phone: json.content.phone}).toArray(function(err,list)
     {
         if (err)
