@@ -167,6 +167,7 @@ function BindRoutes(initCallback)
                             return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
                         }
                         res.end(JSON.stringify({error: false,id: r.insertedIds[0]}));
+                        json.content._id=r.insertedIds[0];
                         limiters.getLimiter(`${category}.create.after`)(json);
                     });
                 });
@@ -184,6 +185,7 @@ function BindRoutes(initCallback)
                 return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
             }
             res.end(JSON.stringify({error: false,id: r.insertedIds[0]}));
+            json.content._id=r.insertedIds[0];
             limiters.getLimiter(`${category}.create.after`)(json);
         });
     });
