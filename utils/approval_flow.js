@@ -34,6 +34,7 @@ function CreateStep(checkPoint,nextCheckPoint)
 {
     return (json,database,next,finish)=>
     {
+        json=json.content;
         if (json.checkState!==checkPoint)
         {
             return next();

@@ -441,6 +441,10 @@ function BindRoutes(initCallback)
         res.set("Content-Type","text/url");
         res.end(config.web.domain+"uploads/"+req.file.filename);
     });
+    router.post("/file/upload/importExcel",upload.single("excel"),function(req,res)
+    {
+        
+    });
     app.options("*",function(req,res)
     {
 
