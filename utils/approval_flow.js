@@ -31,7 +31,7 @@ function ApprovalFlow()
                 return finish();
             }
             let fn=flow[pointer++];
-            fn(json,database,next,finish);
+            fn(json,database,next,finish,setOP);
         }
         process.nextTick(next);
     };
@@ -44,7 +44,7 @@ function ApprovalFlow()
 
 function CreateStep(checkPoint,nextCheckPoint)
 {
-    return (json,database,next,finish)=>
+    return (json,database,next,finish,setOP)=>
     {
         json=json.content;
         if (json.checkState!==checkPoint)
