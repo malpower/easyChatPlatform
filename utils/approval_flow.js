@@ -8,7 +8,7 @@ function ApprovalFlow()
         {
             if (op)
             {
-                return database.collection("Samples").update({_id: json._id},{$set: {checkState: json.checkState,checkPoints: json.checkPoints}},callback);
+                return database.collection("Samples").update({_id: json._id},{$set: {checkState: json.content.checkState,checkPoints: json.content.checkPoints}},callback);
             }
             return callback(undefined);
         }
