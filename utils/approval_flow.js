@@ -54,7 +54,8 @@ function CreateStep(checkPoint,nextCheckPoint)
         }
         if (!(json.userInfo.skips instanceof Array))
         {
-            return setOP(false);
+            setOP(false);
+            return next();
         }
         let skip=json.userInfo.skips.find((value)=>
         {
@@ -65,7 +66,8 @@ function CreateStep(checkPoint,nextCheckPoint)
         });
         if (skip===undefined)
         {
-            return setOP(false);
+            setOP(false);
+            return next();
         }
         json.checkState=nextCheckPoint;
         json.checkPoints["P"+nextCheckPoint]=(new Date).getTime();
