@@ -53,6 +53,7 @@ function CreateStep(checkPoint,nextCheckPoint)
 {
     return (json,database,next,finish,setOP)=>
     {
+        debugger;
         json=json.content;
         if (json.checkState!==checkPoint)
         {
