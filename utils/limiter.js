@@ -173,7 +173,6 @@ lim.addLimiter("Users.modify",function(json,req)
     {
         throw (new Error("User not signed."));
     }
-    Reflect.deleteProperty(json.content,"proAddress");
     if (json.content.userLevel==="superAdmin")
     {
         throw new Error("Invalid permission.");
@@ -185,6 +184,10 @@ lim.addLimiter("Users.modify",function(json,req)
     if ((/^(groupUser)$/).test(json.content.userLevel) && !(/^(groupUser|superAdmin|sgroupUser)$/).test(user.userLevel))
     {
        throw new Error("Invalid permission.");
+    }
+    if (!(/^(groupUser|superAdmin|sgroupUser)$/).test(user.userLevel))
+    {
+        Reflect.deleteProperty(json.content,"proAddress");
     }
     return json;
 });
