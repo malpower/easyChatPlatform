@@ -51,7 +51,7 @@ lim.addLimiter("Samples.create",function(json,req)
     json.content.createUsername=user.name;
     json.content.userInfo=user;
     json.content.isPerfect=false;
-    if (!(json.content.checkState===6 && (/^(superAdmin|groupUser)$/).test(user.userLevel)) && !(json.content.checkState===4 && (/^(superAdmin|provinceUser)$/).test(user.userLevel)) && (json.content.checkState!==1 && json.content.checkState!==100))
+    if (!(json.content.checkState===6 && (/^(superAdmin|groupUser|sgroupUser)$/).test(user.userLevel)) && !(json.content.checkState===4 && (/^(superAdmin|provinceUser)$/).test(user.userLevel)) && (json.content.checkState!==1 && json.content.checkState!==100))
     {
         throw new Error("Invalid checkState");
     }
@@ -66,7 +66,7 @@ lim.addLimiter("Samples.create",function(json,req)
 lim.addLimiter("Statistics.create",function(json,req,callback)
 {
     let user=authTool.getSignData(sidTool.getReqSID(req));
-    if (user===undefined || !(/^(groupUser|superAdmin)$/).test(user.userLevel))
+    if (user===undefined || !(/^(groupUser|superAdmin|sgroupUser)$/).test(user.userLevel))
     {
         return callback(new Error("Invalid user permission."));
     }
@@ -86,7 +86,7 @@ lim.addLimiter("Statistics.create",function(json,req,callback)
             {
                 return callback(new Error("Can't set the perfect field when a sample is perfect."));
             }
-            if (!(/^(groupUser|superAdmin)$/).test(user.userLevel))
+            if (!(/^(groupUser|superAdmin|sgroupUser)$/).test(user.userLevel))
             {
                 return callback(new Error("Only group user can do this."));
             }
@@ -111,7 +111,7 @@ lim.addLimiter("Samples.modify",function(json,req)
     }
     Reflect.deleteProperty(json.content,"isPerfect");
     Reflect.deleteProperty(json.content,"userInfo");
-    if (!(/^(100|8|3)$/.test(json.content.checkState.toString())) && !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
+    if (!(/^(100|8|3)$/.test(json.content.checkState.toString())) && !(/^(groupUser|provinceUser|superAdmin|sgroupUser)$/).test(user.userLevel))
     {
         throw (new Error("Invalid user permission."));
     }
@@ -178,11 +178,11 @@ lim.addLimiter("Users.modify",function(json,req)
     {
         throw new Error("Invalid permission.");
     }
-    if ((/^(provinceUser)$/).test(json.content.userLevel) && !(/^(groupUser|superAdmin|provinceUser)$/).test(user.userLevel))
+    if ((/^(provinceUser)$/).test(json.content.userLevel) && !(/^(groupUser|superAdmin|provinceUser|sgroupUser)$/).test(user.userLevel))
     {
        throw new Error("Invalid permission.");
     }
-    if ((/^(groupUser)$/).test(json.content.userLevel) && !(/^(groupUser|superAdmin)$/).test(user.userLevel))
+    if ((/^(groupUser)$/).test(json.content.userLevel) && !(/^(groupUser|superAdmin|sgroupUser)$/).test(user.userLevel))
     {
        throw new Error("Invalid permission.");
     }
@@ -192,7 +192,7 @@ lim.addLimiter("Users.modify",function(json,req)
 lim.addLimiter("Users.delete",function(json,req)
 {//This is a vulnerability, a province user can remove the super admins or group users.
     let user=authTool.getSignData(sidTool.getReqSID(req));
-    if (user===undefined || !(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
+    if (user===undefined || !(/^(groupUser|provinceUser|superAdmin|sgroupUser)$/).test(user.userLevel))
     {
         throw (new Error("Invalid user permission."));
     }
@@ -206,7 +206,7 @@ lim.addLimiter("Samples.delete",function(json,req,callback)
     {
         return callback(new Error("User not signed in."));
     }
-    if ((/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel))
+    if ((/^(groupUser|provinceUser|superAdmin|sgroupUser)$/).test(user.userLevel))
     {
         return callback(undefined,json);
     }
@@ -216,7 +216,7 @@ lim.addLimiter("Samples.delete",function(json,req,callback)
         {
             return callback(new Error("Invalid case id"));
         }
-        if (!(/^(groupUser|provinceUser|superAdmin)$/).test(user.userLevel) && !(/^(100|3|8)$/.test(list[0].checkState.toString())))
+        if (!(/^(groupUser|provinceUser|superAdmin|sgroupUser)$/).test(user.userLevel) && !(/^(100|3|8)$/.test(list[0].checkState.toString())))
         {
             return callback(new Error("Invalid user permission."));
         }
@@ -244,7 +244,7 @@ lim.addLimiter("Samples.query",function(json,req)
         json.conditions.checkState=7;
         user={};
     }
-    if (!(/^(superAdmin|groupUser)$/.test(user.userLevel)) && json.conditions.checkState!==7 && typeof(json.conditions._id)!=="string")
+    if (!(/^(superAdmin|groupUser|sgroupUser)$/.test(user.userLevel)) && json.conditions.checkState!==7 && typeof(json.conditions._id)!=="string")
     {
         json.conditions["userInfo.proAddress"]=user.proAddress;
     }
@@ -258,7 +258,7 @@ lim.addLimiter("Users.query",function(json,req)
     {
         throw new Error("User not signed in.");
     }
-    if (!(/^(superAdmin|groupUser)$/.test(user.userLevel)))
+    if (!(/^(superAdmin|groupUser|sgroupUser)$/.test(user.userLevel)))
     {
         json.conditions["proAddress"]=user.proAddress;
     }
@@ -268,7 +268,7 @@ lim.addLimiter("Users.query",function(json,req)
 lim.addLimiter("Statistics.query",function(json,req)
 {
     let user=authTool.getSignData(sidTool.getReqSID(req));
-    if (user && !(/^(superAdmin|groupUser)$/.test(user.userLevel)))
+    if (user && !(/^(superAdmin|groupUser|sgroupUser)$/.test(user.userLevel)))
     {
         json.conditions["case.userInfo.proAddress"]=user.proAddress;
     }
