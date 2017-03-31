@@ -44,7 +44,7 @@ function CreateStep(checkPoint,nextCheckPoint)
         }
         let skip=json.userInfo.skips.find((value)=>
         {
-            if (value===checkPoint)
+            if (value===nextCheckPoint)
             {
                 return true;
             }
