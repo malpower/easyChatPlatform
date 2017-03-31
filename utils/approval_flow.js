@@ -1,3 +1,5 @@
+const ObjectId=require("mongodb").ObjectID;
+
 function ApprovalFlow()
 {
     let flow=new Array;
@@ -8,7 +10,8 @@ function ApprovalFlow()
         {
             if (op)
             {
-                return database.collection("Samples").update({_id: json._id},{$set: {checkState: json.content.checkState,checkPoints: json.content.checkPoints}},callback);
+                let id=json.content._id || json.id || json.ids[0];
+                return database.collection("Samples").update({_id: new ObjectId(id)},{$set: {checkState: json.content.checkState,checkPoints: json.content.checkPoints}},callback);
             }
             return callback(undefined);
         }
