@@ -64,7 +64,7 @@ function FlowGenerator()
     let flow=new ApprovalFlow;
     flow.addStep(CreateStep(1,4))
         .addStep(CreateStep(4,6))
-        .addStep(CreateStep(6,10));
+        .addStep(CreateStep(6,401));
     return flow;
 }
 
