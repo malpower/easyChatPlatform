@@ -6,34 +6,41 @@ function ApprovalFlow()
     let op=false;
     this.startFlow=function(json,database,callback)
     {
-        let pointer=0;
-        function setOP(o)
+        let id=json.content._id || json.id || json.ids[0];
+        database.collection("Samples").find({_id: new ObjectId(id)}).toArray(function(err,list)
         {
-            if (!op)
+            if (err)
             {
-                op=o;
+                return callback();
             }
-        }
-        function finish()
-        {
-            debugger;
-            if (op)
+            json.content=list[0];
+            let pointer=0;
+            function setOP(o)
             {
-                let id=json.content._id || json.id || json.ids[0];
-                return database.collection("Samples").update({_id: new ObjectId(id)},{$set: {checkState: json.content.checkState,checkPoints: json.content.checkPoints}},callback);
+                if (!op)
+                {
+                    op=o;
+                }
             }
-            return callback(undefined);
-        }
-        function next()
-        {
-            if (pointer>=flow.length)
+            function finish()
             {
-                return finish();
+                if (op)
+                {
+                    return database.collection("Samples").update({_id: json.content._id},{$set: {checkState: json.content.checkState,checkPoints: json.content.checkPoints}},callback);
+                }
+                return callback(undefined);
             }
-            let fn=flow[pointer++];
-            fn(json,database,next,finish,setOP);
-        }
-        process.nextTick(next);
+            function next()
+            {
+                if (pointer>=flow.length)
+                {
+                    return finish();
+                }
+                let fn=flow[pointer++];
+                fn(json,database,next,finish,setOP);
+            }
+            process.nextTick(next);
+        });
     };
     this.addStep=function(fn)
     {
@@ -46,7 +53,6 @@ function CreateStep(checkPoint,nextCheckPoint)
 {
     return (json,database,next,finish,setOP)=>
     {
-        debugger;
         json=json.content;
         if (json.checkState!==checkPoint)
         {
