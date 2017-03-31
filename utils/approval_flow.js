@@ -8,6 +8,7 @@ function ApprovalFlow()
         let pointer=0;
         function finish(op)
         {
+            debugger;
             if (op)
             {
                 let id=json.content._id || json.id || json.ids[0];
