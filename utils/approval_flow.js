@@ -14,7 +14,7 @@ function ApprovalFlow()
         }
         function next()
         {
-            if (pointer.length>=flow.length)
+            if (pointer>=flow.length)
             {
                 return finish(true);
             }

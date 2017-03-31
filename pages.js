@@ -6,6 +6,7 @@ const sidTool=require("./utils/sid");
 const config=require("./config");
 const euBinder=require("./utils/easyUserBinder");
 const express=require("express");
+const queryString=require("querystring");
 
 
 
@@ -62,6 +63,41 @@ function Init(initCallback)
     app.get("/debug",function(req,res)
     {//simple frontend debug page.
         res.render("debug",{});
+    });
+    app.post("/superAdminSignIn",function(req,res)
+    {
+        let sid=sidTool.getReqSID(req);
+        if (sid===undefined)
+        {
+            sid=sidTool.generateNewSID();
+            sidTool.setResSID(res,sid);
+        }
+        let data=queryString.parse(req.body);
+        database.collection("SuperAdmins").find({username: data.username,password: data.password}).toArray(function(err,list)
+        {
+            if (err)
+            {
+                return res.end(err.message);
+            }
+            if (list.length===0)
+            {
+                return res.end("Username or password invalid.");
+            }
+            let user=list[0];
+            if (user.isFreeze===true)
+            {
+                return res.end("This user is frozen.");
+            }
+            authTool.addSign(sid,user);
+            if (config.web.sendSID)
+            {
+                res.redirect(config.web.entryUrl+"?sid="+sid);          //after initialization, redirect to the destination which configured in [web.js]
+            }
+            else
+            {
+                res.redirect(config.web.entryUrl);
+            }
+        });
     });
     app.get("/getImage",function(req,res)
     {
