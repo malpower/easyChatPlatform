@@ -16,7 +16,7 @@ function Statistics()
         {
             app.get("/exportCsv",function(req,res)
             {
-                let json={target: req.query.target,startTime: Number(req.query.startTime),endTime: Number(req.query.endTime)};
+                let json={proAddress: req.query.proAddress || undefined,townAddress: req.query.townAddress || undefined,target: req.query.target,startTime: Number(req.query.startTime),endTime: Number(req.query.endTime)};
                 let cUser=authTool.getSignData(sidTool.getReqSID(req));
                 if (cUser===undefined)
                 {
@@ -77,6 +77,14 @@ function Statistics()
                         target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
                     target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
+                    if (json.proAddress)
+                    {
+                        target.conditions["userInfo.proAddress"]=json.proAddress;
+                    }
+                    if (json.townAddress)
+                    {
+                        target.conditions["userInfo.townAddress"]=json.townAddress;
+                    }
                     cb();
                 }};
                 q["visitTop10"]={category: "Samples",conditions: {},processor:(err,list)=>
