@@ -211,7 +211,7 @@ lim.addLimiter("Samples.delete",function(json,req,callback)
         {
             return callback(new Error("Invalid case id"));
         }
-        if (!(/^(groupUser|provinceUser|superAdmin|sgroupUser)$/).test(user.userLevel) && !(/^(100|3|8)$/.test(list[0].checkState.toString())))
+        if (!(/^(groupUser|provinceUser|superAdmin|sgroupUser)$/).test(user.userLevel) && !(/^(100|3|8|402)$/.test(list[0].checkState.toString())))
         {
             return callback(new Error("Invalid user permission."));
         }

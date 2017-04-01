@@ -322,7 +322,7 @@ function BindRoutes(initCallback)
             }
             cond["_id"]={$in: json.ids};
         }
-        database.collection(json.category).updateMany(cond,{$set: json.content || {}},function(err,r)
+        database.collection(json.category).updateMany(cond,{$set: json.content || {},$unset: json.rem || {}},function(err,r)
         {
             if (err)
             {
@@ -457,7 +457,51 @@ function BindRoutes(initCallback)
             table.pop();
             for (let item of table)
             {
-                database.collection("Users").insert({name: item[0],phone: item[1],userLevel: item[2],proAddress: item[3],townAddress: item[4]});
+                let user={isInvited: false,isFreeze: false,skips: [],bound: false,openId: "",name: item[0],phone: item[1],userLevel: item[2],proAddress: item[3],townAddress: item[4]};
+                switch (user.userLevel)
+                {
+                    case "员工":
+                        user.userLevel="personalUser";
+                        user.skips=[];
+                        break;
+                    case "省份":
+                        user.userLevel="provinceUser";
+                        user.skips=[4,3];
+                        break;
+                    case "学院":
+                        user.userLevel="groupUser";
+                        user.skips=[4,3,6,8];
+                        break;
+                    case "集团": 
+                        user.userLevel="provinceUser";
+                        user.skips=[4,3,6,8,401,402];
+                        break;
+                    default: 
+                        user.userLevel="personalUser";
+                        user.skips=[];
+                }
+                //database.collection("Users").insert({isInvited: false,isFreeze: false,skips: [],bound: true,openId: "",name: item[0],phone: item[1],userLevel: item[2],proAddress: item[3],townAddress: item[4]});
+                database.collection("Users").find({phone: user.phone}).toArray(function(err,list)
+                {
+                    if (err)
+                    {
+                        return;
+                    }
+                    if (list.length!==0)
+                    {
+                        return;
+                    }
+                    easyCom.getUserOpenIdByPhoneNumber(user.phone,(err,openId)=>
+                    {
+                        if (err)
+                        {
+                            return;
+                        }
+                        user.openId=openId.openid;
+                        user.bound=true;
+                        database.collection("Users").insert(user);
+                    });
+                });
             }
             res.end("OK");  
         });

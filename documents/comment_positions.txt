@@ -69,3 +69,8 @@ modify
 
 
 {$or: {"checkPoints.P8": {$exists: true},"checkPoints.P9": {$exists: ture}}}
+
+
+
+
+{ "name" : "佳攀", "phone" : "18190720737", "userLevel" : "sgroupUser", "proAddress" : "", "townAddress" : "", "isInvited" : true, "isFreeze" : false, "skips" : [  4,  6,  401 ], "bound" : true, "openId" : "3c38d36035d7955bc3061cd18d77b7a0", "_id" : ObjectId("58ddfd24748b4b196de0b2d9") }
