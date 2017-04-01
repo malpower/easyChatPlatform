@@ -454,7 +454,7 @@ function BindRoutes(initCallback)
 
                 return res.end("ERROR");
             }
-            table.pop();
+            table.shift();
             for (let item of table)
             {
                 let user={isInvited: false,isFreeze: false,skips: [],bound: false,openId: "",name: item[0],phone: item[1],userLevel: item[2],proAddress: item[3],townAddress: item[4]};
