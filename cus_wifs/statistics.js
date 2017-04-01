@@ -39,7 +39,18 @@ function Statistics()
                 {
                     if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
-                        target.conditions["case.userInfo.proAddress"]=cUser.proAddress;
+                        target.conditions["userInfo.proAddress"]=cUser.proAddress;
+                        if (json.townAddress)
+                        {
+                            target.conditions["userInfo.townAddress"]=json.townAddress;
+                        }
+                    }
+                    else
+                    {
+                        if (json.proAddress)
+                        {
+                            target.conditions["userInfo.proAddress"]=json.proAddress;
+                        }
                     }
                     target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
@@ -75,16 +86,19 @@ function Statistics()
                     if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["userInfo.proAddress"]=cUser.proAddress;
+                        if (json.townAddress)
+                        {
+                            target.conditions["userInfo.townAddress"]=json.townAddress;
+                        }
+                    }
+                    else
+                    {
+                        if (json.proAddress)
+                        {
+                            target.conditions["userInfo.proAddress"]=json.proAddress;
+                        }
                     }
                     target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
-                    if (json.proAddress)
-                    {
-                        target.conditions["userInfo.proAddress"]=json.proAddress;
-                    }
-                    if (json.townAddress)
-                    {
-                        target.conditions["userInfo.townAddress"]=json.townAddress;
-                    }
                     cb();
                 }};
                 q["visitTop10"]={category: "Samples",conditions: {},processor:(err,list)=>
