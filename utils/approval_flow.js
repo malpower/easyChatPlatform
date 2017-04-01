@@ -26,7 +26,7 @@ function ApprovalFlow()
             {
                 if (op)
                 {
-                    return database.collection("Samples").update({_id: json.content._id},{$set: {checkState: json.content.checkState,checkPoints: json.content.checkPoints}},callback);
+                    return database.collection("Samples").update({_id: json.content._id},{$set: {autoSkip: json.content.autoSkip,checkState: json.content.checkState,checkPoints: json.content.checkPoints}},callback);
                 }
                 return callback(undefined);
             }
@@ -77,6 +77,7 @@ function CreateStep(checkPoint,nextCheckPoint)
         }
         json.checkState=nextCheckPoint;
         json.checkPoints["P"+nextCheckPoint]=(new Date).getTime();
+        json.autoSkip=true;
         setOP(true);
         return next();
     };
