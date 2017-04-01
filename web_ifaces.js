@@ -477,7 +477,7 @@ function BindRoutes(initCallback)
                         user.skips=[4,3,6,8];
                         break;
                     case "集团": 
-                        user.userLevel="provinceUser";
+                        user.userLevel="sgroupUser";
                         user.skips=[4,3,6,8,401,402];
                         break;
                     default: 
