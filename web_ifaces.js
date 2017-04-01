@@ -504,6 +504,7 @@ function BindRoutes(initCallback)
                         user.openId=openId.openid;
                         user.bound=true;
                         database.collection("Users").insert(user);
+                        easyCom.addSubscribeUsers([{remark: user.name,mobile: user.phone}]);
                     });
                 });
             }
