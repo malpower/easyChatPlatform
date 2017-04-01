@@ -32,7 +32,7 @@ function Statistics()
                     let r=new Array;
                     for (let item of list)
                     {
-                        r.push([dateFormater.format(item.createTime),item.case.userInfo.proAddress+item.case.userInfo.townAddress,item.case.userInfo.name,item.reason,item.score]);
+                        r.push([dateFormater.format(item.createTime),item.case.userInfo.proAddress,item.case.userInfo.townAddress,item.case.userInfo.name,item.reason,item.score]);
                     }
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}积分详情`,"积分日期,省公司,地市公司,积分人姓名,积分来源,积分值",res);
                 },preprocessor: (target,cb)=>
