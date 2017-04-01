@@ -7,6 +7,7 @@ const config=require("./config");
 const euBinder=require("./utils/easyUserBinder");
 const express=require("express");
 const queryString=require("querystring");
+const bodyParser=require("body-parser");
 
 
 
@@ -64,7 +65,7 @@ function Init(initCallback)
     {//simple frontend debug page.
         res.render("debug",{});
     });
-    app.post("/superAdminSignIn",function(req,res)
+    app.use("/superAdminSignIn",bodyParser.urlencoded()).post("/superAdminSignIn",function(req,res)
     {
         let sid=sidTool.getReqSID(req);
         if (sid===undefined)
@@ -72,7 +73,7 @@ function Init(initCallback)
             sid=sidTool.generateNewSID();
             sidTool.setResSID(res,sid);
         }
-        let data=queryString.parse(req.body);
+        let data=req.body;
         database.collection("SuperAdmins").find({username: data.username,password: data.password}).toArray(function(err,list)
         {
             if (err)

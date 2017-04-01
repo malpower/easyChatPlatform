@@ -51,12 +51,25 @@ function Statistics()
                         return res.end(JSON.stringify({error: true,code: 2,message: err.message}));
                     }
                     let r=new Array;
-                    const states=["","未审核","审核中","省驳回","省通过","集团审核中","集团已通过","已发布","集团已驳回"];
+                    const states={"1": "员工提交",
+                                  "2": "省公司审核中",
+                                  "3": "驳回至员工",
+                                  "4": "省公司通过",
+                                  "5": "学院审核中",
+                                  "6": "学院审核通过",
+                                  "7": "已发布",
+                                  "8": "驳回至省公司",
+                                  "9": "驳回至省公司",
+                                  "400": "集团审核中",
+                                  "401": "集团通过审核",
+                                  "402": "驳回至学院",
+                                  "302": "驳回至员工"};
+
                     for (let item of list)
                     {
-                        r.push([dateFormater.format(item.createTime),item.userInfo.proAddress+item.userInfo.townAddress,item.caseTitle,states[item.checkState]]);
+                        r.push([dateFormater.format(item.createTime),item.userInfo.proAddress,item.userInfo.townAddress,item.userInfo.name,item.caseTitle,states[item.checkState.toString()]]);
                     }
-                    csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}案例详情`,"上传日期,地区,案例名称,审核信息",res);
+                    csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}案例详情`,"上传日期,省公司,地市公司,姓名,案例名称,审核信息",res);
                 },preprocessor: (target,cb)=>
                 {
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
