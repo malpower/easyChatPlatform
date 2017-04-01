@@ -65,3 +65,7 @@ delete
 删除城市 {category: "Companies", id: "省id",{$pull: {cities: "城名"}}}
 modify
 
+
+
+
+{$or: {"checkPoints.P8": {$exists: true},"checkPoints.P9": {$exists: ture}}}

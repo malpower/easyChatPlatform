@@ -37,7 +37,7 @@ function Statistics()
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}积分详情`,"积分日期,省公司,地市公司,积分人姓名,积分来源,积分值",res);
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["case.userInfo.proAddress"]=cUser.proAddress;
                     }
@@ -72,7 +72,7 @@ function Statistics()
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}案例详情`,"上传日期,省公司,地市公司,姓名,案例名称,审核信息",res);
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
@@ -98,7 +98,7 @@ function Statistics()
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}案例浏览Top10`,"案例名称,浏览量",res);
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
@@ -129,7 +129,7 @@ function Statistics()
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}积分统计Top10`,"姓名,积分",res);
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["case.userInfo.proAddress"]=cUser.proAddress;
                     }
@@ -155,7 +155,7 @@ function Statistics()
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}案例收藏Top10`,"案例名称,收藏量",res);
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
@@ -172,7 +172,7 @@ function Statistics()
                     for (let item of list)
                     {
                         let queue;
-                        if (!(/^(sgroupUser|groupUser|superAdmin)$/).test(cUser.userLevel))
+                        if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                         {
                             if (map[item.userInfo.townAddress]===undefined)
                             {
@@ -210,7 +210,7 @@ function Statistics()
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}各地通过率`,"地区,通过率",res);
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(sgroupUser|groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["userInfo.proAddress"]=cUser.proAddress;
                         target.conditions.checkState={$in: [4,3,6,7,8]};
@@ -232,7 +232,7 @@ function Statistics()
                     for (let item of list)
                     {
                         let queue;
-                        if (!(/^(sgroupUser|groupUser|superAdmin)$/).test(cUser.userLevel))
+                        if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                         {
                             if (map[item.case.userInfo.townAddress]===undefined)
                             {
@@ -258,7 +258,7 @@ function Statistics()
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}各地分积总和`,"地区,积分",res);
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(sgroupUser|groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["case.userInfo.proAddress"]=cUser.proAddress;
                     }
@@ -275,7 +275,7 @@ function Statistics()
                     for (let item of list)
                     {
                         let queue;
-                        if (!(/^(sgroupUser|groupUser|superAdmin)$/).test(cUser.userLevel))
+                        if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                         {
                             if (map[item.userInfo.townAddress]===undefined)
                             {
@@ -308,7 +308,7 @@ function Statistics()
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}各地提交量`,"地区,提交量",res);
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(sgroupUser|groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
@@ -360,7 +360,7 @@ function Statistics()
                     res.end(JSON.stringify({error: false,list: r}));
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(sgroupUser|groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
@@ -391,7 +391,7 @@ function Statistics()
                     res.end(JSON.stringify({error: false,list: r}));
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(sgroupUser|groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["case.userInfo.proAddress"]=cUser.proAddress;
                     }
