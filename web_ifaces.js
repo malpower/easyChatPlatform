@@ -11,6 +11,8 @@ const upload=multer({dest: "./publics/uploads/"});
 const express=require("express");
 const bodyParser=require("body-parser");
 const flowTool=require("./utils/approval_flow");
+const fs=require("fs");
+const xls=require("node-xlsx");
 
 
 
@@ -443,7 +445,22 @@ function BindRoutes(initCallback)
     });
     router.post("/file/upload/importExcel",upload.single("excel"),function(req,res)
     {
-        
+        fs.readFile("./publics/uploads/"+req.file.filename,(err,content)=>
+        {
+            let ws=xls.parse(content);
+            let table=ws[0].data;
+            if (table.length<=1)
+            {
+
+                return res.end("ERROR");
+            }
+            table.pop();
+            for (let item of table)
+            {
+                database.collection("Users").insert({name: item[0],phone: item[1],userLevel: item[2],proAddress: item[3],townAddress: item[4]});
+            }
+            res.end("OK");  
+        });
     });
     app.options("*",function(req,res)
     {
