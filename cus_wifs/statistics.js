@@ -34,7 +34,7 @@ function Statistics()
                     {
                         r.push([dateFormater.format(item.createTime),item.case.userInfo.proAddress+item.case.userInfo.townAddress,item.case.userInfo.name,item.reason,item.score]);
                     }
-                    csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}积分详情`,"积分日期,地区,积分人姓名,积分来源,积分值",res);
+                    csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}积分详情`,"积分日期,省公司,地市公司,积分人姓名,积分来源,积分值",res);
                 },preprocessor: (target,cb)=>
                 {
                     if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
@@ -172,7 +172,7 @@ function Statistics()
                     for (let item of list)
                     {
                         let queue;
-                        if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                        if (!(/^(sgroupUser|groupUser|superAdmin)$/).test(cUser.userLevel))
                         {
                             if (map[item.userInfo.townAddress]===undefined)
                             {
@@ -188,7 +188,7 @@ function Statistics()
                             }
                             queue=map[item.userInfo.proAddress];
                         }
-                        if (/^(4|6|7|5)$/.test(item.checkState.toString()))
+                        if (/^(4|6|401)$/.test(item.checkState.toString()))
                         {
                             queue.passed.push(item);
                         }
@@ -210,7 +210,7 @@ function Statistics()
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}各地通过率`,"地区,通过率",res);
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(sgroupUser|groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["userInfo.proAddress"]=cUser.proAddress;
                         target.conditions.checkState={$in: [4,3,6,7,8]};
@@ -232,7 +232,7 @@ function Statistics()
                     for (let item of list)
                     {
                         let queue;
-                        if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                        if (!(/^(sgroupUser|groupUser|superAdmin)$/).test(cUser.userLevel))
                         {
                             if (map[item.case.userInfo.townAddress]===undefined)
                             {
@@ -258,7 +258,7 @@ function Statistics()
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}各地分积总和`,"地区,积分",res);
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(sgroupUser|groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["case.userInfo.proAddress"]=cUser.proAddress;
                     }
@@ -275,7 +275,7 @@ function Statistics()
                     for (let item of list)
                     {
                         let queue;
-                        if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                        if (!(/^(sgroupUser|groupUser|superAdmin)$/).test(cUser.userLevel))
                         {
                             if (map[item.userInfo.townAddress]===undefined)
                             {
@@ -308,13 +308,13 @@ function Statistics()
                     csvTool.respond(r,`${dateFormater.format(json.startTime).split(" ")[0]}至${dateFormater.format(json.endTime).split(" ")[0]}各地提交量`,"地区,提交量",res);
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(sgroupUser|groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
                     else
                     {
-                        target.conditions["checkState"]={$in: [4,5,6,7,8]};
+                        target.conditions["checkState"]={$in: [4,5,6,7,8,3,401,402]};
                     }
                     target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
@@ -360,7 +360,7 @@ function Statistics()
                     res.end(JSON.stringify({error: false,list: r}));
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(sgroupUser|groupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
@@ -391,7 +391,7 @@ function Statistics()
                     res.end(JSON.stringify({error: false,list: r}));
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["case.userInfo.proAddress"]=cUser.proAddress;
                     }
@@ -417,7 +417,7 @@ function Statistics()
                     res.end(JSON.stringify({error: false,list: r}));
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
@@ -434,7 +434,7 @@ function Statistics()
                     for (let item of list)
                     {
                         let queue;
-                        if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                        if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                         {
                             if (map[item.userInfo.townAddress]===undefined)
                             {
@@ -450,7 +450,7 @@ function Statistics()
                             }
                             queue=map[item.userInfo.proAddress];
                         }
-                        if (/^(4|6|7|5)$/.test(item.checkState.toString()))
+                        if (/^(4|6|401)$/.test(item.checkState.toString()))
                         {
                             queue.passed.push(item);
                         }
@@ -472,7 +472,7 @@ function Statistics()
                     res.end(JSON.stringify({error: false,list: r}));
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["userInfo.proAddress"]=cUser.proAddress;
                         target.conditions.checkState={$in: [4,3,6,7,8]};
@@ -494,7 +494,7 @@ function Statistics()
                     for (let item of list)
                     {
                         let queue;
-                        if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                        if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                         {
                             if (map[item.case.userInfo.townAddress]===undefined)
                             {
@@ -520,7 +520,7 @@ function Statistics()
                     res.end(JSON.stringify({error: false,list: r}));
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["case.userInfo.proAddress"]=cUser.proAddress;
                     }
@@ -537,7 +537,7 @@ function Statistics()
                     for (let item of list)
                     {
                         let queue;
-                        if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                        if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                         {
                             if (map[item.userInfo.townAddress]===undefined)
                             {
@@ -570,13 +570,13 @@ function Statistics()
                     res.end(JSON.stringify({error: false,list: r}));
                 },preprocessor: (target,cb)=>
                 {
-                    if (!(/^(groupUser|superAdmin)$/).test(cUser.userLevel))
+                    if (!(/^(groupUser|sgroupUser|superAdmin)$/).test(cUser.userLevel))
                     {
                         target.conditions["userInfo.proAddress"]=cUser.proAddress;
                     }
                     else
                     {
-                        target.conditions["checkState"]={$in: [4,5,6,7,8]};
+                        target.conditions["checkState"]={$in: [4,5,6,7,8,401,402]};
                     }
                     target.conditions["createTime"]={$gte: json.startTime,$lt: json.endTime};
                     cb();
@@ -698,13 +698,13 @@ function Statistics()
                 {
                     return res.end(JSON.stringify({error: true,code: 8,message: "User not signed in."}));
                 }
-                if (/^(groupUser|superAdmin)$/.test(user.userLevel))
+                if (/^(groupUser|sgroupUser|superAdmin)$/.test(user.userLevel))
                 {
-                    steps=[[4,5,6,7,8],[4,5],[6,7],[8]];
+                    steps=[[4,5,6,7,8,401,402],[4,5],[6,7,8,401],[8,402]];
                 }
                 else if (/^(provinceUser)$/.test(user.userLevel))
                 {
-                    steps=[[1,2,4,3,5,6,7,8],[1,2],[4,5,6,7,8],[3]];
+                    steps=[[1,2,4,3,5,6,7,8,401,402],[1,2],[4,5,6,7,8,401,402],[3]];
                 }
                 else
                 {
