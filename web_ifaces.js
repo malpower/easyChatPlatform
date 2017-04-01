@@ -463,6 +463,10 @@ function BindRoutes(initCallback)
                     case "员工":
                         user.userLevel="personalUser";
                         user.skips=[];
+                        if (user.proAddress==="其他")
+                        {
+                            user.skips=[4,3];
+                        }
                         break;
                     case "省份":
                         user.userLevel="provinceUser";
