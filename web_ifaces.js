@@ -499,7 +499,7 @@ function BindRoutes(initCallback)
                     {
                         if (err)
                         {
-                            return;
+                            return console.log(err);
                         }
                         user.openId=openId.openid;
                         user.bound=true;
