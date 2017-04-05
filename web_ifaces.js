@@ -451,13 +451,29 @@ function BindRoutes(initCallback)
             let table=ws[0].data;
             if (table.length<=1)
             {
-
-                return res.end("ERROR");
+                return res.end(JSON.stringify({error: true,message: "Empty table"}));
             }
             table.shift();
+            let counter=1;
+            let elist=new Array;
+            let suc=0;
+            function finish()
+            {
+                debugger;
+                counter--;
+                if (counter>0)
+                {
+                    return;
+                }
+                res.end(JSON.stringify({error: false,list: elist,success: suc}));
+            }
             for (let item of table)
             {
-                let user={isInvited: false,isFreeze: false,skips: [],bound: false,openId: "",name: item[0],phone: item[1],userLevel: item[2],proAddress: item[3],townAddress: item[4]};
+                if (!item[1])
+                {
+                    continue;
+                }
+                let user={isInvited: false,isFreeze: false,skips: [],bound: false,openId: "",name: item[0],phone: item[1].toString(),userLevel: item[2],proAddress: item[3],townAddress: item[4]};
                 switch (user.userLevel)
                 {
                     case "员工":
@@ -484,31 +500,49 @@ function BindRoutes(initCallback)
                         user.userLevel="personalUser";
                         user.skips=[];
                 }
+                counter++;
                 //database.collection("Users").insert({isInvited: false,isFreeze: false,skips: [],bound: true,openId: "",name: item[0],phone: item[1],userLevel: item[2],proAddress: item[3],townAddress: item[4]});
                 database.collection("Users").find({phone: user.phone}).toArray(function(err,list)
                 {
                     if (err)
                     {
+                        elist.push({phone: user.phone,message: err.message});
+                        finish();
                         return;
                     }
                     if (list.length!==0)
                     {
+                        elist.push({phone: user.phone,message: "User existed."});
+                        finish();
                         return;
                     }
                     easyCom.getUserOpenIdByPhoneNumber(user.phone,(err,openId)=>
                     {
+                        debugger;
                         if (err)
                         {
+                            elist.push({phone: user.phone,message: err.message});
+                            finish();
                             return console.log(err);
                         }
                         user.openId=openId.openid;
                         user.bound=true;
-                        database.collection("Users").insert(user);
-                        easyCom.addSubscribeUsers([{remark: user.name,mobile: user.phone}]);
+                        easyCom.addSubscribeUsers([{remark: user.name,mobile: user.phone}],function(err)
+                        {
+                            if (err)
+                            {
+                                elist.push({phone: user.phone,message: err.message});
+                                finish();
+                                return;
+                            }
+                            suc++;
+                            finish();
+                            database.collection("Users").insert(user);
+                        });
                     });
                 });
             }
-            res.end("OK");  
+            finish();
         });
     });
     app.options("*",function(req,res)
