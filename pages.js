@@ -6,7 +6,6 @@ const sidTool=require("./utils/sid");
 const config=require("./config");
 const euBinder=require("./utils/easyUserBinder");
 const express=require("express");
-const queryString=require("querystring");
 const bodyParser=require("body-parser");
 
 
