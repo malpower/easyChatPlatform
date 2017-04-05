@@ -459,7 +459,6 @@ function BindRoutes(initCallback)
             let suc=0;
             function finish()
             {
-                debugger;
                 counter--;
                 if (counter>0)
                 {
@@ -518,7 +517,6 @@ function BindRoutes(initCallback)
                     }
                     easyCom.getUserOpenIdByPhoneNumber(user.phone,(err,openId)=>
                     {
-                        debugger;
                         if (err)
                         {
                             elist.push({phone: user.phone,message: err.message});
