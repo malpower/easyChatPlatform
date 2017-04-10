@@ -352,16 +352,16 @@ function BindRoutes(initCallback)
         }
         res.end(JSON.stringify({error: false,content: user}));
     });
-    app.get("/user/sign",function(req,res)
-    {//for debug only. Remove this when deploy the server to PRD.
-        let sid=sidTool.generateNewSID();
-        sidTool.setResSID(res,sid);
-        database.collection("Users").find({}).toArray(function(err,list)
-        {
-            authTool.addSign(sid,list[0]);
-            res.end(JSON.stringify({error: false}));
-        });
-    });
+    // app.get("/user/sign",function(req,res)
+    // {//for debug only. Remove this when deploy the server to PRD.
+    //     let sid=sidTool.generateNewSID();
+    //     sidTool.setResSID(res,sid);
+    //     database.collection("Users").find({}).toArray(function(err,list)
+    //     {
+    //         authTool.addSign(sid,list[0]);
+    //         res.end(JSON.stringify({error: false}));
+    //     });
+    // });
     app.get("/corsBind",function(req,res)
     {
         sidTool.setResSID(res,req.query.sid);
