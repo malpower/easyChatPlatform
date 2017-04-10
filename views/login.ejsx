@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>渠道智赢管理系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">		
+
+		<meta name="viewport" content="width=device-width, initial-scale=1" user-scalable="no">
+		<meta name="description" content="ECharts, a powerful, interactive charting and visualization library for browser">
+    
+  </head>
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+    }
+    .login-box{
+      width: 100%;
+      height: 100%;
+      background: url(images/bg_login.jpg) no-repeat center;
+      background-size: 100% 100%; 
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right:0;
+    }
+    .l-bg{
+      width: 700px;
+      margin: 0 auto;
+      position: relative;
+      top: 20%;
+      left: 0%;
+      text-align: center;
+    }
+    .l-bg img{
+      width: 250px;
+      height: 250px;
+      margin: 50px auto 30px;
+    }
+
+</style>
+  <body>
+     <div class="login-box">
+       <div class="l-bg">
+           <h1 class="ft-36">渠道智赢后台管理系统</h1>
+           <img src="https://api.yixin.im/cgi-bin/qrcode/showqrcode?ticket=<%=qrTicket%>" />
+           <span class="data-stamp"><%=qrStamp%></span>
+           <p class="ft-26">创新&nbsp;&nbsp;专业&nbsp;&nbsp;开放&nbsp;&nbsp;信任 </p>
+       </div>
+    </div>
+  </body>
+<script type="text/javascript" src="/libs/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="/scripts/api.js"></script>
+<script type="text/javascript" src="/scripts/oauth.js"></script>
+</html>
+
+

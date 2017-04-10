@@ -322,7 +322,7 @@ function BindRoutes(initCallback)
             }
             cond["_id"]={$in: json.ids};
         }
-        database.collection(json.category).updateMany(cond,{$set: json.content || {},$unset: json.rem || {}},function(err,r)
+        database.collection(json.category).updateMany(cond,{$set: json.content || {},$unset: json.rem || {"unuse": ""}},function(err,r)
         {
             if (err)
             {
@@ -459,7 +459,6 @@ function BindRoutes(initCallback)
             let suc=0;
             function finish()
             {
-                debugger;
                 counter--;
                 if (counter>0)
                 {
@@ -518,7 +517,6 @@ function BindRoutes(initCallback)
                     }
                     easyCom.getUserOpenIdByPhoneNumber(user.phone,(err,openId)=>
                     {
-                        debugger;
                         if (err)
                         {
                             elist.push({phone: user.phone,message: err.message});
