@@ -238,6 +238,10 @@ lim.addLimiter("Samples.query",function(json,req)
     {
         json.conditions.checkState=7;
         user={};
+        if (req.cookies["fromEasy"]!=="YES")
+        {
+            throw Error("Invalid User");
+        }
     }
     if (!(/^(superAdmin|groupUser|sgroupUser)$/.test(user.userLevel)) && json.conditions.checkState!==7 && typeof(json.conditions._id)!=="string")
     {

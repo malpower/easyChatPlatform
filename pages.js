@@ -6,9 +6,10 @@ const sidTool=require("./utils/sid");
 const config=require("./config");
 const euBinder=require("./utils/easyUserBinder");
 const express=require("express");
-const queryString=require("querystring");
 const bodyParser=require("body-parser");
 
+
+let subList=[];
 
 
 
@@ -40,24 +41,43 @@ function Init(initCallback)
                 return res.end(err.message);
             }
             let openid=r.openid;
-            database.collection("Users").find({openId: openid}).toArray(function(err,list)
+            if (openid==="" || openid===undefined)
             {
-                if (err)
+                return res.redirect("/subscribe.html");
+            }
+            easyCom.getUserBasicInformation(openid,function(err,info)
+            {
+                if (err || info.subscribe!==1)
                 {
-                    return res.end(err.message);
+                    return res.redirect("/subscribe.html");
                 }
-                if (list.length===0)
-                {
-                    euBinder.bindEasyUser(openid,easyCom,database,function(err,user)
-                    {
-                        if (err)
-                        {
-                            return res.end(err.message);
-                        }
-                        res.redirect(config.mobAddr[page]+"code="+code+"&openId="+openid);
-                    });
-                }
+                res.cookie("fromEasy","YES",{maxAge: 1000*60});
                 res.redirect(config.mobAddr[page]+"code="+code+"&openId="+openid);           //as for the destination of the redirection, config it in [menu.js] at state field.
+            });
+        });
+    });
+    app.get("/mwebRED",function(req,res)
+    {//mobile web callbacks, this page will be request when user press menus in easy chat client app.
+        let code=req.query.code;
+        easyCom.getOauthAccessToken(config.easyChat.appId,config.easyChat.appSec,code,function(err,r)
+        {
+            if (err)
+            {
+                return res.end(err.message);
+            }
+            let openid=r.openid;
+            if (openid==="" || openid===undefined)
+            {
+                return res.redirect("/subscribe.html");
+            }
+            easyCom.getUserBasicInformation(openid,function(err,info)
+            {
+                if (err || info.subscribe!==1)
+                {
+                    return res.redirect("/subscribe.html");
+                }
+                res.cookie("fromEasy","YES",{maxAge: 1000*60});
+                res.redirect(req.cookies["RED"]);           //as for the destination of the redirection, config it in [menu.js] at state field.
             });
         });
     });
@@ -199,6 +219,15 @@ function Pages()
                     app.use(routers[i]);
                 }
             });
+            function RefreshSubList()
+            {
+                easyCom.getSubscribedUsers(function(err,data)
+                {
+                    subList=data.data.openid;
+                });
+            }
+            setTimeout(RefreshSubList,1000*5);
+            setInterval(RefreshSubList,1000*60*10);
         });
     };
 }

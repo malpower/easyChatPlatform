@@ -103,10 +103,7 @@ md.addEventHandler("CLICK",function(message,easy,res)
 md.addEventHandler("subscribe",function(message,easy,res)
 {
     let openId=message.FromUserName.$cd;
-    euBinder.bindEasyUser(openId,easy,database,function(err,user)
-    {
-        res.end("");
-    });
+    easy.replyText({FromUserName: message.ToUserName,ToUserName: message.FromUserName,Content: {$cd: "感谢关注渠道智赢，精彩内容不见不散!"}},res);
 });
 
 
